@@ -115,13 +115,11 @@ public class IntroActivity
       DerivationTask.Params params = new DerivationTask.Params(
           _passwordSlot, _authenticatedSlide.getPassword());
       new DerivationTask(this, this).execute(params);
-    } else if (oldFragment == _authenticationSlide &&
-               newFragment != _endSlide) {
-      // skip to the last slide if no encryption will be used
-      if (cryptType == CustomAuthenticationSlide.CRYPT_TYPE_NONE) {
-        // TODO: no magic indices
-        getPager().setCurrentItem(4);
-      }
+    } else // skip to the last slide if no encryption will be used
+    if ((oldFragment == _authenticationSlide &&
+               newFragment != _endSlide) && (cryptType == CustomAuthenticationSlide.CRYPT_TYPE_NONE)) {
+      // TODO: no magic indices
+      getPager().setCurrentItem(4);
     }
   }
 

@@ -138,14 +138,12 @@ public class MainActivity
   @Override
   public boolean dispatchTouchEvent(final MotionEvent event) {
     // collapse the fab menu on touch
-    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-      if (_fabMenu.isExpanded()) {
-        Rect rect = new Rect();
-        _fabMenu.getGlobalVisibleRect(rect);
+    if ((event.getAction() == MotionEvent.ACTION_DOWN) && (_fabMenu.isExpanded())) {
+      Rect rect = new Rect();
+      _fabMenu.getGlobalVisibleRect(rect);
 
-        if (!rect.contains((int)event.getRawX(), (int)event.getRawY())) {
-          _fabMenu.collapse();
-        }
+      if (!rect.contains((int)event.getRawX(), (int)event.getRawY())) {
+        _fabMenu.collapse();
       }
     }
 
@@ -807,10 +805,8 @@ public class MainActivity
         Dialogs.showDeleteEntryDialog(MainActivity.this, (d, which) -> {
           deleteEntry(_selectedEntry);
 
-          if (_selectedEntry.getGroup() != null) {
-            if (!_db.getGroups().contains(_selectedEntry.getGroup())) {
-              updateGroupFilterMenu();
-            }
+          if ((_selectedEntry.getGroup() != null) && (!_db.getGroups().contains(_selectedEntry.getGroup()))) {
+            updateGroupFilterMenu();
           }
           mode.finish();
         });
