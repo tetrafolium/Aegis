@@ -6,22 +6,19 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ByteInputStream extends ByteArrayInputStream {
-    private ByteInputStream(final byte[] buf) {
-        super(buf);
+  private ByteInputStream(final byte[] buf) { super(buf); }
+
+  public static ByteInputStream create(final InputStream fileStream)
+      throws IOException {
+    int read;
+    byte[] buf = new byte[4096];
+    ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+    while ((read = fileStream.read(buf, 0, buf.length)) != -1) {
+      outStream.write(buf, 0, read);
     }
 
-    public static ByteInputStream create(final InputStream fileStream) throws IOException {
-        int read;
-        byte[] buf = new byte[4096];
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-        while ((read = fileStream.read(buf, 0, buf.length)) != -1) {
-            outStream.write(buf, 0, read);
-        }
+    return new ByteInputStream(outStream.toByteArray());
+  }
 
-        return new ByteInputStream(outStream.toByteArray());
-    }
-
-    public byte[] getBytes() {
-        return this.buf;
-    }
+  public byte[] getBytes() { return this.buf; }
 }

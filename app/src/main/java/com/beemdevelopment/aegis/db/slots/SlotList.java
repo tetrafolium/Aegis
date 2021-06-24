@@ -1,60 +1,59 @@
 package com.beemdevelopment.aegis.db.slots;
 
 import com.beemdevelopment.aegis.util.UUIDMap;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class SlotList extends UUIDMap<Slot> {
-    public JSONArray toJson() {
-        JSONArray array = new JSONArray();
-        for (Slot slot : this) {
-            array.put(slot.toJson());
-        }
-
-        return array;
+  public JSONArray toJson() {
+    JSONArray array = new JSONArray();
+    for (Slot slot : this) {
+      array.put(slot.toJson());
     }
 
-    public static SlotList fromJson(final JSONArray array) throws SlotListException {
-        SlotList slots = new SlotList();
+    return array;
+  }
 
-        try {
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject obj = array.getJSONObject(i);
-                Slot slot = Slot.fromJson(obj);
-                slots.add(slot);
-            }
-        } catch (SlotException | JSONException e) {
-            throw new SlotListException(e);
-        }
+  public static SlotList fromJson(final JSONArray array)
+      throws SlotListException {
+    SlotList slots = new SlotList();
 
-        return slots;
+    try {
+      for (int i = 0; i < array.length(); i++) {
+        JSONObject obj = array.getJSONObject(i);
+        Slot slot = Slot.fromJson(obj);
+        slots.add(slot);
+      }
+    } catch (SlotException | JSONException e) {
+      throw new SlotListException(e);
     }
 
-    public <T extends Slot> T find(final Class<T> type) {
-        for (Slot slot : this) {
-            if (slot.getClass() == type) {
-                return type.cast(slot);
-            }
-        }
-        return null;
-    }
+    return slots;
+  }
 
-    public <T extends Slot> List<T> findAll(final Class<T> type) {
-        ArrayList<T> list = new ArrayList<>();
-        for (Slot slot : this) {
-            if (slot.getClass() == type) {
-                list.add(type.cast(slot));
-            }
-        }
-        return list;
+  public <T extends Slot> T find(final Class<T> type) {
+    for (Slot slot : this) {
+      if (slot.getClass() == type) {
+        return type.cast(slot);
+      }
     }
+    return null;
+  }
 
-    public <T extends Slot> boolean has(final Class<T> type) {
-        return find(type) != null;
+  public <T extends Slot> List<T> findAll(final Class<T> type) {
+    ArrayList<T> list = new ArrayList<>();
+    for (Slot slot : this) {
+      if (slot.getClass() == type) {
+        list.add(type.cast(slot));
+      }
     }
+    return list;
+  }
+
+  public <T extends Slot> boolean has(final Class<T> type) {
+    return find(type) != null;
+  }
 }

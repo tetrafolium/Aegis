@@ -1,7 +1,3 @@
 package com.beemdevelopment.aegis;
 
-public enum CancelAction {
-    KILL,
-    CLOSE
-}
-
+public enum CancelAction { KILL, CLOSE }

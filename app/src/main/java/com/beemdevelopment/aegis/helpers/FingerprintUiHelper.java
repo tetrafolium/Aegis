@@ -1,4 +1,5 @@
-// This file was originally taken from https://github.com/googlesamples/android-FingerprintDialog/blob/2feb02945ae220ebd1bc2c2b620a1d43e30daea8/Application/src/main/java/com/example/android/fingerprintdialog/FingerprintUiHelper.java
+// This file was originally taken from
+// https://github.com/googlesamples/android-FingerprintDialog/blob/2feb02945ae220ebd1bc2c2b620a1d43e30daea8/Application/src/main/java/com/example/android/fingerprintdialog/FingerprintUiHelper.java
 // It has been modified to suit Aegis' needs
 
 /*
@@ -23,134 +24,139 @@ import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
 import android.os.CancellationSignal;
 import android.widget.TextView;
-
+import androidx.annotation.RequiresApi;
 import com.beemdevelopment.aegis.R;
 import com.mattprecious.swirl.SwirlView;
-
-import androidx.annotation.RequiresApi;
 
 /**
  * Small helper class to manage text/icon around fingerprint authentication UI.
  */
 @RequiresApi(api = Build.VERSION_CODES.M)
-public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallback {
+public class FingerprintUiHelper
+    extends FingerprintManager.AuthenticationCallback {
 
-    private static final long ERROR_TIMEOUT_MILLIS = 1600;
-    private static final long SUCCESS_DELAY_MILLIS = 100;
+  private static final long ERROR_TIMEOUT_MILLIS = 1600;
+  private static final long SUCCESS_DELAY_MILLIS = 100;
 
-    private final FingerprintManager mFingerprintManager;
-    private final SwirlView mIcon;
-    private final TextView mErrorTextView;
-    private final Callback mCallback;
-    private CancellationSignal mCancellationSignal;
+  private final FingerprintManager mFingerprintManager;
+  private final SwirlView mIcon;
+  private final TextView mErrorTextView;
+  private final Callback mCallback;
+  private CancellationSignal mCancellationSignal;
 
-    private boolean mSelfCancelled;
+  private boolean mSelfCancelled;
 
-    /**
-     * Constructor for {@link FingerprintUiHelper}.
-     */
-    public FingerprintUiHelper(final FingerprintManager fingerprintManager,
-                               final SwirlView icon, final TextView errorTextView, final Callback callback) {
-        mFingerprintManager = fingerprintManager;
-        mIcon = icon;
-        mErrorTextView = errorTextView;
-        mCallback = callback;
+  /**
+   * Constructor for {@link FingerprintUiHelper}.
+   */
+  public FingerprintUiHelper(final FingerprintManager fingerprintManager,
+                             final SwirlView icon, final TextView errorTextView,
+                             final Callback callback) {
+    mFingerprintManager = fingerprintManager;
+    mIcon = icon;
+    mErrorTextView = errorTextView;
+    mCallback = callback;
+  }
+
+  public boolean isFingerprintAuthAvailable() {
+    // The line below prevents the false positive inspection from Android Studio
+    // noinspection ResourceType
+    return mFingerprintManager.isHardwareDetected() &&
+        mFingerprintManager.hasEnrolledFingerprints();
+  }
+
+  public void
+  startListening(final FingerprintManager.CryptoObject cryptoObject) {
+    if (!isFingerprintAuthAvailable()) {
+      return;
     }
+    mCancellationSignal = new CancellationSignal();
+    mSelfCancelled = false;
+    // The line below prevents the false positive inspection from Android Studio
+    // noinspection ResourceType
+    mFingerprintManager.authenticate(cryptoObject, mCancellationSignal,
+                                     0 /* flags */, this, null);
+    mIcon.setState(SwirlView.State.ON);
+  }
 
-    public boolean isFingerprintAuthAvailable() {
-        // The line below prevents the false positive inspection from Android Studio
-        // noinspection ResourceType
-        return mFingerprintManager.isHardwareDetected()
-               && mFingerprintManager.hasEnrolledFingerprints();
+  public void stopListening() {
+    if (mCancellationSignal != null) {
+      mSelfCancelled = true;
+      mCancellationSignal.cancel();
+      mCancellationSignal = null;
     }
+  }
 
-    public void startListening(final FingerprintManager.CryptoObject cryptoObject) {
-        if (!isFingerprintAuthAvailable()) {
-            return;
-        }
-        mCancellationSignal = new CancellationSignal();
-        mSelfCancelled = false;
-        // The line below prevents the false positive inspection from Android Studio
-        // noinspection ResourceType
-        mFingerprintManager
-        .authenticate(cryptoObject, mCancellationSignal, 0 /* flags */, this, null);
-        mIcon.setState(SwirlView.State.ON);
-    }
-
-    public void stopListening() {
-        if (mCancellationSignal != null) {
-            mSelfCancelled = true;
-            mCancellationSignal.cancel();
-            mCancellationSignal = null;
-        }
-    }
-
-    @Override
-    public void onAuthenticationError(final int errMsgId, final CharSequence errString) {
-        if (!mSelfCancelled) {
-            showError(errString);
-            mIcon.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mCallback.onError();
-                }
-            }, ERROR_TIMEOUT_MILLIS);
-        }
-    }
-
-    @Override
-    public void onAuthenticationHelp(final int helpMsgId, final CharSequence helpString) {
-        showError(helpString);
-    }
-
-    @Override
-    public void onAuthenticationFailed() {
-        showError(mIcon.getResources().getString(
-                      R.string.fingerprint_not_recognized));
-    }
-
-    @Override
-    public void onAuthenticationSucceeded(final FingerprintManager.AuthenticationResult result) {
-        mErrorTextView.removeCallbacks(mResetErrorTextRunnable);
-        mIcon.setState(SwirlView.State.OFF);
-        mErrorTextView.setText(
-            mErrorTextView.getResources().getString(R.string.fingerprint_success));
-        mIcon.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mCallback.onAuthenticated();
-            }
-        }, SUCCESS_DELAY_MILLIS);
-
-        // ugly hack to keep the fingerprint icon visible while also giving visual feedback of success to the user
-        mIcon.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mIcon.setState(SwirlView.State.ON);
-            }
-        }, 500);
-    }
-
-    private void showError(final CharSequence error) {
-        mIcon.setState(SwirlView.State.ERROR);
-        mErrorTextView.setText(error);
-        mErrorTextView.removeCallbacks(mResetErrorTextRunnable);
-        mErrorTextView.postDelayed(mResetErrorTextRunnable, ERROR_TIMEOUT_MILLIS);
-    }
-
-    private Runnable mResetErrorTextRunnable = new Runnable() {
+  @Override
+  public void onAuthenticationError(final int errMsgId,
+                                    final CharSequence errString) {
+    if (!mSelfCancelled) {
+      showError(errString);
+      mIcon.postDelayed(new Runnable() {
         @Override
         public void run() {
-            mErrorTextView.setText(
-                mErrorTextView.getResources().getString(R.string.fingerprint_hint));
-            mIcon.setState(SwirlView.State.ON);
+          mCallback.onError();
         }
-    };
-
-    public interface Callback {
-
-        void onAuthenticated();
-
-        void onError();
+      }, ERROR_TIMEOUT_MILLIS);
     }
+  }
+
+  @Override
+  public void onAuthenticationHelp(final int helpMsgId,
+                                   final CharSequence helpString) {
+    showError(helpString);
+  }
+
+  @Override
+  public void onAuthenticationFailed() {
+    showError(
+        mIcon.getResources().getString(R.string.fingerprint_not_recognized));
+  }
+
+  @Override
+  public void onAuthenticationSucceeded(
+      final FingerprintManager.AuthenticationResult result) {
+    mErrorTextView.removeCallbacks(mResetErrorTextRunnable);
+    mIcon.setState(SwirlView.State.OFF);
+    mErrorTextView.setText(
+        mErrorTextView.getResources().getString(R.string.fingerprint_success));
+    mIcon.postDelayed(new Runnable() {
+      @Override
+      public void run() {
+        mCallback.onAuthenticated();
+      }
+    }, SUCCESS_DELAY_MILLIS);
+
+    // ugly hack to keep the fingerprint icon visible while also giving visual
+    // feedback of success to the user
+    mIcon.postDelayed(new Runnable() {
+      @Override
+      public void run() {
+        mIcon.setState(SwirlView.State.ON);
+      }
+    }, 500);
+  }
+
+  private void showError(final CharSequence error) {
+    mIcon.setState(SwirlView.State.ERROR);
+    mErrorTextView.setText(error);
+    mErrorTextView.removeCallbacks(mResetErrorTextRunnable);
+    mErrorTextView.postDelayed(mResetErrorTextRunnable, ERROR_TIMEOUT_MILLIS);
+  }
+
+  private Runnable mResetErrorTextRunnable = new Runnable() {
+    @Override
+    public void run() {
+      mErrorTextView.setText(
+          mErrorTextView.getResources().getString(R.string.fingerprint_hint));
+      mIcon.setState(SwirlView.State.ON);
+    }
+  };
+
+  public interface Callback {
+
+    void onAuthenticated();
+
+    void onError();
+  }
 }
