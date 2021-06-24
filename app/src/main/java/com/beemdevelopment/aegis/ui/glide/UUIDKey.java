@@ -6,22 +6,24 @@ import java.security.MessageDigest;
 import java.util.UUID;
 
 public class UUIDKey implements Key {
-  private UUID _uuid;
+private UUID _uuid;
 
-  public UUIDKey(final UUID uuid) { _uuid = uuid; }
+public UUIDKey(final UUID uuid) {
+	_uuid = uuid;
+}
 
-  @Override
-  public void updateDiskCacheKey(final @NonNull MessageDigest messageDigest) {
-    messageDigest.update(_uuid.toString().getBytes(CHARSET));
-  }
+@Override
+public void updateDiskCacheKey(final @NonNull MessageDigest messageDigest) {
+	messageDigest.update(_uuid.toString().getBytes(CHARSET));
+}
 
-  @Override
-  public boolean equals(final Object o) {
-    return _uuid.equals(o);
-  }
+@Override
+public boolean equals(final Object o) {
+	return _uuid.equals(o);
+}
 
-  @Override
-  public int hashCode() {
-    return _uuid.hashCode();
-  }
+@Override
+public int hashCode() {
+	return _uuid.hashCode();
+}
 }

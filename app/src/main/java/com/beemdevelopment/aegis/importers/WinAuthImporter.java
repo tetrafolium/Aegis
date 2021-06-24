@@ -10,74 +10,76 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class WinAuthImporter extends DatabaseImporter {
-  public WinAuthImporter(final Context context) { super(context); }
+public WinAuthImporter(final Context context) {
+	super(context);
+}
 
-  @Override
-  protected String getAppPkgName() {
-    return null;
-  }
+@Override
+protected String getAppPkgName() {
+	return null;
+}
 
-  @Override
-  protected String getAppSubPath() {
-    return null;
-  }
+@Override
+protected String getAppSubPath() {
+	return null;
+}
 
-  @Override
-  public WinAuthImporter.State read(final FileReader reader)
-      throws DatabaseImporterException {
-    ArrayList<String> lines = new ArrayList<>();
+@Override
+public WinAuthImporter.State read(final FileReader reader)
+throws DatabaseImporterException {
+	ArrayList<String> lines = new ArrayList<>();
 
-    try {
-      BufferedReader bufferedReader =
-          new BufferedReader(new InputStreamReader(reader.getStream()));
-      String line;
+	try {
+		BufferedReader bufferedReader =
+			new BufferedReader(new InputStreamReader(reader.getStream()));
+		String line;
 
-      while ((line = bufferedReader.readLine()) != null) {
-        lines.add(line);
-      }
-    } catch (IOException e) {
-      throw new DatabaseImporterException(e);
-    }
+		while ((line = bufferedReader.readLine()) != null) {
+			lines.add(line);
+		}
+	} catch (IOException e) {
+		throw new DatabaseImporterException(e);
+	}
 
-    return new State(lines);
-  }
+	return new State(lines);
+}
 
-  public static class State extends DatabaseImporter.State {
-    private ArrayList<String> _lines;
+public static class State extends DatabaseImporter.State {
+private ArrayList<String> _lines;
 
-    private State(final ArrayList<String> lines) {
-      super(false);
-      _lines = lines;
-    }
+private State(final ArrayList<String> lines) {
+	super(false);
+	_lines = lines;
+}
 
-    @Override
-    public Result convert() {
-      Result result = new Result();
+@Override
+public Result convert() {
+	Result result = new Result();
 
-      for (String line : _lines) {
-        try {
-          DatabaseEntry entry = convertEntry(line);
-          result.addEntry(entry);
-        } catch (DatabaseImporterEntryException e) {
-          result.addError(e);
-        }
-      }
+	for (String line : _lines) {
+		try {
+			DatabaseEntry entry = convertEntry(line);
+			result.addEntry(entry);
+		} catch (DatabaseImporterEntryException e) {
+			result.addError(e);
+		}
+	}
 
-      return result;
-    }
+	return result;
+}
 
-    private static DatabaseEntry convertEntry(final String line)
-        throws DatabaseImporterEntryException {
-      try {
-        GoogleAuthInfo info = GoogleAuthInfo.parseUri(line);
-        DatabaseEntry databaseEntry = new DatabaseEntry(info);
-        databaseEntry.setIssuer(databaseEntry.getName());
-        databaseEntry.setName("WinAuth");
+private static DatabaseEntry convertEntry(final String line)
+throws DatabaseImporterEntryException {
+	try {
+		GoogleAuthInfo info = GoogleAuthInfo.parseUri(line);
+		DatabaseEntry databaseEntry = new DatabaseEntry(info);
+		databaseEntry.setIssuer(databaseEntry.getName());
+		databaseEntry.setName("WinAuth");
 
-        return databaseEntry;
-      } catch (GoogleAuthInfoException e) {
-        throw new DatabaseImporterEntryException(e, line);
-      }
-    }
-  }
+		return databaseEntry;
+	} catch (GoogleAuthInfoException e) {
+		throw new DatabaseImporterEntryException(e, line);
+	}
+}
+}
 }

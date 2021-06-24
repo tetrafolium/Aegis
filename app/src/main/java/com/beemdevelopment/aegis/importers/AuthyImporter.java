@@ -17,118 +17,120 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 public class AuthyImporter extends DatabaseImporter {
-  private static final String _subPath =
-      "shared_prefs/com.authy.storage.tokens.authenticator.xml";
-  private static final String _pkgName = "com.authy.authy";
+private static final String _subPath =
+	"shared_prefs/com.authy.storage.tokens.authenticator.xml";
+private static final String _pkgName = "com.authy.authy";
 
-  public AuthyImporter(final Context context) { super(context); }
+public AuthyImporter(final Context context) {
+	super(context);
+}
 
-  @Override
-  protected String getAppPkgName() {
-    return _pkgName;
-  }
+@Override
+protected String getAppPkgName() {
+	return _pkgName;
+}
 
-  @Override
-  protected String getAppSubPath() {
-    return _subPath;
-  }
+@Override
+protected String getAppSubPath() {
+	return _subPath;
+}
 
-  @Override
-  public State read(final FileReader reader) throws DatabaseImporterException {
-    try {
-      XmlPullParser parser = Xml.newPullParser();
-      parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-      parser.setInput(reader.getStream(), null);
-      parser.nextTag();
+@Override
+public State read(final FileReader reader) throws DatabaseImporterException {
+	try {
+		XmlPullParser parser = Xml.newPullParser();
+		parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+		parser.setInput(reader.getStream(), null);
+		parser.nextTag();
 
-      JSONArray array = new JSONArray();
-      for (PreferenceParser.XmlEntry entry : PreferenceParser.parse(parser)) {
-        if (entry.Name.equals("com.authy.storage.tokens.authenticator.key")) {
-          array = new JSONArray(entry.Value);
-        }
-      }
+		JSONArray array = new JSONArray();
+		for (PreferenceParser.XmlEntry entry : PreferenceParser.parse(parser)) {
+			if (entry.Name.equals("com.authy.storage.tokens.authenticator.key")) {
+				array = new JSONArray(entry.Value);
+			}
+		}
 
-      return new State(array);
-    } catch (XmlPullParserException | JSONException | IOException e) {
-      throw new DatabaseImporterException(e);
-    }
-  }
+		return new State(array);
+	} catch (XmlPullParserException | JSONException | IOException e) {
+		throw new DatabaseImporterException(e);
+	}
+}
 
-  public static class State extends DatabaseImporter.State {
-    private JSONArray _obj;
+public static class State extends DatabaseImporter.State {
+private JSONArray _obj;
 
-    private State(final JSONArray obj) {
-      super(false);
-      _obj = obj;
-    }
+private State(final JSONArray obj) {
+	super(false);
+	_obj = obj;
+}
 
-    @Override
-    public Result convert() throws DatabaseImporterException {
-      Result result = new Result();
+@Override
+public Result convert() throws DatabaseImporterException {
+	Result result = new Result();
 
-      try {
-        for (int i = 0; i < _obj.length(); i++) {
-          JSONObject entryObj = _obj.getJSONObject(i);
-          try {
-            DatabaseEntry entry = convertEntry(entryObj);
-            result.addEntry(entry);
-          } catch (DatabaseImporterEntryException e) {
-            result.addError(e);
-          }
-        }
-      } catch (JSONException e) {
-        throw new DatabaseImporterException(e);
-      }
+	try {
+		for (int i = 0; i < _obj.length(); i++) {
+			JSONObject entryObj = _obj.getJSONObject(i);
+			try {
+				DatabaseEntry entry = convertEntry(entryObj);
+				result.addEntry(entry);
+			} catch (DatabaseImporterEntryException e) {
+				result.addError(e);
+			}
+		}
+	} catch (JSONException e) {
+		throw new DatabaseImporterException(e);
+	}
 
-      return result;
-    }
+	return result;
+}
 
-    private static DatabaseEntry convertEntry(final JSONObject entry)
-        throws DatabaseImporterEntryException {
-      try {
-        AuthyEntryInfo authyEntryInfo = new AuthyEntryInfo();
-        authyEntryInfo.OriginalName = entry.getString("originalName");
-        authyEntryInfo.AccountType = entry.getString("accountType");
-        authyEntryInfo.Name = entry.optString("name");
+private static DatabaseEntry convertEntry(final JSONObject entry)
+throws DatabaseImporterEntryException {
+	try {
+		AuthyEntryInfo authyEntryInfo = new AuthyEntryInfo();
+		authyEntryInfo.OriginalName = entry.getString("originalName");
+		authyEntryInfo.AccountType = entry.getString("accountType");
+		authyEntryInfo.Name = entry.optString("name");
 
-        sanitizeEntryInfo(authyEntryInfo);
+		sanitizeEntryInfo(authyEntryInfo);
 
-        int digits = entry.getInt("digits");
-        byte[] secret =
-            Base32.decode(entry.getString("decryptedSecret").toCharArray());
+		int digits = entry.getInt("digits");
+		byte[] secret =
+			Base32.decode(entry.getString("decryptedSecret").toCharArray());
 
-        OtpInfo info = new TotpInfo(secret, "SHA1", digits, 30);
+		OtpInfo info = new TotpInfo(secret, "SHA1", digits, 30);
 
-        return new DatabaseEntry(info, authyEntryInfo.Name,
-                                 authyEntryInfo.Issuer);
-      } catch (OtpInfoException | JSONException | Base32Exception e) {
-        throw new DatabaseImporterEntryException(e, entry.toString());
-      }
-    }
+		return new DatabaseEntry(info, authyEntryInfo.Name,
+		                         authyEntryInfo.Issuer);
+	} catch (OtpInfoException | JSONException | Base32Exception e) {
+		throw new DatabaseImporterEntryException(e, entry.toString());
+	}
+}
 
-    private static void sanitizeEntryInfo(final AuthyEntryInfo info) {
-      String seperator = "";
+private static void sanitizeEntryInfo(final AuthyEntryInfo info) {
+	String seperator = "";
 
-      if (info.OriginalName.contains(":")) {
-        info.Issuer =
-            info.OriginalName.substring(0, info.OriginalName.indexOf(":"));
-        seperator = ":";
-      } else if (info.Name.contains(" - ")) {
-        info.Issuer = info.Name.substring(0, info.Name.indexOf(" - "));
-        seperator = " - ";
-      } else {
-        info.Issuer = info.AccountType.substring(0, 1).toUpperCase() +
-                      info.AccountType.substring(1);
-      }
+	if (info.OriginalName.contains(":")) {
+		info.Issuer =
+			info.OriginalName.substring(0, info.OriginalName.indexOf(":"));
+		seperator = ":";
+	} else if (info.Name.contains(" - ")) {
+		info.Issuer = info.Name.substring(0, info.Name.indexOf(" - "));
+		seperator = " - ";
+	} else {
+		info.Issuer = info.AccountType.substring(0, 1).toUpperCase() +
+		              info.AccountType.substring(1);
+	}
 
-      info.Name = info.Name.replace(info.Issuer + seperator, "");
-    }
-  }
+	info.Name = info.Name.replace(info.Issuer + seperator, "");
+}
+}
 
-  private static class AuthyEntryInfo {
-    String OriginalName;
-    String AccountType;
-    String Issuer;
-    String Name;
-  }
+private static class AuthyEntryInfo {
+String OriginalName;
+String AccountType;
+String Issuer;
+String Name;
+}
 }

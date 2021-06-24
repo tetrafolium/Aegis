@@ -22,111 +22,115 @@ import java.util.Collections;
 import java.util.List;
 
 public class AegisApplication extends Application {
-  private DatabaseManager _manager;
-  private Preferences _prefs;
-  private List<LockListener> _lockListeners;
+private DatabaseManager _manager;
+private Preferences _prefs;
+private List<LockListener> _lockListeners;
 
-  private static final String CODE_LOCK_STATUS_ID = "lock_status_channel";
-  private static final String CODE_LOCK_DATABASE_ACTION = "lock_database";
+private static final String CODE_LOCK_STATUS_ID = "lock_status_channel";
+private static final String CODE_LOCK_DATABASE_ACTION = "lock_database";
 
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    _manager = new DatabaseManager(this);
-    _prefs = new Preferences(this);
-    _lockListeners = new ArrayList<>();
+@Override
+public void onCreate() {
+	super.onCreate();
+	_manager = new DatabaseManager(this);
+	_prefs = new Preferences(this);
+	_lockListeners = new ArrayList<>();
 
-    Iconics.init(this);
-    Iconics.registerFont(new MaterialDesignIconic());
+	Iconics.init(this);
+	Iconics.registerFont(new MaterialDesignIconic());
 
-    // listen for SCREEN_OFF events
-    ScreenOffReceiver receiver = new ScreenOffReceiver();
-    IntentFilter intentFilter = new IntentFilter();
-    intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
-    intentFilter.addAction(CODE_LOCK_DATABASE_ACTION);
-    registerReceiver(receiver, intentFilter);
+	// listen for SCREEN_OFF events
+	ScreenOffReceiver receiver = new ScreenOffReceiver();
+	IntentFilter intentFilter = new IntentFilter();
+	intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+	intentFilter.addAction(CODE_LOCK_DATABASE_ACTION);
+	registerReceiver(receiver, intentFilter);
 
-    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-      initAppShortcuts();
-    }
+	if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+		initAppShortcuts();
+	}
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      initNotificationChannels();
-    }
-  }
+	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+		initNotificationChannels();
+	}
+}
 
-  public DatabaseManager getDatabaseManager() { return _manager; }
+public DatabaseManager getDatabaseManager() {
+	return _manager;
+}
 
-  public Preferences getPreferences() { return _prefs; }
+public Preferences getPreferences() {
+	return _prefs;
+}
 
-  public boolean isAutoLockEnabled() {
-    return _prefs.isAutoLockEnabled() && _manager.isLoaded() &&
-        _manager.isEncryptionEnabled() && !_manager.isLocked();
-  }
+public boolean isAutoLockEnabled() {
+	return _prefs.isAutoLockEnabled() && _manager.isLoaded() &&
+	       _manager.isEncryptionEnabled() && !_manager.isLocked();
+}
 
-  public void registerLockListener(final LockListener listener) {
-    _lockListeners.add(listener);
-  }
+public void registerLockListener(final LockListener listener) {
+	_lockListeners.add(listener);
+}
 
-  public void unregisterLockListener(final LockListener listener) {
-    _lockListeners.remove(listener);
-  }
+public void unregisterLockListener(final LockListener listener) {
+	_lockListeners.remove(listener);
+}
 
-  public void lock() {
-    _manager.lock();
-    for (LockListener listener : _lockListeners) {
-      listener.onLocked();
-    }
+public void lock() {
+	_manager.lock();
+	for (LockListener listener : _lockListeners) {
+		listener.onLocked();
+	}
 
-    stopService(new Intent(AegisApplication.this, NotificationService.class));
-  }
+	stopService(new Intent(AegisApplication.this, NotificationService.class));
+}
 
-  @RequiresApi(api = Build.VERSION_CODES.N_MR1)
-  private void initAppShortcuts() {
-    ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
-    if (shortcutManager == null) {
-      return;
-    }
+@RequiresApi(api = Build.VERSION_CODES.N_MR1)
+private void initAppShortcuts() {
+	ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
+	if (shortcutManager == null) {
+		return;
+	}
 
-    Intent intent = new Intent(this, MainActivity.class);
-    intent.putExtra("action", "scan");
-    intent.setAction(Intent.ACTION_MAIN);
+	Intent intent = new Intent(this, MainActivity.class);
+	intent.putExtra("action", "scan");
+	intent.setAction(Intent.ACTION_MAIN);
 
-    ShortcutInfo shortcut =
-        new ShortcutInfo.Builder(this, "shortcut_new")
-            .setShortLabel(getString(R.string.new_profile))
-            .setLongLabel(getString(R.string.add_new_profile))
-            .setIcon(Icon.createWithResource(this, R.drawable.ic_qr_code))
-            .setIntent(intent)
-            .build();
+	ShortcutInfo shortcut =
+		new ShortcutInfo.Builder(this, "shortcut_new")
+		.setShortLabel(getString(R.string.new_profile))
+		.setLongLabel(getString(R.string.add_new_profile))
+		.setIcon(Icon.createWithResource(this, R.drawable.ic_qr_code))
+		.setIntent(intent)
+		.build();
 
-    shortcutManager.setDynamicShortcuts(Collections.singletonList(shortcut));
-  }
+	shortcutManager.setDynamicShortcuts(Collections.singletonList(shortcut));
+}
 
-  private void initNotificationChannels() {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      CharSequence name = getString(R.string.channel_name_lock_status);
-      String description = getString(R.string.channel_description_lock_status);
-      int importance = NotificationManager.IMPORTANCE_LOW;
+private void initNotificationChannels() {
+	if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+		CharSequence name = getString(R.string.channel_name_lock_status);
+		String description = getString(R.string.channel_description_lock_status);
+		int importance = NotificationManager.IMPORTANCE_LOW;
 
-      NotificationChannel channel =
-          new NotificationChannel(CODE_LOCK_STATUS_ID, name, importance);
-      channel.setDescription(description);
+		NotificationChannel channel =
+			new NotificationChannel(CODE_LOCK_STATUS_ID, name, importance);
+		channel.setDescription(description);
 
-      NotificationManager notificationManager =
-          getSystemService(NotificationManager.class);
-      notificationManager.createNotificationChannel(channel);
-    }
-  }
+		NotificationManager notificationManager =
+			getSystemService(NotificationManager.class);
+		notificationManager.createNotificationChannel(channel);
+	}
+}
 
-  public class ScreenOffReceiver extends BroadcastReceiver {
-    @Override
-    public void onReceive(final Context context, final Intent intent) {
-      if (isAutoLockEnabled()) {
-        lock();
-      }
-    }
-  }
+public class ScreenOffReceiver extends BroadcastReceiver {
+@Override
+public void onReceive(final Context context, final Intent intent) {
+	if (isAutoLockEnabled()) {
+		lock();
+	}
+}
+}
 
-  public interface LockListener { void onLocked(); }
+public interface LockListener { void onLocked(); }
 }

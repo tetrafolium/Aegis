@@ -8,52 +8,52 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SlotList extends UUIDMap<Slot> {
-  public JSONArray toJson() {
-    JSONArray array = new JSONArray();
-    for (Slot slot : this) {
-      array.put(slot.toJson());
-    }
+public JSONArray toJson() {
+	JSONArray array = new JSONArray();
+	for (Slot slot : this) {
+		array.put(slot.toJson());
+	}
 
-    return array;
-  }
+	return array;
+}
 
-  public static SlotList fromJson(final JSONArray array)
-      throws SlotListException {
-    SlotList slots = new SlotList();
+public static SlotList fromJson(final JSONArray array)
+throws SlotListException {
+	SlotList slots = new SlotList();
 
-    try {
-      for (int i = 0; i < array.length(); i++) {
-        JSONObject obj = array.getJSONObject(i);
-        Slot slot = Slot.fromJson(obj);
-        slots.add(slot);
-      }
-    } catch (SlotException | JSONException e) {
-      throw new SlotListException(e);
-    }
+	try {
+		for (int i = 0; i < array.length(); i++) {
+			JSONObject obj = array.getJSONObject(i);
+			Slot slot = Slot.fromJson(obj);
+			slots.add(slot);
+		}
+	} catch (SlotException | JSONException e) {
+		throw new SlotListException(e);
+	}
 
-    return slots;
-  }
+	return slots;
+}
 
-  public <T extends Slot> T find(final Class<T> type) {
-    for (Slot slot : this) {
-      if (slot.getClass() == type) {
-        return type.cast(slot);
-      }
-    }
-    return null;
-  }
+public <T extends Slot> T find(final Class<T> type) {
+	for (Slot slot : this) {
+		if (slot.getClass() == type) {
+			return type.cast(slot);
+		}
+	}
+	return null;
+}
 
-  public <T extends Slot> List<T> findAll(final Class<T> type) {
-    ArrayList<T> list = new ArrayList<>();
-    for (Slot slot : this) {
-      if (slot.getClass() == type) {
-        list.add(type.cast(slot));
-      }
-    }
-    return list;
-  }
+public <T extends Slot> List<T> findAll(final Class<T> type) {
+	ArrayList<T> list = new ArrayList<>();
+	for (Slot slot : this) {
+		if (slot.getClass() == type) {
+			list.add(type.cast(slot));
+		}
+	}
+	return list;
+}
 
-  public <T extends Slot> boolean has(final Class<T> type) {
-    return find(type) != null;
-  }
+public <T extends Slot> boolean has(final Class<T> type) {
+	return find(type) != null;
+}
 }

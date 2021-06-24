@@ -15,78 +15,80 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SteamImporter extends DatabaseImporter {
-  private static final String _subDir = "files";
-  private static final String _pkgName =
-      "com.valvesoftware.android.steam.community";
+private static final String _subDir = "files";
+private static final String _pkgName =
+	"com.valvesoftware.android.steam.community";
 
-  public SteamImporter(final Context context) { super(context); }
+public SteamImporter(final Context context) {
+	super(context);
+}
 
-  @Override
-  protected String getAppPkgName() {
-    return _pkgName;
-  }
+@Override
+protected String getAppPkgName() {
+	return _pkgName;
+}
 
-  @Override
-  protected String getAppSubPath()
-      throws DatabaseImporterException, PackageManager.NameNotFoundException {
-    // NOTE: this assumes that a global root shell has already been obtained by
-    // the caller
-    SuFile path = getAppPath(getAppPkgName(), _subDir);
-    SuFile[] files =
-        path.listFiles((d, name) -> name.startsWith("Steamguard-"));
-    if (files == null || files.length == 0) {
-      throw new DatabaseImporterException(
-          String.format("Empty directory: %s", path.getAbsolutePath()));
-    }
+@Override
+protected String getAppSubPath()
+throws DatabaseImporterException, PackageManager.NameNotFoundException {
+	// NOTE: this assumes that a global root shell has already been obtained by
+	// the caller
+	SuFile path = getAppPath(getAppPkgName(), _subDir);
+	SuFile[] files =
+		path.listFiles((d, name)->name.startsWith("Steamguard-"));
+	if (files == null || files.length == 0) {
+		throw new DatabaseImporterException(
+			      String.format("Empty directory: %s", path.getAbsolutePath()));
+	}
 
-    // TODO: handle multiple files (can this even occur?)
-    return new SuFile(_subDir, files[0].getName()).getPath();
-  }
+	// TODO: handle multiple files (can this even occur?)
+	return new SuFile(_subDir, files[0].getName()).getPath();
+}
 
-  @Override
-  public State read(final FileReader reader) throws DatabaseImporterException {
-    try (ByteInputStream stream = ByteInputStream.create(reader.getStream())) {
-      JSONObject obj =
-          new JSONObject(new String(stream.getBytes(), StandardCharsets.UTF_8));
-      return new State(obj);
-    } catch (IOException | JSONException e) {
-      throw new DatabaseImporterException(e);
-    }
-  }
+@Override
+public State read(final FileReader reader) throws DatabaseImporterException {
+	try (ByteInputStream stream = ByteInputStream.create(reader.getStream())) {
+		JSONObject obj =
+			new JSONObject(new String(stream.getBytes(), StandardCharsets.UTF_8));
+		return new State(obj);
+	} catch (IOException | JSONException e) {
+		throw new DatabaseImporterException(e);
+	}
+}
 
-  public static class State extends DatabaseImporter.State {
-    private JSONObject _obj;
+public static class State extends DatabaseImporter.State {
+private JSONObject _obj;
 
-    private State(final JSONObject obj) {
-      super(false);
-      _obj = obj;
-    }
+private State(final JSONObject obj) {
+	super(false);
+	_obj = obj;
+}
 
-    @Override
-    public Result convert() {
-      Result result = new Result();
+@Override
+public Result convert() {
+	Result result = new Result();
 
-      try {
-        DatabaseEntry entry = convertEntry(_obj);
-        result.addEntry(entry);
-      } catch (DatabaseImporterEntryException e) {
-        result.addError(e);
-      }
+	try {
+		DatabaseEntry entry = convertEntry(_obj);
+		result.addEntry(entry);
+	} catch (DatabaseImporterEntryException e) {
+		result.addError(e);
+	}
 
-      return result;
-    }
+	return result;
+}
 
-    private static DatabaseEntry convertEntry(final JSONObject obj)
-        throws DatabaseImporterEntryException {
-      try {
-        byte[] secret = Base64.decode(obj.getString("shared_secret"));
-        SteamInfo info = new SteamInfo(secret);
+private static DatabaseEntry convertEntry(final JSONObject obj)
+throws DatabaseImporterEntryException {
+	try {
+		byte[] secret = Base64.decode(obj.getString("shared_secret"));
+		SteamInfo info = new SteamInfo(secret);
 
-        String account = obj.getString("account_name");
-        return new DatabaseEntry(info, account, "Steam");
-      } catch (JSONException | Base64Exception | OtpInfoException e) {
-        throw new DatabaseImporterEntryException(e, obj.toString());
-      }
-    }
-  }
+		String account = obj.getString("account_name");
+		return new DatabaseEntry(info, account, "Steam");
+	} catch (JSONException | Base64Exception | OtpInfoException e) {
+		throw new DatabaseImporterEntryException(e, obj.toString());
+	}
+}
+}
 }

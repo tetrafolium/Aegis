@@ -7,75 +7,76 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 public class PreferenceParser {
-  private PreferenceParser() {}
+private PreferenceParser() {
+}
 
-  public static List<XmlEntry> parse(final XmlPullParser parser)
-      throws IOException, XmlPullParserException {
-    List<XmlEntry> entries = new ArrayList<>();
+public static List<XmlEntry> parse(final XmlPullParser parser)
+throws IOException, XmlPullParserException {
+	List<XmlEntry> entries = new ArrayList<>();
 
-    parser.require(XmlPullParser.START_TAG, null, "map");
-    while (parser.next() != XmlPullParser.END_TAG) {
-      if (parser.getEventType() != XmlPullParser.START_TAG) {
-        continue;
-      }
+	parser.require(XmlPullParser.START_TAG, null, "map");
+	while (parser.next() != XmlPullParser.END_TAG) {
+		if (parser.getEventType() != XmlPullParser.START_TAG) {
+			continue;
+		}
 
-      if (!parser.getName().equals("string")) {
-        skip(parser);
-        continue;
-      }
+		if (!parser.getName().equals("string")) {
+			skip(parser);
+			continue;
+		}
 
-      entries.add(parseEntry(parser));
-    }
+		entries.add(parseEntry(parser));
+	}
 
-    return entries;
-  }
+	return entries;
+}
 
-  private static XmlEntry parseEntry(final XmlPullParser parser)
-      throws IOException, XmlPullParserException {
-    parser.require(XmlPullParser.START_TAG, null, "string");
-    String name = parser.getAttributeValue(null, "name");
-    String value = parseText(parser);
-    parser.require(XmlPullParser.END_TAG, null, "string");
+private static XmlEntry parseEntry(final XmlPullParser parser)
+throws IOException, XmlPullParserException {
+	parser.require(XmlPullParser.START_TAG, null, "string");
+	String name = parser.getAttributeValue(null, "name");
+	String value = parseText(parser);
+	parser.require(XmlPullParser.END_TAG, null, "string");
 
-    XmlEntry entry = new XmlEntry();
-    entry.Name = name;
-    entry.Value = value;
-    return entry;
-  }
+	XmlEntry entry = new XmlEntry();
+	entry.Name = name;
+	entry.Value = value;
+	return entry;
+}
 
-  private static String parseText(final XmlPullParser parser)
-      throws IOException, XmlPullParserException {
-    String text = "";
-    if (parser.next() == XmlPullParser.TEXT) {
-      text = parser.getText();
-      parser.nextTag();
-    }
-    return text;
-  }
+private static String parseText(final XmlPullParser parser)
+throws IOException, XmlPullParserException {
+	String text = "";
+	if (parser.next() == XmlPullParser.TEXT) {
+		text = parser.getText();
+		parser.nextTag();
+	}
+	return text;
+}
 
-  private static void skip(final XmlPullParser parser)
-      throws IOException, XmlPullParserException {
-    // source:
-    // https://developer.android.com/training/basics/network-ops/xml.html
-    if (parser.getEventType() != XmlPullParser.START_TAG) {
-      throw new IllegalStateException();
-    }
+private static void skip(final XmlPullParser parser)
+throws IOException, XmlPullParserException {
+	// source:
+	// https://developer.android.com/training/basics/network-ops/xml.html
+	if (parser.getEventType() != XmlPullParser.START_TAG) {
+		throw new IllegalStateException();
+	}
 
-    int depth = 1;
-    while (depth != 0) {
-      switch (parser.next()) {
-      case XmlPullParser.END_TAG:
-        depth--;
-        break;
-      case XmlPullParser.START_TAG:
-        depth++;
-        break;
-      }
-    }
-  }
+	int depth = 1;
+	while (depth != 0) {
+		switch (parser.next()) {
+		case XmlPullParser.END_TAG:
+			depth--;
+			break;
+		case XmlPullParser.START_TAG:
+			depth++;
+			break;
+		}
+	}
+}
 
-  public static class XmlEntry {
-    public String Name;
-    public String Value;
-  }
+public static class XmlEntry {
+public String Name;
+public String Value;
+}
 }

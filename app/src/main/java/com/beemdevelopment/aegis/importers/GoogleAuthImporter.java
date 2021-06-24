@@ -21,164 +21,176 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GoogleAuthImporter extends DatabaseImporter {
-  private static final int TYPE_TOTP = 0;
-  private static final int TYPE_HOTP = 1;
+private static final int TYPE_TOTP = 0;
+private static final int TYPE_HOTP = 1;
 
-  private static final String _subPath = "databases/databases";
-  private static final String _pkgName =
-      "com.google.android.apps.authenticator2";
+private static final String _subPath = "databases/databases";
+private static final String _pkgName =
+	"com.google.android.apps.authenticator2";
 
-  public GoogleAuthImporter(final Context context) { super(context); }
+public GoogleAuthImporter(final Context context) {
+	super(context);
+}
 
-  @Override
-  protected String getAppPkgName() {
-    return _pkgName;
-  }
+@Override
+protected String getAppPkgName() {
+	return _pkgName;
+}
 
-  @Override
-  protected String getAppSubPath() {
-    return _subPath;
-  }
+@Override
+protected String getAppSubPath() {
+	return _subPath;
+}
 
-  @Override
-  public State read(final FileReader reader) throws DatabaseImporterException {
-    File file;
+@Override
+public State read(final FileReader reader) throws DatabaseImporterException {
+	File file;
 
-    try {
-      // create a temporary copy of the database so that SQLiteDatabase can open
-      // it
-      file =
-          File.createTempFile("google-import-", "", getContext().getCacheDir());
-      try (FileOutputStream out = new FileOutputStream(file)) {
-        ShellUtils.pump(reader.getStream(), out);
-      }
-    } catch (IOException e) {
-      throw new DatabaseImporterException(e);
-    }
+	try {
+		// create a temporary copy of the database so that SQLiteDatabase can open
+		// it
+		file =
+			File.createTempFile("google-import-", "", getContext().getCacheDir());
+		try (FileOutputStream out = new FileOutputStream(file)) {
+			ShellUtils.pump(reader.getStream(), out);
+		}
+	} catch (IOException e) {
+		throw new DatabaseImporterException(e);
+	}
 
-    try (SQLiteDatabase db = SQLiteDatabase.openDatabase(
-             file.getAbsolutePath(), null, OPEN_READONLY, null)) {
-      try (Cursor cursor = db.rawQuery("SELECT * FROM accounts", null)) {
-        List<Entry> entries = new ArrayList<>();
+	try (SQLiteDatabase db = SQLiteDatabase.openDatabase(
+		     file.getAbsolutePath(), null, OPEN_READONLY, null)) {
+		try (Cursor cursor = db.rawQuery("SELECT * FROM accounts", null)) {
+			List<Entry> entries = new ArrayList<>();
 
-        if (cursor.moveToFirst()) {
-          do {
-            Entry entry = new Entry(cursor);
-            entries.add(entry);
-          } while (cursor.moveToNext());
-        }
+			if (cursor.moveToFirst()) {
+				do {
+					Entry entry = new Entry(cursor);
+					entries.add(entry);
+				} while (cursor.moveToNext());
+			}
 
-        return new State(entries);
-      }
-    } catch (SQLiteException e) {
-      throw new DatabaseImporterException(e);
-    } finally {
-      // always delete the temporary file
-      file.delete();
-    }
-  }
+			return new State(entries);
+		}
+	} catch (SQLiteException e) {
+		throw new DatabaseImporterException(e);
+	} finally {
+		// always delete the temporary file
+		file.delete();
+	}
+}
 
-  public static class State extends DatabaseImporter.State {
-    private List<Entry> _entries;
+public static class State extends DatabaseImporter.State {
+private List<Entry> _entries;
 
-    private State(final List<Entry> entries) {
-      super(false);
-      _entries = entries;
-    }
+private State(final List<Entry> entries) {
+	super(false);
+	_entries = entries;
+}
 
-    @Override
-    public Result convert() {
-      Result result = new Result();
+@Override
+public Result convert() {
+	Result result = new Result();
 
-      for (Entry sqlEntry : _entries) {
-        try {
-          DatabaseEntry entry = convertEntry(sqlEntry);
-          result.addEntry(entry);
-        } catch (DatabaseImporterEntryException e) {
-          result.addError(e);
-        }
-      }
+	for (Entry sqlEntry : _entries) {
+		try {
+			DatabaseEntry entry = convertEntry(sqlEntry);
+			result.addEntry(entry);
+		} catch (DatabaseImporterEntryException e) {
+			result.addError(e);
+		}
+	}
 
-      return result;
-    }
+	return result;
+}
 
-    private static DatabaseEntry convertEntry(final Entry entry)
-        throws DatabaseImporterEntryException {
-      try {
-        byte[] secret = Base32.decode(entry.getSecret().toCharArray());
+private static DatabaseEntry convertEntry(final Entry entry)
+throws DatabaseImporterEntryException {
+	try {
+		byte[] secret = Base32.decode(entry.getSecret().toCharArray());
 
-        OtpInfo info;
-        switch (entry.getType()) {
-        case TYPE_TOTP:
-          info = new TotpInfo(secret);
-          break;
-        case TYPE_HOTP:
-          info = new HotpInfo(secret, entry.getCounter());
-          break;
-        default:
-          throw new DatabaseImporterException("unsupported otp type: " +
-                                              entry.getType());
-        }
+		OtpInfo info;
+		switch (entry.getType()) {
+		case TYPE_TOTP:
+			info = new TotpInfo(secret);
+			break;
+		case TYPE_HOTP:
+			info = new HotpInfo(secret, entry.getCounter());
+			break;
+		default:
+			throw new DatabaseImporterException("unsupported otp type: " +
+			                                    entry.getType());
+		}
 
-        String name = entry.getEmail();
-        String[] parts = name.split(":");
-        if (parts.length == 2) {
-          name = parts[1];
-        }
+		String name = entry.getEmail();
+		String[] parts = name.split(":");
+		if (parts.length == 2) {
+			name = parts[1];
+		}
 
-        return new DatabaseEntry(info, name, entry.getIssuer());
-      } catch (Base32Exception | OtpInfoException |
-               DatabaseImporterException e) {
-        throw new DatabaseImporterEntryException(e, entry.toString());
-      }
-    }
-  }
+		return new DatabaseEntry(info, name, entry.getIssuer());
+	} catch (Base32Exception | OtpInfoException |
+	         DatabaseImporterException e) {
+		throw new DatabaseImporterEntryException(e, entry.toString());
+	}
+}
+}
 
-  private static String getString(final Cursor cursor,
-                                  final String columnName) {
-    return getString(cursor, columnName, null);
-  }
+private static String getString(final Cursor cursor,
+                                final String columnName) {
+	return getString(cursor, columnName, null);
+}
 
-  private static String getString(final Cursor cursor, final String columnName,
-                                  final String def) {
-    String res = cursor.getString(cursor.getColumnIndex(columnName));
-    if (res == null) {
-      return def;
-    }
-    return res;
-  }
+private static String getString(final Cursor cursor, final String columnName,
+                                final String def) {
+	String res = cursor.getString(cursor.getColumnIndex(columnName));
+	if (res == null) {
+		return def;
+	}
+	return res;
+}
 
-  private static int getInt(final Cursor cursor, final String columnName) {
-    return cursor.getInt(cursor.getColumnIndex(columnName));
-  }
+private static int getInt(final Cursor cursor, final String columnName) {
+	return cursor.getInt(cursor.getColumnIndex(columnName));
+}
 
-  private static long getLong(final Cursor cursor, final String columnName) {
-    return cursor.getLong(cursor.getColumnIndex(columnName));
-  }
+private static long getLong(final Cursor cursor, final String columnName) {
+	return cursor.getLong(cursor.getColumnIndex(columnName));
+}
 
-  private static class Entry {
-    private int _type;
-    private String _secret;
-    private String _email;
-    private String _issuer;
-    private long _counter;
+private static class Entry {
+private int _type;
+private String _secret;
+private String _email;
+private String _issuer;
+private long _counter;
 
-    public Entry(final Cursor cursor) {
-      _type = getInt(cursor, "type");
-      _secret = getString(cursor, "secret");
-      _email = getString(cursor, "email", "");
-      _issuer = getString(cursor, "issuer", "");
-      _counter = getLong(cursor, "counter");
-    }
+public Entry(final Cursor cursor) {
+	_type = getInt(cursor, "type");
+	_secret = getString(cursor, "secret");
+	_email = getString(cursor, "email", "");
+	_issuer = getString(cursor, "issuer", "");
+	_counter = getLong(cursor, "counter");
+}
 
-    public int getType() { return _type; }
+public int getType() {
+	return _type;
+}
 
-    public String getSecret() { return _secret; }
+public String getSecret() {
+	return _secret;
+}
 
-    public String getEmail() { return _email; }
+public String getEmail() {
+	return _email;
+}
 
-    public String getIssuer() { return _issuer; }
+public String getIssuer() {
+	return _issuer;
+}
 
-    public long getCounter() { return _counter; }
-  }
+public long getCounter() {
+	return _counter;
+}
+}
 }

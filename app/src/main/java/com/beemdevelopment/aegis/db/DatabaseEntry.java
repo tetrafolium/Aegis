@@ -14,131 +14,155 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class DatabaseEntry extends UUIDMap.Value {
-  private String _name = "";
-  private String _issuer = "";
-  private String _group;
-  private OtpInfo _info;
-  private byte[] _icon;
+private String _name = "";
+private String _issuer = "";
+private String _group;
+private OtpInfo _info;
+private byte[] _icon;
 
-  private DatabaseEntry(final UUID uuid, final OtpInfo info) {
-    super(uuid);
-    _info = info;
-  }
+private DatabaseEntry(final UUID uuid, final OtpInfo info) {
+	super(uuid);
+	_info = info;
+}
 
-  public DatabaseEntry(final OtpInfo info) {
-    super();
-    _info = info;
-  }
+public DatabaseEntry(final OtpInfo info) {
+	super();
+	_info = info;
+}
 
-  public DatabaseEntry(final OtpInfo info, final String name,
-                       final String issuer) {
-    this(info);
-    setName(name);
-    setIssuer(issuer);
-  }
+public DatabaseEntry(final OtpInfo info, final String name,
+                     final String issuer) {
+	this(info);
+	setName(name);
+	setIssuer(issuer);
+}
 
-  public DatabaseEntry(final GoogleAuthInfo info) {
-    this(info.getOtpInfo(), info.getAccountName(), info.getIssuer());
-  }
+public DatabaseEntry(final GoogleAuthInfo info) {
+	this(info.getOtpInfo(), info.getAccountName(), info.getIssuer());
+}
 
-  public JSONObject toJson() {
-    JSONObject obj = new JSONObject();
+public JSONObject toJson() {
+	JSONObject obj = new JSONObject();
 
-    try {
-      obj.put("type", _info.getType());
-      obj.put("uuid", getUUID().toString());
-      obj.put("name", _name);
-      obj.put("issuer", _issuer);
-      obj.put("group", _group);
-      obj.put("icon", _icon == null ? JSONObject.NULL : Base64.encode(_icon));
-      obj.put("info", _info.toJson());
-    } catch (JSONException e) {
-      throw new RuntimeException(e);
-    }
+	try {
+		obj.put("type", _info.getType());
+		obj.put("uuid", getUUID().toString());
+		obj.put("name", _name);
+		obj.put("issuer", _issuer);
+		obj.put("group", _group);
+		obj.put("icon", _icon == null ? JSONObject.NULL : Base64.encode(_icon));
+		obj.put("info", _info.toJson());
+	} catch (JSONException e) {
+		throw new RuntimeException(e);
+	}
 
-    return obj;
-  }
+	return obj;
+}
 
-  public static DatabaseEntry fromJson(final JSONObject obj)
-      throws JSONException, OtpInfoException, Base64Exception {
-    // if there is no uuid, generate a new one
-    UUID uuid;
-    if (!obj.has("uuid")) {
-      uuid = UUID.randomUUID();
-    } else {
-      uuid = UUID.fromString(obj.getString("uuid"));
-    }
+public static DatabaseEntry fromJson(final JSONObject obj)
+throws JSONException, OtpInfoException, Base64Exception {
+	// if there is no uuid, generate a new one
+	UUID uuid;
+	if (!obj.has("uuid")) {
+		uuid = UUID.randomUUID();
+	} else {
+		uuid = UUID.fromString(obj.getString("uuid"));
+	}
 
-    OtpInfo info =
-        OtpInfo.fromJson(obj.getString("type"), obj.getJSONObject("info"));
-    DatabaseEntry entry = new DatabaseEntry(uuid, info);
-    entry.setName(obj.getString("name"));
-    entry.setIssuer(obj.getString("issuer"));
-    entry.setGroup(obj.optString("group", null));
+	OtpInfo info =
+		OtpInfo.fromJson(obj.getString("type"), obj.getJSONObject("info"));
+	DatabaseEntry entry = new DatabaseEntry(uuid, info);
+	entry.setName(obj.getString("name"));
+	entry.setIssuer(obj.getString("issuer"));
+	entry.setGroup(obj.optString("group", null));
 
-    Object icon = obj.get("icon");
-    if (icon != JSONObject.NULL) {
-      entry.setIcon(Base64.decode((String)icon));
-    }
+	Object icon = obj.get("icon");
+	if (icon != JSONObject.NULL) {
+		entry.setIcon(Base64.decode((String)icon));
+	}
 
-    return entry;
-  }
+	return entry;
+}
 
-  public String getName() { return _name; }
+public String getName() {
+	return _name;
+}
 
-  public String getIssuer() { return _issuer; }
+public String getIssuer() {
+	return _issuer;
+}
 
-  public String getGroup() { return _group; }
+public String getGroup() {
+	return _group;
+}
 
-  public byte[] getIcon() { return _icon; }
+public byte[] getIcon() {
+	return _icon;
+}
 
-  public OtpInfo getInfo() { return _info; }
+public OtpInfo getInfo() {
+	return _info;
+}
 
-  public void setName(final String name) { _name = name; }
+public void setName(final String name) {
+	_name = name;
+}
 
-  public void setIssuer(final String issuer) { _issuer = issuer; }
+public void setIssuer(final String issuer) {
+	_issuer = issuer;
+}
 
-  public void setGroup(final String group) { _group = group; }
+public void setGroup(final String group) {
+	_group = group;
+}
 
-  public void setInfo(final OtpInfo info) { _info = info; }
+public void setInfo(final OtpInfo info) {
+	_info = info;
+}
 
-  public void setIcon(final byte[] icon) { _icon = icon; }
+public void setIcon(final byte[] icon) {
+	_icon = icon;
+}
 
-  public boolean hasIcon() { return _icon != null; }
+public boolean hasIcon() {
+	return _icon != null;
+}
 
-  @Override
-  public boolean equals(final Object o) {
-    if (!(o instanceof DatabaseEntry)) {
-      return false;
-    }
+@Override
+public boolean equals(final Object o) {
+	if (!(o instanceof DatabaseEntry)) {
+		return false;
+	}
 
-    DatabaseEntry entry = (DatabaseEntry)o;
-    return super.equals(entry) && equivalates(entry);
-  }
+	DatabaseEntry entry = (DatabaseEntry)o;
+	return super.equals(entry) && equivalates(entry);
+}
 
-  /**
-   * Reports whether this entry is equivalent to the given entry. The UUIDs of
-   * these entries are ignored during the comparison, so they are not
-   * necessarily the same instance.
-   */
-  public boolean equivalates(final DatabaseEntry entry) {
-    return getName().equals(entry.getName()) &&
-        getIssuer().equals(entry.getIssuer()) &&
-        Objects.equals(getGroup(), entry.getGroup()) &&
-        getInfo().equals(entry.getInfo()) &&
-        Arrays.equals(getIcon(), entry.getIcon());
-  }
+/**
+ * Reports whether this entry is equivalent to the given entry. The UUIDs of
+ * these entries are ignored during the comparison, so they are not
+ * necessarily the same instance.
+ */
+public boolean equivalates(final DatabaseEntry entry) {
+	return getName().equals(entry.getName()) &&
+	       getIssuer().equals(entry.getIssuer()) &&
+	       Objects.equals(getGroup(), entry.getGroup()) &&
+	       getInfo().equals(entry.getInfo()) &&
+	       Arrays.equals(getIcon(), entry.getIcon());
+}
 
-  /**
-   * Reports whether this entry has its values set to the defaults.
-   */
-  public boolean isDefault() { return equivalates(getDefault()); }
+/**
+ * Reports whether this entry has its values set to the defaults.
+ */
+public boolean isDefault() {
+	return equivalates(getDefault());
+}
 
-  public static DatabaseEntry getDefault() {
-    try {
-      return new DatabaseEntry(new TotpInfo(null));
-    } catch (OtpInfoException e) {
-      throw new RuntimeException(e);
-    }
-  }
+public static DatabaseEntry getDefault() {
+	try {
+		return new DatabaseEntry(new TotpInfo(null));
+	} catch (OtpInfoException e) {
+		throw new RuntimeException(e);
+	}
+}
 }

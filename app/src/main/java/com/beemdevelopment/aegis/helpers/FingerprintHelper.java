@@ -7,28 +7,29 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 public class FingerprintHelper {
-  private FingerprintHelper() {}
+private FingerprintHelper() {
+}
 
-  @RequiresApi(api = Build.VERSION_CODES.M)
-  public static FingerprintManager getManager(final Context context) {
-    if (PermissionHelper.granted(context,
-                                 Manifest.permission.USE_FINGERPRINT)) {
-      FingerprintManager manager = (FingerprintManager)context.getSystemService(
-          Context.FINGERPRINT_SERVICE);
-      if (manager != null && manager.isHardwareDetected() &&
-          manager.hasEnrolledFingerprints()) {
-        return manager;
-      }
-    }
-    return null;
-  }
+@RequiresApi(api = Build.VERSION_CODES.M)
+public static FingerprintManager getManager(final Context context) {
+	if (PermissionHelper.granted(context,
+	                             Manifest.permission.USE_FINGERPRINT)) {
+		FingerprintManager manager = (FingerprintManager)context.getSystemService(
+			Context.FINGERPRINT_SERVICE);
+		if (manager != null && manager.isHardwareDetected() &&
+		    manager.hasEnrolledFingerprints()) {
+			return manager;
+		}
+	}
+	return null;
+}
 
-  @RequiresApi(api = Build.VERSION_CODES.M)
-  public static boolean isAvailable(final Context context) {
-    return getManager(context) != null;
-  }
+@RequiresApi(api = Build.VERSION_CODES.M)
+public static boolean isAvailable(final Context context) {
+	return getManager(context) != null;
+}
 
-  public static boolean isSupported() {
-    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
-  }
+public static boolean isSupported() {
+	return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
+}
 }

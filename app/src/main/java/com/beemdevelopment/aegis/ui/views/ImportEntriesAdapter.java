@@ -12,75 +12,77 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ImportEntriesAdapter
-    extends RecyclerView.Adapter<ImportEntryHolder> {
-  private List<ImportEntry> _entries;
+	extends RecyclerView.Adapter<ImportEntryHolder> {
+private List<ImportEntry> _entries;
 
-  public ImportEntriesAdapter() { _entries = new ArrayList<>(); }
+public ImportEntriesAdapter() {
+	_entries = new ArrayList<>();
+}
 
-  public void addEntry(final ImportEntry entry) {
-    _entries.add(entry);
+public void addEntry(final ImportEntry entry) {
+	_entries.add(entry);
 
-    int position = getItemCount() - 1;
-    if (position == 0) {
-      notifyDataSetChanged();
-    } else {
-      notifyItemInserted(position);
-    }
-  }
+	int position = getItemCount() - 1;
+	if (position == 0) {
+		notifyDataSetChanged();
+	} else {
+		notifyItemInserted(position);
+	}
+}
 
-  @NonNull
-  @Override
-  public ImportEntryHolder onCreateViewHolder(final @NonNull ViewGroup parent,
-                                              final int viewType) {
-    View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.card_import_entry, parent, false);
-    return new ImportEntryHolder(view);
-  }
+@NonNull
+@Override
+public ImportEntryHolder onCreateViewHolder(final @NonNull ViewGroup parent,
+                                            final int viewType) {
+	View view = LayoutInflater.from(parent.getContext())
+	            .inflate(R.layout.card_import_entry, parent, false);
+	return new ImportEntryHolder(view);
+}
 
-  @Override
-  public void onBindViewHolder(final @NonNull ImportEntryHolder holder,
-                               final int position) {
-    ImportEntry entry = _entries.get(position);
-    entry.setOnCheckedChangedListener(holder);
-    holder.setData(entry);
-  }
+@Override
+public void onBindViewHolder(final @NonNull ImportEntryHolder holder,
+                             final int position) {
+	ImportEntry entry = _entries.get(position);
+	entry.setOnCheckedChangedListener(holder);
+	holder.setData(entry);
+}
 
-  @Override
-  public void onViewRecycled(final @NonNull ImportEntryHolder holder) {
-    holder.getEntry().setOnCheckedChangedListener(null);
-  }
+@Override
+public void onViewRecycled(final @NonNull ImportEntryHolder holder) {
+	holder.getEntry().setOnCheckedChangedListener(null);
+}
 
-  @Override
-  public int getItemCount() {
-    return _entries.size();
-  }
+@Override
+public int getItemCount() {
+	return _entries.size();
+}
 
-  public List<ImportEntry> getCheckedEntries() {
-    List<ImportEntry> entries = new ArrayList<>();
+public List<ImportEntry> getCheckedEntries() {
+	List<ImportEntry> entries = new ArrayList<>();
 
-    for (ImportEntry entry : _entries) {
-      if (entry.isChecked()) {
-        entries.add(entry);
-      }
-    }
+	for (ImportEntry entry : _entries) {
+		if (entry.isChecked()) {
+			entries.add(entry);
+		}
+	}
 
-    return entries;
-  }
+	return entries;
+}
 
-  public void toggleCheckboxes() {
-    int checkedEntries = getCheckedEntries().size();
-    if (checkedEntries == 0 || checkedEntries != _entries.size()) {
-      setCheckboxStates(true);
-    } else {
-      setCheckboxStates(false);
-    }
-  }
+public void toggleCheckboxes() {
+	int checkedEntries = getCheckedEntries().size();
+	if (checkedEntries == 0 || checkedEntries != _entries.size()) {
+		setCheckboxStates(true);
+	} else {
+		setCheckboxStates(false);
+	}
+}
 
-  private void setCheckboxStates(final boolean checked) {
-    for (ImportEntry entry : _entries) {
-      if (entry.isChecked() != checked) {
-        entry.setIsChecked(checked);
-      }
-    }
-  }
+private void setCheckboxStates(final boolean checked) {
+	for (ImportEntry entry : _entries) {
+		if (entry.isChecked() != checked) {
+			entry.setIsChecked(checked);
+		}
+	}
+}
 }
