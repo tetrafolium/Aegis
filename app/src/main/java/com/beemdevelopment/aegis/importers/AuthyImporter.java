@@ -109,21 +109,21 @@ throws DatabaseImporterEntryException {
 }
 
 private static void sanitizeEntryInfo(final AuthyEntryInfo info) {
-	String seperator = "";
+	String separator = "";
 
 	if (info.OriginalName.contains(":")) {
 		info.Issuer =
 			info.OriginalName.substring(0, info.OriginalName.indexOf(":"));
-		seperator = ":";
+		separator = ":";
 	} else if (info.Name.contains(" - ")) {
 		info.Issuer = info.Name.substring(0, info.Name.indexOf(" - "));
-		seperator = " - ";
+		separator = " - ";
 	} else {
 		info.Issuer = info.AccountType.substring(0, 1).toUpperCase() +
 		              info.AccountType.substring(1);
 	}
 
-	info.Name = info.Name.replace(info.Issuer + seperator, "");
+	info.Name = info.Name.replace(info.Issuer + separator, "");
 }
 }
 
