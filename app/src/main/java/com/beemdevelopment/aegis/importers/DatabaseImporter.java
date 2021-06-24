@@ -75,7 +75,7 @@ public abstract class DatabaseImporter {
         try {
             return type.getConstructor(Context.class).newInstance(context);
         } catch (IllegalAccessException | InstantiationException
-                | NoSuchMethodException | InvocationTargetException e) {
+                     | NoSuchMethodException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
     }

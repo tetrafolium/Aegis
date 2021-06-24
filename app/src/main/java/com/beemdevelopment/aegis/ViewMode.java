@@ -20,14 +20,14 @@ public enum ViewMode {
     @LayoutRes
     public int getLayoutId() {
         switch (this) {
-            case NORMAL:
-                return R.layout.card_entry;
-            case COMPACT:
-                return R.layout.card_entry_compact;
-            case SMALL:
-                return R.layout.card_entry_small;
-            default:
-                return R.layout.card_entry;
+        case NORMAL:
+            return R.layout.card_entry;
+        case COMPACT:
+            return R.layout.card_entry_compact;
+        case SMALL:
+            return R.layout.card_entry_small;
+        default:
+            return R.layout.card_entry;
         }
     }
 

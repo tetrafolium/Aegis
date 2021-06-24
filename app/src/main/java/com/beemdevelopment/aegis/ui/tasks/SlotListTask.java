@@ -52,13 +52,13 @@ public class SlotListTask<T extends Slot> extends ProgressDialogTask<SlotListTas
     }
 
     private Result decryptFingerprintSlot(FingerprintSlot slot, Cipher cipher)
-            throws SlotException, SlotIntegrityException {
+    throws SlotException, SlotIntegrityException {
         MasterKey key = slot.getKey(cipher);
         return new Result(key, slot);
     }
 
     private Result decryptPasswordSlot(PasswordSlot slot, char[] password)
-            throws SlotIntegrityException, SlotException {
+    throws SlotIntegrityException, SlotException {
         MasterKey masterKey;
         SecretKey key = slot.deriveKey(password);
         byte[] oldPasswordBytes = CryptoUtils.toBytesOld(password);
@@ -93,7 +93,7 @@ public class SlotListTask<T extends Slot> extends ProgressDialogTask<SlotListTas
     }
 
     private MasterKey decryptPasswordSlot(PasswordSlot slot, SecretKey key)
-            throws SlotException, SlotIntegrityException {
+    throws SlotException, SlotIntegrityException {
         Cipher cipher = slot.createDecryptCipher(key);
         return slot.getKey(cipher);
     }

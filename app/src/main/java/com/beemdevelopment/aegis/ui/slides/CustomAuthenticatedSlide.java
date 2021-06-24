@@ -91,38 +91,38 @@ public class CustomAuthenticatedSlide extends Fragment implements FingerprintUiH
         _cryptType = intent.getIntExtra("cryptType", CustomAuthenticationSlide.CRYPT_TYPE_INVALID);
 
         switch(_cryptType) {
-            case CustomAuthenticationSlide.CRYPT_TYPE_NONE:
-            case CustomAuthenticationSlide.CRYPT_TYPE_PASS:
-                break;
-            case CustomAuthenticationSlide.CRYPT_TYPE_FINGER:
-                _boxFingerprint.setVisibility(View.VISIBLE);
+        case CustomAuthenticationSlide.CRYPT_TYPE_NONE:
+        case CustomAuthenticationSlide.CRYPT_TYPE_PASS:
+            break;
+        case CustomAuthenticationSlide.CRYPT_TYPE_FINGER:
+            _boxFingerprint.setVisibility(View.VISIBLE);
 
-                SecretKey key;
-                try {
-                    if (_storeHandle == null) {
-                        _storeHandle = new KeyStoreHandle();
-                        _fingerSlot = new FingerprintSlot();
-                    }
-                    key = _storeHandle.generateKey(_fingerSlot.getUUID().toString());
-                } catch (KeyStoreHandleException e) {
-                    throw new RuntimeException(e);
+            SecretKey key;
+            try {
+                if (_storeHandle == null) {
+                    _storeHandle = new KeyStoreHandle();
+                    _fingerSlot = new FingerprintSlot();
                 }
+                key = _storeHandle.generateKey(_fingerSlot.getUUID().toString());
+            } catch (KeyStoreHandleException e) {
+                throw new RuntimeException(e);
+            }
 
-                if (_fingerHelper == null) {
-                    FingerprintManager fingerManager = (FingerprintManager) getContext().getSystemService(Context.FINGERPRINT_SERVICE);
-                    _fingerHelper = new FingerprintUiHelper(fingerManager, _imgFingerprint, _textFingerprint, this);
-                }
+            if (_fingerHelper == null) {
+                FingerprintManager fingerManager = (FingerprintManager) getContext().getSystemService(Context.FINGERPRINT_SERVICE);
+                _fingerHelper = new FingerprintUiHelper(fingerManager, _imgFingerprint, _textFingerprint, this);
+            }
 
-                try {
-                    Cipher cipher = Slot.createEncryptCipher(key);
-                    _fingerCryptoObj = new FingerprintManager.CryptoObject(cipher);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-                _fingerHelper.startListening(_fingerCryptoObj);
-                break;
-            default:
-                throw new RuntimeException();
+            try {
+                Cipher cipher = Slot.createEncryptCipher(key);
+                _fingerCryptoObj = new FingerprintManager.CryptoObject(cipher);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            _fingerHelper.startListening(_fingerCryptoObj);
+            break;
+        default:
+            throw new RuntimeException();
         }
     }
 
@@ -139,17 +139,17 @@ public class CustomAuthenticatedSlide extends Fragment implements FingerprintUiH
     @Override
     public boolean isPolicyRespected() {
         switch(_cryptType) {
-            case CustomAuthenticationSlide.CRYPT_TYPE_NONE:
-                return true;
-            case CustomAuthenticationSlide.CRYPT_TYPE_FINGER:
-                if (!_fingerAuthenticated) {
-                    return false;
-                }
-                // intentional fallthrough
-            case CustomAuthenticationSlide.CRYPT_TYPE_PASS:
-                return EditTextHelper.areEditTextsEqual(_textPassword, _textPasswordConfirm);
-            default:
-                throw new RuntimeException();
+        case CustomAuthenticationSlide.CRYPT_TYPE_NONE:
+            return true;
+        case CustomAuthenticationSlide.CRYPT_TYPE_FINGER:
+            if (!_fingerAuthenticated) {
+                return false;
+            }
+        // intentional fallthrough
+        case CustomAuthenticationSlide.CRYPT_TYPE_PASS:
+            return EditTextHelper.areEditTextsEqual(_textPassword, _textPasswordConfirm);
+        default:
+            throw new RuntimeException();
         }
     }
 

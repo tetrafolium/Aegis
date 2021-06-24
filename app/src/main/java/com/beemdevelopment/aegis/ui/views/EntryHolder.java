@@ -112,11 +112,11 @@ public class EntryHolder extends RecyclerView.ViewHolder {
     public void loadIcon(Fragment fragment) {
         if (_entry.hasIcon()) {
             Glide.with(fragment)
-                .asDrawable()
-                .load(_entry)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(false)
-                .into(_profileDrawable);
+            .asDrawable()
+            .load(_entry)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(false)
+            .into(_profileDrawable);
         } else {
             TextDrawable drawable = TextDrawableHelper.generate(_entry.getIssuer(), _entry.getName(), _profileDrawable);
             _profileDrawable.setImageDrawable(drawable);

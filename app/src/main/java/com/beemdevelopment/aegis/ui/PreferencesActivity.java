@@ -43,17 +43,17 @@ public class PreferencesActivity extends AegisActivity {
     @Override
     protected void setPreferredTheme(Theme theme) {
         switch (theme) {
-            case LIGHT:
-                setTheme(R.style.AppTheme);
-                break;
+        case LIGHT:
+            setTheme(R.style.AppTheme);
+            break;
 
-            case DARK:
-                setTheme(R.style.AppTheme_Dark);
-                break;
+        case DARK:
+            setTheme(R.style.AppTheme_Dark);
+            break;
 
-            case AMOLED:
-                setTheme(R.style.AppTheme_TrueBlack_Preferences);
-                break;
+        case AMOLED:
+            setTheme(R.style.AppTheme_TrueBlack_Preferences);
+            break;
         }
     }
 }

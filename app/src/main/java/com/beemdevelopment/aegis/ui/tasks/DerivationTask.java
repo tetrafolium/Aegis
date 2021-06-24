@@ -24,10 +24,10 @@ public class DerivationTask extends ProgressDialogTask<DerivationTask.Params, Se
         Params params = args[0];
         byte[] salt = CryptoUtils.generateSalt();
         SCryptParameters scryptParams = new SCryptParameters(
-                CryptoUtils.CRYPTO_SCRYPT_N,
-                CryptoUtils.CRYPTO_SCRYPT_r,
-                CryptoUtils.CRYPTO_SCRYPT_p,
-                salt
+            CryptoUtils.CRYPTO_SCRYPT_N,
+            CryptoUtils.CRYPTO_SCRYPT_r,
+            CryptoUtils.CRYPTO_SCRYPT_p,
+            salt
         );
         return params.getSlot().deriveKey(params.getPassword(), scryptParams);
     }

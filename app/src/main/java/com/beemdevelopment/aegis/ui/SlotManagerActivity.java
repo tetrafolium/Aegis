@@ -44,7 +44,7 @@ public class SlotManagerActivity extends AegisActivity implements SlotAdapter.Li
 
         findViewById(R.id.button_add_fingerprint).setOnClickListener(view -> {
             if (FingerprintHelper.isSupported() && FingerprintHelper.isAvailable(this)) {
-                Dialogs.showFingerprintDialog(this ,this);
+                Dialogs.showFingerprintDialog(this,this);
             }
         });
 
@@ -101,14 +101,14 @@ public class SlotManagerActivity extends AegisActivity implements SlotAdapter.Li
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-            case R.id.action_save:
-                onSave();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
+        case android.R.id.home:
+            onBackPressed();
+            break;
+        case R.id.action_save:
+            onSave();
+            break;
+        default:
+            return super.onOptionsItemSelected(item);
         }
 
         return true;
@@ -128,9 +128,9 @@ public class SlotManagerActivity extends AegisActivity implements SlotAdapter.Li
         }
 
         Dialogs.showDiscardDialog(this,
-                (dialog, which) -> onSave(),
-                (dialog, which) -> super.onBackPressed()
-        );
+                                  (dialog, which) -> onSave(),
+                                  (dialog, which) -> super.onBackPressed()
+                                 );
     }
 
     @Override
@@ -158,16 +158,16 @@ public class SlotManagerActivity extends AegisActivity implements SlotAdapter.Li
         }
 
         Dialogs.showSecureDialog(new AlertDialog.Builder(this)
-                .setTitle(R.string.remove_slot)
-                .setMessage(R.string.remove_slot_description)
-                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
-                    slots.remove(slot);
-                    _adapter.removeSlot(slot);
-                    _edited = true;
-                    updateFingerprintButton();
-                })
-                .setNegativeButton(android.R.string.no, null)
-                .create());
+                                 .setTitle(R.string.remove_slot)
+                                 .setMessage(R.string.remove_slot_description)
+        .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+            slots.remove(slot);
+            _adapter.removeSlot(slot);
+            _edited = true;
+            updateFingerprintButton();
+        })
+        .setNegativeButton(android.R.string.no, null)
+        .create());
     }
 
     @Override

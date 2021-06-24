@@ -108,14 +108,14 @@ public class GoogleAuthImporter extends DatabaseImporter {
 
                 OtpInfo info;
                 switch (entry.getType()) {
-                    case TYPE_TOTP:
-                        info = new TotpInfo(secret);
-                        break;
-                    case TYPE_HOTP:
-                        info = new HotpInfo(secret, entry.getCounter());
-                        break;
-                    default:
-                        throw new DatabaseImporterException("unsupported otp type: " + entry.getType());
+                case TYPE_TOTP:
+                    info = new TotpInfo(secret);
+                    break;
+                case TYPE_HOTP:
+                    info = new HotpInfo(secret, entry.getCounter());
+                    break;
+                default:
+                    throw new DatabaseImporterException("unsupported otp type: " + entry.getType());
                 }
 
                 String name = entry.getEmail();

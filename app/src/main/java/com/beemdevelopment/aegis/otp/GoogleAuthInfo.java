@@ -81,25 +81,25 @@ public class GoogleAuthInfo {
         try {
             String type = uri.getHost();
             switch (type) {
-                case "totp":
-                    TotpInfo totpInfo = new TotpInfo(secret);
-                    String period = uri.getQueryParameter("period");
-                    if (period != null) {
-                        totpInfo.setPeriod(Integer.parseInt(period));
-                    }
-                    info = totpInfo;
-                    break;
-                case "hotp":
-                    HotpInfo hotpInfo = new HotpInfo(secret);
-                    String counter = uri.getQueryParameter("counter");
-                    if (counter == null) {
-                        throw new GoogleAuthInfoException("'counter' was not set");
-                    }
-                    hotpInfo.setCounter(Long.parseLong(counter));
-                    info = hotpInfo;
-                    break;
-                default:
-                    throw new GoogleAuthInfoException(String.format("unsupported otp type: %s", type));
+            case "totp":
+                TotpInfo totpInfo = new TotpInfo(secret);
+                String period = uri.getQueryParameter("period");
+                if (period != null) {
+                    totpInfo.setPeriod(Integer.parseInt(period));
+                }
+                info = totpInfo;
+                break;
+            case "hotp":
+                HotpInfo hotpInfo = new HotpInfo(secret);
+                String counter = uri.getQueryParameter("counter");
+                if (counter == null) {
+                    throw new GoogleAuthInfoException("'counter' was not set");
+                }
+                hotpInfo.setCounter(Long.parseLong(counter));
+                info = hotpInfo;
+                break;
+            default:
+                throw new GoogleAuthInfoException(String.format("unsupported otp type: %s", type));
             }
         } catch (OtpInfoException e) {
             throw new GoogleAuthInfoException(e);

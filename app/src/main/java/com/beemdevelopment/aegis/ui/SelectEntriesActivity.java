@@ -73,11 +73,11 @@ public class SelectEntriesActivity extends AegisActivity {
 
     private void showErrorDialog(List<DatabaseImporterEntryException> errors) {
         Dialogs.showSecureDialog(new AlertDialog.Builder(this)
-                .setTitle(R.string.import_error_title)
-                .setMessage(getString(R.string.import_error_dialog, errors.size()))
-                .setPositiveButton(android.R.string.ok, null)
-                .setNeutralButton(getString(R.string.details), (dialog, which) -> showDetailedErrorDialog(errors))
-                .create());
+                                 .setTitle(R.string.import_error_title)
+                                 .setMessage(getString(R.string.import_error_dialog, errors.size()))
+                                 .setPositiveButton(android.R.string.ok, null)
+                                 .setNeutralButton(getString(R.string.details), (dialog, which) -> showDetailedErrorDialog(errors))
+                                 .create());
     }
 
     private void showDetailedErrorDialog(List<DatabaseImporterEntryException> errors) {
@@ -88,16 +88,16 @@ public class SelectEntriesActivity extends AegisActivity {
 
         String message = TextUtils.join("\n\n", messages);
         Dialogs.showSecureDialog(new AlertDialog.Builder(this)
-                .setTitle(R.string.import_error_title)
-                .setMessage(message)
-                .setPositiveButton(android.R.string.ok, null)
-                .setNeutralButton(android.R.string.copy, (dialog2, which2) -> {
-                    ClipboardManager clipboard = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("text/plain", message);
-                    clipboard.setPrimaryClip(clip);
-                    Toast.makeText(this, R.string.errors_copied, Toast.LENGTH_SHORT).show();
-                })
-                .create());
+                                 .setTitle(R.string.import_error_title)
+                                 .setMessage(message)
+                                 .setPositiveButton(android.R.string.ok, null)
+        .setNeutralButton(android.R.string.copy, (dialog2, which2) -> {
+            ClipboardManager clipboard = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("text/plain", message);
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(this, R.string.errors_copied, Toast.LENGTH_SHORT).show();
+        })
+        .create());
     }
 
     private void returnSelectedEntries() {
@@ -121,14 +121,14 @@ public class SelectEntriesActivity extends AegisActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-            case R.id.toggle_checkboxes:
-                _adapter.toggleCheckboxes();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
+        case android.R.id.home:
+            onBackPressed();
+            break;
+        case R.id.toggle_checkboxes:
+            _adapter.toggleCheckboxes();
+            break;
+        default:
+            return super.onOptionsItemSelected(item);
         }
 
         return true;

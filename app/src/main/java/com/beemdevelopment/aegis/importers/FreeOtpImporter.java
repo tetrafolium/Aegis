@@ -95,19 +95,19 @@ public class FreeOtpImporter extends DatabaseImporter {
 
                 OtpInfo info;
                 switch (type) {
-                    case "totp":
-                        int period = obj.getInt("period");
-                        if (issuer.equals("Steam")) {
-                            info = new SteamInfo(secret, algo, digits, period);
-                        } else {
-                            info = new TotpInfo(secret, algo, digits, period);
-                        }
-                        break;
-                    case "hotp":
-                        info = new HotpInfo(secret, algo, digits, obj.getLong("counter"));
-                        break;
-                    default:
-                        throw new DatabaseImporterException("unsupported otp type: " + type);
+                case "totp":
+                    int period = obj.getInt("period");
+                    if (issuer.equals("Steam")) {
+                        info = new SteamInfo(secret, algo, digits, period);
+                    } else {
+                        info = new TotpInfo(secret, algo, digits, period);
+                    }
+                    break;
+                case "hotp":
+                    info = new HotpInfo(secret, algo, digits, obj.getLong("counter"));
+                    break;
+                default:
+                    throw new DatabaseImporterException("unsupported otp type: " + type);
                 }
 
                 return new DatabaseEntry(info, name, issuer);
@@ -118,7 +118,7 @@ public class FreeOtpImporter extends DatabaseImporter {
     }
 
     private static List<JSONObject> parseXml(XmlPullParser parser)
-            throws IOException, XmlPullParserException, JSONException {
+    throws IOException, XmlPullParserException, JSONException {
         List<JSONObject> entries = new ArrayList<>();
 
         parser.require(XmlPullParser.START_TAG, null, "map");
@@ -150,7 +150,7 @@ public class FreeOtpImporter extends DatabaseImporter {
     }
 
     private static JSONObject parseXmlEntry(XmlPullParser parser)
-            throws IOException, XmlPullParserException, JSONException {
+    throws IOException, XmlPullParserException, JSONException {
         parser.require(XmlPullParser.START_TAG, null, "string");
         String name = parser.getAttributeValue(null, "name");
         String value = parseXmlText(parser);
@@ -181,12 +181,12 @@ public class FreeOtpImporter extends DatabaseImporter {
         int depth = 1;
         while (depth != 0) {
             switch (parser.next()) {
-                case XmlPullParser.END_TAG:
-                    depth--;
-                    break;
-                case XmlPullParser.START_TAG:
-                    depth++;
-                    break;
+            case XmlPullParser.END_TAG:
+                depth--;
+                break;
+            case XmlPullParser.START_TAG:
+                depth++;
+                break;
             }
         }
     }

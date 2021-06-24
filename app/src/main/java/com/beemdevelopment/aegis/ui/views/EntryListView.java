@@ -253,7 +253,7 @@ public class EntryListView extends Fragment implements EntryAdapter.Listener {
     public void runEntriesAnimation() {
         final Context context = _recyclerView.getContext();
         final LayoutAnimationController controller =
-                AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_fall_down);
+            AnimationUtils.loadLayoutAnimation(context, R.anim.layout_animation_fall_down);
 
         _recyclerView.setLayoutAnimation(controller);
         _recyclerView.scheduleLayoutAnimation();
@@ -333,10 +333,10 @@ public class EntryListView extends Fragment implements EntryAdapter.Listener {
         @Override
         public RequestBuilder getPreloadRequestBuilder(@NonNull DatabaseEntry entry) {
             return Glide.with(EntryListView.this)
-                        .asDrawable()
-                        .load(entry)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(false);
+                   .asDrawable()
+                   .load(entry)
+                   .diskCacheStrategy(DiskCacheStrategy.NONE)
+                   .skipMemoryCache(false);
         }
     }
 }

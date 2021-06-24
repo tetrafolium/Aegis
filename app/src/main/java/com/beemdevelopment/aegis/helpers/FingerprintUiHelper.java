@@ -61,7 +61,7 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
         // The line below prevents the false positive inspection from Android Studio
         // noinspection ResourceType
         return mFingerprintManager.isHardwareDetected()
-                && mFingerprintManager.hasEnrolledFingerprints();
+               && mFingerprintManager.hasEnrolledFingerprints();
     }
 
     public void startListening(FingerprintManager.CryptoObject cryptoObject) {
@@ -73,7 +73,7 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
         // The line below prevents the false positive inspection from Android Studio
         // noinspection ResourceType
         mFingerprintManager
-                .authenticate(cryptoObject, mCancellationSignal, 0 /* flags */, this, null);
+        .authenticate(cryptoObject, mCancellationSignal, 0 /* flags */, this, null);
         mIcon.setState(SwirlView.State.ON);
     }
 
@@ -106,7 +106,7 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
     @Override
     public void onAuthenticationFailed() {
         showError(mIcon.getResources().getString(
-                R.string.fingerprint_not_recognized));
+                      R.string.fingerprint_not_recognized));
     }
 
     @Override
@@ -114,7 +114,7 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
         mErrorTextView.removeCallbacks(mResetErrorTextRunnable);
         mIcon.setState(SwirlView.State.OFF);
         mErrorTextView.setText(
-                mErrorTextView.getResources().getString(R.string.fingerprint_success));
+            mErrorTextView.getResources().getString(R.string.fingerprint_success));
         mIcon.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -142,7 +142,7 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
         @Override
         public void run() {
             mErrorTextView.setText(
-                    mErrorTextView.getResources().getString(R.string.fingerprint_hint));
+                mErrorTextView.getResources().getString(R.string.fingerprint_hint));
             mIcon.setState(SwirlView.State.ON);
         }
     };

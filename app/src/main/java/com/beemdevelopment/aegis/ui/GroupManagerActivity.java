@@ -49,24 +49,24 @@ public class GroupManagerActivity extends AegisActivity implements GroupAdapter.
     @Override
     public void onRemoveGroup(String group) {
         Dialogs.showSecureDialog(new AlertDialog.Builder(this)
-                .setTitle(R.string.remove_group)
-                .setMessage(R.string.remove_group_description)
-                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
-                    _groups.remove(group);
-                    _adapter.removeGroup(group);
-                })
-                .setNegativeButton(android.R.string.no, null)
-                .create());
+                                 .setTitle(R.string.remove_group)
+                                 .setMessage(R.string.remove_group_description)
+        .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+            _groups.remove(group);
+            _adapter.removeGroup(group);
+        })
+        .setNegativeButton(android.R.string.no, null)
+        .create());
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
+        case android.R.id.home:
+            onBackPressed();
+            break;
+        default:
+            return super.onOptionsItemSelected(item);
         }
 
         return true;

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class PreferenceParser {
     private PreferenceParser() {
-        
+
     }
 
     public static List<XmlEntry> parse(XmlPullParser parser) throws IOException, XmlPullParserException {
@@ -62,12 +62,12 @@ public class PreferenceParser {
         int depth = 1;
         while (depth != 0) {
             switch (parser.next()) {
-                case XmlPullParser.END_TAG:
-                    depth--;
-                    break;
-                case XmlPullParser.START_TAG:
-                    depth++;
-                    break;
+            case XmlPullParser.END_TAG:
+                depth--;
+                break;
+            case XmlPullParser.START_TAG:
+                depth++;
+                break;
             }
         }
     }

@@ -31,11 +31,11 @@ public class MasterKey implements Serializable {
             Cipher cipher = CryptoUtils.createEncryptCipher(_key);
             return CryptoUtils.encrypt(bytes, cipher);
         } catch (NoSuchPaddingException
-                | NoSuchAlgorithmException
-                | InvalidAlgorithmParameterException
-                | InvalidKeyException
-                | BadPaddingException
-                | IllegalBlockSizeException e) {
+                     | NoSuchAlgorithmException
+                     | InvalidAlgorithmParameterException
+                     | InvalidKeyException
+                     | BadPaddingException
+                     | IllegalBlockSizeException e) {
             throw new MasterKeyException(e);
         }
     }
@@ -45,12 +45,12 @@ public class MasterKey implements Serializable {
             Cipher cipher = CryptoUtils.createDecryptCipher(_key, params.getNonce());
             return CryptoUtils.decrypt(bytes, cipher, params);
         } catch (NoSuchPaddingException
-                | NoSuchAlgorithmException
-                | InvalidAlgorithmParameterException
-                | InvalidKeyException
-                | BadPaddingException
-                | IOException
-                | IllegalBlockSizeException e) {
+                     | NoSuchAlgorithmException
+                     | InvalidAlgorithmParameterException
+                     | InvalidKeyException
+                     | BadPaddingException
+                     | IOException
+                     | IllegalBlockSizeException e) {
             throw new MasterKeyException(e);
         }
     }

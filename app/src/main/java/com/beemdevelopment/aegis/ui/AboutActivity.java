@@ -118,11 +118,11 @@ public class AboutActivity extends AegisActivity {
 
         LicenseResolver.registerLicense(new GlideLicense());
         new LicensesDialog.Builder(this)
-                .setNotices(R.raw.notices)
-                .setTitle(R.string.licenses)
-                .setNoticesCssStyle(stylesheet)
-                .setIncludeOwnLicense(true)
-                .build()
-                .show();
+        .setNotices(R.raw.notices)
+        .setTitle(R.string.licenses)
+        .setNoticesCssStyle(stylesheet)
+        .setIncludeOwnLicense(true)
+        .build()
+        .show();
     }
 }

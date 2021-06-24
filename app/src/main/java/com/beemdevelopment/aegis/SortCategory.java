@@ -28,18 +28,18 @@ public enum SortCategory {
         Comparator<DatabaseEntry> comparator = null;
 
         switch (this) {
-            case ACCOUNT:
-                comparator = new AccountNameComparator();
-                break;
-            case ACCOUNT_REVERSED:
-                comparator = Collections.reverseOrder(new AccountNameComparator());
-                break;
-            case ISSUER:
-                comparator = new IssuerNameComparator();
-                break;
-            case ISSUER_REVERSED:
-                comparator = Collections.reverseOrder(new IssuerNameComparator());
-                break;
+        case ACCOUNT:
+            comparator = new AccountNameComparator();
+            break;
+        case ACCOUNT_REVERSED:
+            comparator = Collections.reverseOrder(new AccountNameComparator());
+            break;
+        case ISSUER:
+            comparator = new IssuerNameComparator();
+            break;
+        case ISSUER_REVERSED:
+            comparator = Collections.reverseOrder(new IssuerNameComparator());
+            break;
         }
 
         return comparator;
@@ -47,18 +47,18 @@ public enum SortCategory {
 
     public int getMenuItem() {
         switch (this) {
-            case CUSTOM:
-                return R.id.menu_sort_custom;
-            case ACCOUNT:
-                return R.id.menu_sort_alphabetically_name;
-            case ACCOUNT_REVERSED:
-                return R.id.menu_sort_alphabetically_name_reverse;
-            case ISSUER:
-                return R.id.menu_sort_alphabetically;
-            case ISSUER_REVERSED:
-                return R.id.menu_sort_alphabetically_reverse;
-            default:
-                return R.id.menu_sort_custom;
+        case CUSTOM:
+            return R.id.menu_sort_custom;
+        case ACCOUNT:
+            return R.id.menu_sort_alphabetically_name;
+        case ACCOUNT_REVERSED:
+            return R.id.menu_sort_alphabetically_name_reverse;
+        case ISSUER:
+            return R.id.menu_sort_alphabetically;
+        case ISSUER_REVERSED:
+            return R.id.menu_sort_alphabetically_reverse;
+        default:
+            return R.id.menu_sort_custom;
         }
     }
 }

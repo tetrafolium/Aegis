@@ -52,13 +52,13 @@ public class KeyStoreHandle {
         try {
             KeyGenerator generator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, STORE_NAME);
             generator.init(new KeyGenParameterSpec.Builder(id,
-                    KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
-                    .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-                    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-                    .setUserAuthenticationRequired(true)
-                    .setRandomizedEncryptionRequired(true)
-                    .setKeySize(CryptoUtils.CRYPTO_AEAD_KEY_SIZE * 8)
-                    .build());
+                           KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
+                           .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+                           .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+                           .setUserAuthenticationRequired(true)
+                           .setRandomizedEncryptionRequired(true)
+                           .setKeySize(CryptoUtils.CRYPTO_AEAD_KEY_SIZE * 8)
+                           .build());
 
             return generator.generateKey();
         } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidAlgorithmParameterException e) {

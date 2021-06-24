@@ -47,20 +47,20 @@ public class CryptoUtils {
     }
 
     public static Cipher createEncryptCipher(SecretKey key)
-            throws NoSuchPaddingException, NoSuchAlgorithmException,
-            InvalidAlgorithmParameterException, InvalidKeyException {
+    throws NoSuchPaddingException, NoSuchAlgorithmException,
+        InvalidAlgorithmParameterException, InvalidKeyException {
         return createCipher(key, Cipher.ENCRYPT_MODE, null);
     }
 
     public static Cipher createDecryptCipher(SecretKey key, byte[] nonce)
-            throws InvalidAlgorithmParameterException, NoSuchAlgorithmException,
-            InvalidKeyException, NoSuchPaddingException {
+    throws InvalidAlgorithmParameterException, NoSuchAlgorithmException,
+        InvalidKeyException, NoSuchPaddingException {
         return createCipher(key, Cipher.DECRYPT_MODE, nonce);
     }
 
     private static Cipher createCipher(SecretKey key, int opmode, byte[] nonce)
-            throws NoSuchPaddingException, NoSuchAlgorithmException,
-            InvalidAlgorithmParameterException, InvalidKeyException {
+    throws NoSuchPaddingException, NoSuchAlgorithmException,
+        InvalidAlgorithmParameterException, InvalidKeyException {
         Cipher cipher = Cipher.getInstance(CRYPTO_AEAD);
 
         // generate the nonce if none is given
@@ -82,7 +82,7 @@ public class CryptoUtils {
     }
 
     public static CryptResult encrypt(byte[] data, Cipher cipher)
-            throws BadPaddingException, IllegalBlockSizeException {
+    throws BadPaddingException, IllegalBlockSizeException {
         // split off the tag to store it separately
         byte[] result = cipher.doFinal(data);
         byte[] tag = Arrays.copyOfRange(result, result.length - CRYPTO_AEAD_TAG_SIZE, result.length);
@@ -92,12 +92,12 @@ public class CryptoUtils {
     }
 
     public static CryptResult decrypt(byte[] encrypted, Cipher cipher, CryptParameters params)
-            throws IOException, BadPaddingException, IllegalBlockSizeException {
+    throws IOException, BadPaddingException, IllegalBlockSizeException {
         return decrypt(encrypted, 0, encrypted.length, cipher, params);
     }
 
     public static CryptResult decrypt(byte[] encrypted, int encryptedOffset, int encryptedLen, Cipher cipher, CryptParameters params)
-            throws IOException, BadPaddingException, IllegalBlockSizeException {
+    throws IOException, BadPaddingException, IllegalBlockSizeException {
         // append the tag to the ciphertext
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         stream.write(encrypted, encryptedOffset, encryptedLen);

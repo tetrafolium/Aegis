@@ -79,9 +79,9 @@ public abstract class Slot extends UUIDMap.Value {
         try {
             return CryptoUtils.createEncryptCipher(key);
         } catch (InvalidAlgorithmParameterException
-                | NoSuchPaddingException
-                | NoSuchAlgorithmException
-                | InvalidKeyException e) {
+                     | NoSuchPaddingException
+                     | NoSuchAlgorithmException
+                     | InvalidKeyException e) {
             throw new SlotException(e);
         }
     }
@@ -90,9 +90,9 @@ public abstract class Slot extends UUIDMap.Value {
         try {
             return CryptoUtils.createDecryptCipher(key, _encryptedMasterKeyParams.getNonce());
         } catch (InvalidAlgorithmParameterException
-                | NoSuchAlgorithmException
-                | InvalidKeyException
-                | NoSuchPaddingException e) {
+                     | NoSuchAlgorithmException
+                     | InvalidKeyException
+                     | NoSuchPaddingException e) {
             throw new SlotException(e);
         }
     }
@@ -125,24 +125,24 @@ public abstract class Slot extends UUIDMap.Value {
             CryptParameters keyParams = CryptParameters.fromJson(obj.getJSONObject("key_params"));
 
             switch (obj.getInt("type")) {
-                case Slot.TYPE_RAW:
-                    slot = new RawSlot(uuid, key, keyParams);
-                    break;
-                case Slot.TYPE_DERIVED:
-                    SCryptParameters scryptParams = new SCryptParameters(
-                        obj.getInt("n"),
-                        obj.getInt("r"),
-                        obj.getInt("p"),
-                        Hex.decode(obj.getString("salt"))
-                    );
-                    boolean repaired = obj.optBoolean("repaired", false);
-                    slot = new PasswordSlot(uuid, key, keyParams, scryptParams, repaired);
-                    break;
-                case Slot.TYPE_FINGERPRINT:
-                    slot = new FingerprintSlot(uuid, key, keyParams);
-                    break;
-                default:
-                    throw new SlotException("unrecognized slot type");
+            case Slot.TYPE_RAW:
+                slot = new RawSlot(uuid, key, keyParams);
+                break;
+            case Slot.TYPE_DERIVED:
+                SCryptParameters scryptParams = new SCryptParameters(
+                    obj.getInt("n"),
+                    obj.getInt("r"),
+                    obj.getInt("p"),
+                    Hex.decode(obj.getString("salt"))
+                );
+                boolean repaired = obj.optBoolean("repaired", false);
+                slot = new PasswordSlot(uuid, key, keyParams, scryptParams, repaired);
+                break;
+            case Slot.TYPE_FINGERPRINT:
+                slot = new FingerprintSlot(uuid, key, keyParams);
+                break;
+            default:
+                throw new SlotException("unrecognized slot type");
             }
         } catch (JSONException | HexException e) {
             throw new SlotException(e);

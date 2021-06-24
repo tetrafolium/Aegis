@@ -135,37 +135,37 @@ public class AndOtpImporter extends DatabaseImporter {
             } catch (IOException | BadPaddingException | JSONException e) {
                 throw new DatabaseImporterException(e);
             } catch (NoSuchAlgorithmException
-                    | InvalidAlgorithmParameterException
-                    | InvalidKeyException
-                    | InvalidKeySpecException
-                    | NoSuchPaddingException
-                    | IllegalBlockSizeException e) {
+                         | InvalidAlgorithmParameterException
+                         | InvalidKeyException
+                         | InvalidKeySpecException
+                         | NoSuchPaddingException
+                         | IllegalBlockSizeException e) {
                 throw new RuntimeException(e);
             }
         }
 
         @Override
         public void decrypt(Context context, DecryptListener listener) {
-            String[] choices = new String[]{
-                    context.getResources().getString(R.string.andotp_new_format),
-                    context.getResources().getString(R.string.andotp_old_format)
+            String[] choices = new String[] {
+                context.getResources().getString(R.string.andotp_new_format),
+                context.getResources().getString(R.string.andotp_old_format)
             };
 
             Dialogs.showSecureDialog(new AlertDialog.Builder(context)
-                    .setTitle(R.string.choose_andotp_importer)
-                    .setSingleChoiceItems(choices, 0, null)
-                    .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                        int i = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-                        Dialogs.showPasswordInputDialog(context, password -> {
-                            try {
-                                DecryptedState state = decrypt(password, i != 0);
-                                listener.onStateDecrypted(state);
-                            } catch (DatabaseImporterException e) {
-                                listener.onError(e);
-                            }
-                        });
-                    })
-                    .create());
+                                     .setTitle(R.string.choose_andotp_importer)
+                                     .setSingleChoiceItems(choices, 0, null)
+            .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                int i = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                Dialogs.showPasswordInputDialog(context, password -> {
+                    try {
+                        DecryptedState state = decrypt(password, i != 0);
+                        listener.onStateDecrypted(state);
+                    } catch (DatabaseImporterException e) {
+                        listener.onError(e);
+                    }
+                });
+            })
+            .create());
         }
     }
 
@@ -205,17 +205,17 @@ public class AndOtpImporter extends DatabaseImporter {
 
                 OtpInfo info;
                 switch (type) {
-                    case "hotp":
-                        info = new HotpInfo(secret, algo, digits, obj.getLong("counter"));
-                        break;
-                    case "totp":
-                        info = new TotpInfo(secret, algo, digits, obj.getInt("period"));
-                        break;
-                    case "steam":
-                        info = new SteamInfo(secret, algo, digits, obj.optInt("period", 30));
-                        break;
-                    default:
-                        throw new DatabaseImporterException("unsupported otp type: " + type);
+                case "hotp":
+                    info = new HotpInfo(secret, algo, digits, obj.getLong("counter"));
+                    break;
+                case "totp":
+                    info = new TotpInfo(secret, algo, digits, obj.getInt("period"));
+                    break;
+                case "steam":
+                    info = new SteamInfo(secret, algo, digits, obj.optInt("period", 30));
+                    break;
+                default:
+                    throw new DatabaseImporterException("unsupported otp type: " + type);
                 }
 
                 String name;

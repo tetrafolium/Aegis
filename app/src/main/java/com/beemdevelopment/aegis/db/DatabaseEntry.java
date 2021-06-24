@@ -144,10 +144,10 @@ public class DatabaseEntry extends UUIDMap.Value {
      */
     public boolean equivalates(DatabaseEntry entry) {
         return getName().equals(entry.getName())
-                && getIssuer().equals(entry.getIssuer())
-                && Objects.equals(getGroup(), entry.getGroup())
-                && getInfo().equals(entry.getInfo())
-                && Arrays.equals(getIcon(), entry.getIcon());
+               && getIssuer().equals(entry.getIssuer())
+               && Objects.equals(getGroup(), entry.getGroup())
+               && getInfo().equals(entry.getInfo())
+               && Arrays.equals(getIcon(), entry.getIcon());
     }
 
     /**

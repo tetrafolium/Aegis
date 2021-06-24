@@ -103,7 +103,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryHolder> implements I
             }
         }
 
-        if (!added){
+        if (!added) {
             _shownEntries.add(entry);
 
             int position = getItemCount() - 1;

@@ -106,18 +106,18 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
                 int currentTheme = app.getPreferences().getCurrentTheme().ordinal();
 
                 Dialogs.showSecureDialog(new AlertDialog.Builder(getActivity())
-                        .setTitle(R.string.choose_theme)
-                        .setSingleChoiceItems(R.array.theme_titles, currentTheme, (dialog, which) -> {
-                            int i = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-                            app.getPreferences().setCurrentTheme(Theme.fromInteger(i));
+                                         .setTitle(R.string.choose_theme)
+                .setSingleChoiceItems(R.array.theme_titles, currentTheme, (dialog, which) -> {
+                    int i = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                    app.getPreferences().setCurrentTheme(Theme.fromInteger(i));
 
-                            dialog.dismiss();
+                    dialog.dismiss();
 
-                            _result.putExtra("needsRecreate", true);
-                            getActivity().recreate();
-                        })
-                        .setPositiveButton(android.R.string.ok, null)
-                        .create());
+                    _result.putExtra("needsRecreate", true);
+                    getActivity().recreate();
+                })
+                .setPositiveButton(android.R.string.ok, null)
+                .create());
 
                 return true;
             }
@@ -139,16 +139,16 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
                 int currentViewMode = app.getPreferences().getCurrentViewMode().ordinal();
 
                 Dialogs.showSecureDialog(new AlertDialog.Builder(getActivity())
-                        .setTitle(R.string.choose_view_mode)
-                        .setSingleChoiceItems(R.array.view_mode_titles, currentViewMode, (dialog, which) -> {
-                            int i = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-                            app.getPreferences().setCurrentViewMode(ViewMode.fromInteger(i));
-                            viewModePreference.setSummary(String.format("%s: %s", getString(R.string.selected), getResources().getStringArray(R.array.view_mode_titles)[i]));
-                            _result.putExtra("needsRefresh", true);
-                            dialog.dismiss();
-                        })
-                        .setPositiveButton(android.R.string.ok, null)
-                        .create());
+                                         .setTitle(R.string.choose_view_mode)
+                .setSingleChoiceItems(R.array.view_mode_titles, currentViewMode, (dialog, which) -> {
+                    int i = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                    app.getPreferences().setCurrentViewMode(ViewMode.fromInteger(i));
+                    viewModePreference.setSummary(String.format("%s: %s", getString(R.string.selected), getResources().getStringArray(R.array.view_mode_titles)[i]));
+                    _result.putExtra("needsRefresh", true);
+                    dialog.dismiss();
+                })
+                .setPositiveButton(android.R.string.ok, null)
+                .create());
 
                 return true;
             }
@@ -259,31 +259,31 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
                     Dialogs.showSetPasswordDialog(getActivity(), new EnableEncryptionListener());
                 } else {
                     Dialogs.showSecureDialog(new AlertDialog.Builder(getActivity())
-                            .setTitle(R.string.disable_encryption)
-                            .setMessage(getString(R.string.disable_encryption_description))
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    try {
-                                        _db.disableEncryption();
-                                    } catch (DatabaseManagerException e) {
-                                        Toast.makeText(getActivity(), R.string.disable_encryption_error, Toast.LENGTH_SHORT).show();
-                                        return;
-                                    }
+                                             .setTitle(R.string.disable_encryption)
+                                             .setMessage(getString(R.string.disable_encryption_description))
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            try {
+                                _db.disableEncryption();
+                            } catch (DatabaseManagerException e) {
+                                Toast.makeText(getActivity(), R.string.disable_encryption_error, Toast.LENGTH_SHORT).show();
+                                return;
+                            }
 
-                                    // clear the KeyStore
-                                    try {
-                                        KeyStoreHandle handle = new KeyStoreHandle();
-                                        handle.clear();
-                                    } catch (KeyStoreHandleException e) {
-                                        e.printStackTrace();
-                                    }
+                            // clear the KeyStore
+                            try {
+                                KeyStoreHandle handle = new KeyStoreHandle();
+                                handle.clear();
+                            } catch (KeyStoreHandleException e) {
+                                e.printStackTrace();
+                            }
 
-                                    getActivity().stopService(new Intent(getActivity(), NotificationService.class));
-                                    updateEncryptionPreferences();
-                                }
-                            })
-                            .setNegativeButton(android.R.string.no, null)
-                            .create());
+                            getActivity().stopService(new Intent(getActivity(), NotificationService.class));
+                            updateEncryptionPreferences();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .create());
                 }
                 return false;
             }
@@ -367,12 +367,12 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         }
 
         switch (requestCode) {
-            case CODE_PERM_IMPORT:
-                onImport();
-                break;
-            case CODE_PERM_EXPORT:
-                onExport();
-                break;
+        case CODE_PERM_IMPORT:
+            onImport();
+            break;
+        case CODE_PERM_EXPORT:
+            onExport();
+            break;
         }
     }
 
@@ -383,21 +383,21 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         }
 
         switch (requestCode) {
-            case CODE_IMPORT:
-                onImportResult(resultCode, data);
-                break;
-            case CODE_IMPORT_DECRYPT:
-                onImportDecryptResult(resultCode, data);
-                break;
-            case CODE_SLOTS:
-                onSlotManagerResult(resultCode, data);
-                break;
-            case CODE_GROUPS:
-                onGroupManagerResult(resultCode, data);
-                break;
-            case CODE_SELECT_ENTRIES:
-                onSelectEntriesResult(resultCode, data);
-                break;
+        case CODE_IMPORT:
+            onImportResult(resultCode, data);
+            break;
+        case CODE_IMPORT_DECRYPT:
+            onImportDecryptResult(resultCode, data);
+            break;
+        case CODE_SLOTS:
+            onSlotManagerResult(resultCode, data);
+            break;
+        case CODE_GROUPS:
+            onGroupManagerResult(resultCode, data);
+            break;
+        case CODE_SELECT_ENTRIES:
+            onSelectEntriesResult(resultCode, data);
+            break;
         }
     }
 
@@ -419,19 +419,19 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         String[] names = importers.keySet().toArray(new String[0]);
 
         Dialogs.showSecureDialog(new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.choose_application)
-                .setSingleChoiceItems(names, 0, null)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        int i = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-                        _importerType = importers.get(names[i]);
+                                 .setTitle(R.string.choose_application)
+                                 .setSingleChoiceItems(names, 0, null)
+        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                int i = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                _importerType = importers.get(names[i]);
 
-                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                        intent.setType("*/*");
-                        startActivityForResult(intent, CODE_IMPORT);
-                    }
-                })
-                .create());
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("*/*");
+                startActivityForResult(intent, CODE_IMPORT);
+            }
+        })
+        .create());
     }
 
     private void onImportApp() {
@@ -439,15 +439,15 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         String[] names = importers.keySet().toArray(new String[0]);
 
         Dialogs.showSecureDialog(new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.choose_application)
-                .setSingleChoiceItems(names, 0, null)
-                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                    int i = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-                    Class<? extends DatabaseImporter> importerType = Objects.requireNonNull(importers.get(names[i]));
-                    DatabaseImporter importer = DatabaseImporter.create(getContext(), importerType);
-                    importApp(importer);
-                })
-                .create());
+                                 .setTitle(R.string.choose_application)
+                                 .setSingleChoiceItems(names, 0, null)
+        .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+            int i = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+            Class<? extends DatabaseImporter> importerType = Objects.requireNonNull(importers.get(names[i]));
+            DatabaseImporter importer = DatabaseImporter.create(getContext(), importerType);
+            importApp(importer);
+        })
+        .create());
     }
 
     private void importApp(DatabaseImporter importer) {
@@ -577,22 +577,22 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         // TODO: create a custom layout to show a message AND a checkbox
         final AtomicReference<Boolean> checked = new AtomicReference<>(true);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setTitle("Export the database")
-                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                    String filename;
-                    try {
-                        filename = _db.export(checked.get());
-                    } catch (DatabaseManagerException e) {
-                        Toast.makeText(getActivity(), R.string.exporting_database_error, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+        .setTitle("Export the database")
+        .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+            String filename;
+            try {
+                filename = _db.export(checked.get());
+            } catch (DatabaseManagerException e) {
+                Toast.makeText(getActivity(), R.string.exporting_database_error, Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                    // make sure the new file is visible
-                    MediaScannerConnection.scanFile(getActivity(), new String[]{filename}, null, null);
+            // make sure the new file is visible
+            MediaScannerConnection.scanFile(getActivity(), new String[]{filename}, null, null);
 
-                    Toast.makeText(getActivity(), getString(R.string.export_database_location) + filename, Toast.LENGTH_SHORT).show();
-                })
-                .setNegativeButton(android.R.string.cancel, null);
+            Toast.makeText(getActivity(), getString(R.string.export_database_location) + filename, Toast.LENGTH_SHORT).show();
+        })
+        .setNegativeButton(android.R.string.cancel, null);
         if (_db.isEncryptionEnabled()) {
             final String[] items = {"Keep the database encrypted"};
             final boolean[] checkedItems = {true};

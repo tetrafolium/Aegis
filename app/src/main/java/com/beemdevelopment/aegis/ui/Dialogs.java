@@ -58,20 +58,20 @@ public class Dialogs {
 
     public static void showDeleteEntryDialog(Activity activity, DialogInterface.OnClickListener onDelete) {
         showSecureDialog(new AlertDialog.Builder(activity)
-                .setTitle(activity.getString(R.string.delete_entry))
-                .setMessage(activity.getString(R.string.delete_entry_description))
-                .setPositiveButton(android.R.string.yes, onDelete)
-                .setNegativeButton(android.R.string.no, null)
-                .create());
+                         .setTitle(activity.getString(R.string.delete_entry))
+                         .setMessage(activity.getString(R.string.delete_entry_description))
+                         .setPositiveButton(android.R.string.yes, onDelete)
+                         .setNegativeButton(android.R.string.no, null)
+                         .create());
     }
 
     public static void showDiscardDialog(Activity activity, DialogInterface.OnClickListener onSave, DialogInterface.OnClickListener onDiscard) {
         showSecureDialog(new AlertDialog.Builder(activity)
-                .setTitle(activity.getString(R.string.discard_changes))
-                .setMessage(activity.getString(R.string.discard_changes_description))
-                .setPositiveButton(R.string.save, onSave)
-                .setNegativeButton(R.string.discard, onDiscard)
-                .create());
+                         .setTitle(activity.getString(R.string.discard_changes))
+                         .setMessage(activity.getString(R.string.discard_changes_description))
+                         .setPositiveButton(R.string.save, onSave)
+                         .setNegativeButton(R.string.discard, onDiscard)
+                         .create());
     }
 
     public static void showSetPasswordDialog(Activity activity, Dialogs.SlotListener listener) {
@@ -80,11 +80,11 @@ public class Dialogs {
         EditText textPasswordConfirm = view.findViewById(R.id.text_password_confirm);
 
         AlertDialog dialog = new AlertDialog.Builder(activity)
-                .setTitle(R.string.set_password)
-                .setView(view)
-                .setPositiveButton(android.R.string.ok, null)
-                .setNegativeButton(android.R.string.cancel, null)
-                .create();
+        .setTitle(R.string.set_password)
+        .setView(view)
+        .setPositiveButton(android.R.string.ok, null)
+        .setNegativeButton(android.R.string.cancel, null)
+        .create();
 
         final AtomicReference<Button> buttonOK = new AtomicReference<>();
         dialog.setOnShowListener(d -> {
@@ -143,13 +143,13 @@ public class Dialogs {
         input.setHint(hintId);
 
         AlertDialog dialog = new AlertDialog.Builder(context)
-                .setTitle(titleId)
-                .setView(view)
-                .setPositiveButton(android.R.string.ok, (dialog1, which) -> {
-                        char[] text = EditTextHelper.getEditTextChars(input);
-                        listener.onTextInputResult(text);
-                })
-                .create();
+        .setTitle(titleId)
+        .setView(view)
+        .setPositiveButton(android.R.string.ok, (dialog1, which) -> {
+            char[] text = EditTextHelper.getEditTextChars(input);
+            listener.onTextInputResult(text);
+        })
+        .create();
 
         showSecureDialog(dialog);
     }
@@ -171,11 +171,11 @@ public class Dialogs {
         numberPicker.setWrapSelectorWheel(true);
 
         AlertDialog dialog = new AlertDialog.Builder(activity)
-                .setTitle(R.string.set_number)
-                .setView(view)
-                .setPositiveButton(android.R.string.ok, (dialog1, which) ->
-                        listener.onNumberInputResult(numberPicker.getValue()))
-                .create();
+        .setTitle(R.string.set_number)
+        .setView(view)
+        .setPositiveButton(android.R.string.ok, (dialog1, which) ->
+                           listener.onNumberInputResult(numberPicker.getValue()))
+        .create();
 
         showSecureDialog(dialog);
     }
@@ -201,13 +201,13 @@ public class Dialogs {
         }
 
         AlertDialog dialog = new AlertDialog.Builder(activity)
-                .setTitle(R.string.register_fingerprint)
-                .setView(view)
-                .setNegativeButton(android.R.string.cancel, null)
-                .setOnDismissListener(d -> {
-                    helper.get().stopListening();
-                })
-                .create();
+        .setTitle(R.string.register_fingerprint)
+        .setView(view)
+        .setNegativeButton(android.R.string.cancel, null)
+        .setOnDismissListener(d -> {
+            helper.get().stopListening();
+        })
+        .create();
 
         helper.set(new FingerprintUiHelper(manager, imgFingerprint, textFingerprint, new FingerprintUiHelper.Callback() {
             @Override

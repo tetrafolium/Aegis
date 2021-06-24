@@ -43,16 +43,16 @@ public class ChangelogDialog extends DialogFragment {
         } catch (InflateException e) {
             e.printStackTrace();
             return new AlertDialog.Builder(getActivity())
-                    .setTitle(android.R.string.dialog_alert_title)
-                    .setMessage(getString(R.string.webview_error))
-                    .setPositiveButton(android.R.string.ok, null)
-                    .show();
+                   .setTitle(android.R.string.dialog_alert_title)
+                   .setMessage(getString(R.string.webview_error))
+                   .setPositiveButton(android.R.string.ok, null)
+                   .show();
         }
         AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                .setTitle("Changelog")
-                .setView(customView)
-                .setPositiveButton(android.R.string.ok, null)
-                .show();
+        .setTitle("Changelog")
+        .setView(customView)
+        .setPositiveButton(android.R.string.ok, null)
+        .show();
 
         final WebView webView = customView.findViewById(R.id.web_view);
         StringBuilder buf = new StringBuilder();

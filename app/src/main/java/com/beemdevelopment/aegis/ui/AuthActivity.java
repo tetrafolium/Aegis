@@ -129,11 +129,11 @@ public class AuthActivity extends AegisActivity implements FingerprintUiHelper.C
 
     private void showError() {
         Dialogs.showSecureDialog(new AlertDialog.Builder(this)
-                .setTitle(getString(R.string.unlock_vault_error))
-                .setMessage(getString(R.string.unlock_vault_error_description))
-                .setCancelable(false)
-                .setPositiveButton(android.R.string.ok, (dialog, which) -> selectPassword())
-                .create());
+                                 .setTitle(getString(R.string.unlock_vault_error))
+                                 .setMessage(getString(R.string.unlock_vault_error_description))
+                                 .setCancelable(false)
+                                 .setPositiveButton(android.R.string.ok, (dialog, which) -> selectPassword())
+                                 .create());
     }
 
     private <T extends Slot> void trySlots(Class<T> type, Object obj) {
@@ -151,13 +151,13 @@ public class AuthActivity extends AegisActivity implements FingerprintUiHelper.C
     @Override
     public void onBackPressed() {
         switch (_cancelAction) {
-            case KILL:
-                finishAffinity();
+        case KILL:
+            finishAffinity();
 
-            case CLOSE:
-                Intent intent = new Intent();
-                setResult(RESULT_CANCELED, intent);
-                finish();
+        case CLOSE:
+            Intent intent = new Intent();
+            setResult(RESULT_CANCELED, intent);
+            finish();
         }
     }
 

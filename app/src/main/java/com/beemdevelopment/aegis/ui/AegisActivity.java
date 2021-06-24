@@ -93,15 +93,15 @@ public abstract class AegisActivity extends AppCompatActivity implements AegisAp
         _currentTheme = theme;
 
         switch (theme) {
-            case LIGHT:
-                setTheme(R.style.AppTheme);
-                break;
-            case DARK:
-                setTheme(R.style.AppTheme_Dark);
-                break;
-            case AMOLED:
-                setTheme(R.style.AppTheme_TrueBlack);
-                break;
+        case LIGHT:
+            setTheme(R.style.AppTheme);
+            break;
+        case DARK:
+            setTheme(R.style.AppTheme_Dark);
+            break;
+        case AMOLED:
+            setTheme(R.style.AppTheme_TrueBlack);
+            break;
         }
     }
 

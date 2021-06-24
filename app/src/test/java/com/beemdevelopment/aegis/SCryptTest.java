@@ -18,13 +18,13 @@ public class SCryptTest {
     public void testTrailingNullCollision() throws HexException {
         byte[] salt = new byte[0];
         SCryptParameters params = new SCryptParameters(
-                CryptoUtils.CRYPTO_SCRYPT_N,
-                CryptoUtils.CRYPTO_SCRYPT_p,
-                CryptoUtils.CRYPTO_SCRYPT_r,
-                salt
+            CryptoUtils.CRYPTO_SCRYPT_N,
+            CryptoUtils.CRYPTO_SCRYPT_p,
+            CryptoUtils.CRYPTO_SCRYPT_r,
+            salt
         );
 
-        byte[] head = new byte[]{'t', 'e', 's', 't'};
+        byte[] head = new byte[] {'t', 'e', 's', 't'};
         byte[] expectedKey = Hex.decode("41cd8110d0c66ede16f97ce84fd8e2bd2269c9318532a01437789dfbadd1392e");
 
         for (int i = 0; i < 128; i += 4) {

@@ -69,17 +69,17 @@ public class CustomAuthenticationSlide extends Fragment implements ISlidePolicy,
 
         int id;
         switch (i) {
-            case R.id.rb_none:
-                id = CRYPT_TYPE_NONE;
-                break;
-            case R.id.rb_password:
-                id = CRYPT_TYPE_PASS;
-                break;
-            case R.id.rb_fingerprint:
-                id = CRYPT_TYPE_FINGER;
-                break;
-            default:
-                throw new RuntimeException();
+        case R.id.rb_none:
+            id = CRYPT_TYPE_NONE;
+            break;
+        case R.id.rb_password:
+            id = CRYPT_TYPE_PASS;
+            break;
+        case R.id.rb_fingerprint:
+            id = CRYPT_TYPE_FINGER;
+            break;
+        default:
+            throw new RuntimeException();
         }
 
         Intent intent = getActivity().getIntent();

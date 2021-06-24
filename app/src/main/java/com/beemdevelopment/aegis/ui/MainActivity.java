@@ -169,29 +169,29 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
         }
 
         switch (requestCode) {
-            case CODE_SCAN:
-                onScanResult(resultCode, data);
-                break;
-            case CODE_ADD_ENTRY:
-                onAddEntryResult(resultCode, data);
-                break;
-            case CODE_EDIT_ENTRY:
-                onEditEntryResult(resultCode, data);
-                break;
-            case CODE_ENTER_ENTRY:
-                onEnterEntryResult(resultCode, data);
-                break;
-            case CODE_DO_INTRO:
-                onDoIntroResult(resultCode, data);
-                break;
-            case CODE_DECRYPT:
-                onDecryptResult(resultCode, data);
-                break;
-            case CODE_PREFERENCES:
-                onPreferencesResult(resultCode, data);
-                break;
-            case CODE_SCAN_IMAGE:
-                onScanImageResult(resultCode, data);
+        case CODE_SCAN:
+            onScanResult(resultCode, data);
+            break;
+        case CODE_ADD_ENTRY:
+            onAddEntryResult(resultCode, data);
+            break;
+        case CODE_EDIT_ENTRY:
+            onEditEntryResult(resultCode, data);
+            break;
+        case CODE_ENTER_ENTRY:
+            onEnterEntryResult(resultCode, data);
+            break;
+        case CODE_DO_INTRO:
+            onDoIntroResult(resultCode, data);
+            break;
+        case CODE_DECRYPT:
+            onDecryptResult(resultCode, data);
+            break;
+        case CODE_PREFERENCES:
+            onPreferencesResult(resultCode, data);
+            break;
+        case CODE_SCAN_IMAGE:
+            onScanImageResult(resultCode, data);
         }
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -205,12 +205,12 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
         }
 
         switch (requestCode) {
-            case CODE_PERM_CAMERA:
-                startScanActivity();
-                break;
-            case CODE_PERM_READ_STORAGE:
-                startScanImageActivity();
-                break;
+        case CODE_PERM_CAMERA:
+            startScanActivity();
+            break;
+        case CODE_PERM_READ_STORAGE:
+            startScanImageActivity();
+            break;
         }
     }
 
@@ -414,9 +414,9 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
         }
 
         switch (action) {
-            case "scan":
-                startScanActivity();
-                break;
+        case "scan":
+            startScanActivity();
+            break;
         }
 
         intent.removeExtra("action");
@@ -556,57 +556,57 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings: {
-                Intent intent = new Intent(this, PreferencesActivity.class);
-                startActivityForResult(intent, CODE_PREFERENCES);
-                return true;
-            }
-            case R.id.action_about: {
-                Intent intent = new Intent(this, AboutActivity.class);
-                startActivity(intent);
-                return true;
-            }
-            case R.id.action_lock:
-                _app.lock();
-                return true;
-            default:
-                if (item.getGroupId() == R.id.action_filter_group) {
-                    item.setChecked(true);
+        case R.id.action_settings: {
+            Intent intent = new Intent(this, PreferencesActivity.class);
+            startActivityForResult(intent, CODE_PREFERENCES);
+            return true;
+        }
+        case R.id.action_about: {
+            Intent intent = new Intent(this, AboutActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        case R.id.action_lock:
+            _app.lock();
+            return true;
+        default:
+            if (item.getGroupId() == R.id.action_filter_group) {
+                item.setChecked(true);
 
-                    String group = null;
-                    if (item.getItemId() != R.id.menu_filter_all) {
-                        group = item.getTitle().toString();
-                    }
-                    setGroupFilter(group);
+                String group = null;
+                if (item.getItemId() != R.id.menu_filter_all) {
+                    group = item.getTitle().toString();
+                }
+                setGroupFilter(group);
+            }
+
+            if (item.getGroupId() == R.id.action_sort_category) {
+                item.setChecked(true);
+
+                SortCategory sortCategory;
+                switch (item.getItemId()) {
+                case R.id.menu_sort_alphabetically:
+                    sortCategory = SortCategory.ISSUER;
+                    break;
+                case R.id.menu_sort_alphabetically_reverse:
+                    sortCategory = SortCategory.ISSUER_REVERSED;
+                    break;
+                case R.id.menu_sort_alphabetically_name:
+                    sortCategory = SortCategory.ACCOUNT;
+                    break;
+                case R.id.menu_sort_alphabetically_name_reverse:
+                    sortCategory = SortCategory.ACCOUNT_REVERSED;
+                    break;
+                case R.id.menu_sort_custom:
+                default:
+                    sortCategory = SortCategory.CUSTOM;
+                    break;
                 }
 
-                if (item.getGroupId() == R.id.action_sort_category) {
-                    item.setChecked(true);
-
-                    SortCategory sortCategory;
-                    switch (item.getItemId()) {
-                        case R.id.menu_sort_alphabetically:
-                            sortCategory = SortCategory.ISSUER;
-                            break;
-                        case R.id.menu_sort_alphabetically_reverse:
-                            sortCategory = SortCategory.ISSUER_REVERSED;
-                            break;
-                        case R.id.menu_sort_alphabetically_name:
-                            sortCategory = SortCategory.ACCOUNT;
-                            break;
-                        case R.id.menu_sort_alphabetically_name_reverse:
-                            sortCategory = SortCategory.ACCOUNT_REVERSED;
-                            break;
-                        case R.id.menu_sort_custom:
-                        default:
-                            sortCategory = SortCategory.CUSTOM;
-                            break;
-                    }
-
-                    _entryListView.setSortCategory(sortCategory, true);
-                    getPreferences().setCurrentSortCategory(sortCategory);
-                }
-                return super.onOptionsItemSelected(item);
+                _entryListView.setSortCategory(sortCategory, true);
+                getPreferences().setCurrentSortCategory(sortCategory);
+            }
+            return super.onOptionsItemSelected(item);
         }
     }
 
@@ -734,48 +734,48 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
     }
 
     private class ActionModeCallbacks implements ActionMode.Callback {
-            @Override
-            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                MenuInflater inflater = mode.getMenuInflater();
-                inflater.inflate(R.menu.menu_action_mode, menu);
-                return true;
-            }
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            MenuInflater inflater = mode.getMenuInflater();
+            inflater.inflate(R.menu.menu_action_mode, menu);
+            return true;
+        }
 
-            @Override
-            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+            case R.id.action_edit:
+                startEditProfileActivity(CODE_EDIT_ENTRY, _selectedEntry, false);
+                mode.finish();
+                return true;
+
+            case R.id.action_delete:
+                Dialogs.showDeleteEntryDialog(MainActivity.this, (d, which) -> {
+                    deleteEntry(_selectedEntry);
+
+                    if (_selectedEntry.getGroup() != null) {
+                        if (!_db.getGroups().contains(_selectedEntry.getGroup())) {
+                            updateGroupFilterMenu();
+                        }
+                    }
+                    mode.finish();
+                });
+                return true;
+            default:
                 return false;
             }
+        }
 
-            @Override
-            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_edit:
-                        startEditProfileActivity(CODE_EDIT_ENTRY, _selectedEntry, false);
-                        mode.finish();
-                        return true;
-
-                    case R.id.action_delete:
-                        Dialogs.showDeleteEntryDialog(MainActivity.this, (d, which) -> {
-                            deleteEntry(_selectedEntry);
-
-                            if (_selectedEntry.getGroup() != null) {
-                                if (!_db.getGroups().contains(_selectedEntry.getGroup())) {
-                                    updateGroupFilterMenu();
-                                }
-                            }
-                            mode.finish();
-                        });
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-
-            @Override
-            public void onDestroyActionMode(ActionMode mode) {
-                _entryListView.setActionModeState(false, null);
-                _selectedEntry = null;
-                _actionMode = null;
-            }
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            _entryListView.setActionModeState(false, null);
+            _selectedEntry = null;
+            _actionMode = null;
+        }
     }
 }

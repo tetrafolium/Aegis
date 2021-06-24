@@ -135,11 +135,11 @@ public class EditEntryActivity extends AegisActivity {
         // fill the fields with values if possible
         if (_origEntry.hasIcon()) {
             Glide.with(this)
-                .asDrawable()
-                .load(_origEntry)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(false)
-                .into(_iconView);
+            .asDrawable()
+            .load(_origEntry)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(false)
+            .into(_iconView);
             _hasCustomIcon = true;
         } else {
             TextDrawable drawable = TextDrawableHelper.generate(_origEntry.getIssuer(), _origEntry.getName(), _iconView);
@@ -187,17 +187,17 @@ public class EditEntryActivity extends AegisActivity {
                 String type = _spinnerType.getSelectedItem().toString();
 
                 switch (type.toLowerCase()) {
-                    case TotpInfo.ID:
-                    case SteamInfo.ID:
-                        _rowCounter.setVisibility(View.GONE);
-                        _rowPeriod.setVisibility(View.VISIBLE);
-                        break;
-                    case HotpInfo.ID:
-                        _rowPeriod.setVisibility(View.GONE);
-                        _rowCounter.setVisibility(View.VISIBLE);
-                        break;
-                    default:
-                        throw new RuntimeException();
+                case TotpInfo.ID:
+                case SteamInfo.ID:
+                    _rowCounter.setVisibility(View.GONE);
+                    _rowPeriod.setVisibility(View.VISIBLE);
+                    break;
+                case HotpInfo.ID:
+                    _rowPeriod.setVisibility(View.GONE);
+                    _rowCounter.setVisibility(View.VISIBLE);
+                    break;
+                default:
+                    throw new RuntimeException();
                 }
             }
 
@@ -336,40 +336,40 @@ public class EditEntryActivity extends AegisActivity {
 
         // ask for confirmation if the entry has been changed
         Dialogs.showDiscardDialog(this,
-                (dialog, which) -> {
-                    // if the entry couldn't be parsed, we show an error dialog
-                    if (msg.get() != null) {
-                        onSaveError(msg.get());
-                        return;
-                    }
+        (dialog, which) -> {
+            // if the entry couldn't be parsed, we show an error dialog
+            if (msg.get() != null) {
+                onSaveError(msg.get());
+                return;
+            }
 
-                    finish(entry.get(), false);
-                },
-                (dialog, which) -> super.onBackPressed()
-        );
+            finish(entry.get(), false);
+        },
+        (dialog, which) -> super.onBackPressed()
+                                 );
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                break;
-            case R.id.action_save:
-                onSave();
-                break;
-            case R.id.action_delete:
-                Dialogs.showDeleteEntryDialog(this, (dialog, which) -> {
-                    finish(_origEntry, true);
-                });
-                break;
-            case R.id.action_default_icon:
-                TextDrawable drawable = TextDrawableHelper.generate(_origEntry.getIssuer(), _origEntry.getName(), _iconView);
-                _iconView.setImageDrawable(drawable);
-                _hasCustomIcon = false;
-                _hasChangedIcon = true;
-            default:
-                return super.onOptionsItemSelected(item);
+        case android.R.id.home:
+            onBackPressed();
+            break;
+        case R.id.action_save:
+            onSave();
+            break;
+        case R.id.action_delete:
+            Dialogs.showDeleteEntryDialog(this, (dialog, which) -> {
+                finish(_origEntry, true);
+            });
+            break;
+        case R.id.action_default_icon:
+            TextDrawable drawable = TextDrawableHelper.generate(_origEntry.getIssuer(), _origEntry.getName(), _iconView);
+            _iconView.setImageDrawable(drawable);
+            _hasCustomIcon = false;
+            _hasChangedIcon = true;
+        default:
+            return super.onOptionsItemSelected(item);
         }
 
         return true;
@@ -400,21 +400,21 @@ public class EditEntryActivity extends AegisActivity {
     protected void onActivityResult(int requestCode, final int resultCode, Intent data) {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Glide.with(this)
-                .asBitmap()
-                .load(data.getData())
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(false)
-                .into(new CustomTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                        _kropView.setBitmap(resource);
-                    }
+            .asBitmap()
+            .load(data.getData())
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(false)
+            .into(new CustomTarget<Bitmap>() {
+                @Override
+                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                    _kropView.setBitmap(resource);
+                }
 
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                @Override
+                public void onLoadCleared(@Nullable Drawable placeholder) {
 
-                    }
-                });
+                }
+            });
             _iconView.setVisibility(View.GONE);
             _kropView.setVisibility(View.VISIBLE);
 
@@ -466,23 +466,23 @@ public class EditEntryActivity extends AegisActivity {
         OtpInfo info;
         try {
             switch (type.toLowerCase()) {
-                case TotpInfo.ID:
-                    info = new TotpInfo(secret, algo, digits, parsePeriod());
-                    break;
-                case SteamInfo.ID:
-                    info = new SteamInfo(secret, algo, digits, parsePeriod());
-                    break;
-                case HotpInfo.ID:
-                    long counter;
-                    try {
-                        counter = Long.parseLong(_textCounter.getText().toString());
-                    } catch (NumberFormatException e) {
-                        throw new ParseException("Counter is not an integer.");
-                    }
-                    info = new HotpInfo(secret, algo, digits, counter);
-                    break;
-                default:
-                    throw new RuntimeException();
+            case TotpInfo.ID:
+                info = new TotpInfo(secret, algo, digits, parsePeriod());
+                break;
+            case SteamInfo.ID:
+                info = new SteamInfo(secret, algo, digits, parsePeriod());
+                break;
+            case HotpInfo.ID:
+                long counter;
+                try {
+                    counter = Long.parseLong(_textCounter.getText().toString());
+                } catch (NumberFormatException e) {
+                    throw new ParseException("Counter is not an integer.");
+                }
+                info = new HotpInfo(secret, algo, digits, counter);
+                break;
+            default:
+                throw new RuntimeException();
             }
 
             info.setDigits(digits);
@@ -521,10 +521,10 @@ public class EditEntryActivity extends AegisActivity {
 
     private void onSaveError(String msg) {
         Dialogs.showSecureDialog(new AlertDialog.Builder(this)
-                .setTitle(getString(R.string.saving_profile_error))
-                .setMessage(msg)
-                .setPositiveButton(android.R.string.ok, null)
-                .create());
+                                 .setTitle(getString(R.string.saving_profile_error))
+                                 .setMessage(msg)
+                                 .setPositiveButton(android.R.string.ok, null)
+                                 .create());
     }
 
     private boolean onSave() {

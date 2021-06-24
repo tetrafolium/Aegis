@@ -73,22 +73,22 @@ public class ScannerActivity extends AegisActivity implements ZXingScannerView.R
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_camera:
-                _scannerView.stopCamera();
-                switch (_facing) {
-                    case CAMERA_FACING_BACK:
-                        _facing = CAMERA_FACING_FRONT;
-                        break;
-                    case CAMERA_FACING_FRONT:
-                        _facing = CAMERA_FACING_BACK;
-                        break;
-                }
-                updateCameraIcon();
-                _scannerView.startCamera(getCameraId(_facing));
-                return true;
-            case R.id.action_lock:
-            default:
-                return super.onOptionsItemSelected(item);
+        case R.id.action_camera:
+            _scannerView.stopCamera();
+            switch (_facing) {
+            case CAMERA_FACING_BACK:
+                _facing = CAMERA_FACING_FRONT;
+                break;
+            case CAMERA_FACING_FRONT:
+                _facing = CAMERA_FACING_BACK;
+                break;
+            }
+            updateCameraIcon();
+            _scannerView.startCamera(getCameraId(_facing));
+            return true;
+        case R.id.action_lock:
+        default:
+            return super.onOptionsItemSelected(item);
         }
     }
 
@@ -128,12 +128,12 @@ public class ScannerActivity extends AegisActivity implements ZXingScannerView.R
             boolean dual = getFrontCameraId() != -1 && getRearCameraId() != -1;
             if (dual) {
                 switch (_facing) {
-                    case CAMERA_FACING_BACK:
-                        item.setIcon(R.drawable.ic_camera_front_24dp);
-                        break;
-                    case CAMERA_FACING_FRONT:
-                        item.setIcon(R.drawable.ic_camera_rear_24dp);
-                        break;
+                case CAMERA_FACING_BACK:
+                    item.setIcon(R.drawable.ic_camera_front_24dp);
+                    break;
+                case CAMERA_FACING_FRONT:
+                    item.setIcon(R.drawable.ic_camera_rear_24dp);
+                    break;
                 }
             }
             item.setVisible(dual);
