@@ -6,7 +6,7 @@ public class Hex {
     private Hex() {
     }
 
-    private static int hexToBin(char ch) {
+    private static int hexToBin(final char ch) {
         if ('0' <= ch && ch <= '9') return ch - '0';
         if ('A' <= ch && ch <= 'F') return ch - 'A' + 10;
         if ('a' <= ch && ch <= 'f') return ch - 'a' + 10;
@@ -15,7 +15,7 @@ public class Hex {
 
     private static final char[] hexCode = "0123456789abcdef".toCharArray();
 
-    public static byte[] decode(String s) throws HexException {
+    public static byte[] decode(final String s) throws HexException {
         final int len = s.length();
 
         if (len % 2 != 0)
@@ -35,7 +35,7 @@ public class Hex {
         return out;
     }
 
-    public static String encode(byte[] data) {
+    public static String encode(final byte[] data) {
         StringBuilder r = new StringBuilder(data.length * 2);
         for (byte b : data) {
             r.append(hexCode[(b >> 4) & 0xF]);

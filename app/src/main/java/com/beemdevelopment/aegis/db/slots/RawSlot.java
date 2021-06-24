@@ -9,7 +9,7 @@ public class RawSlot extends Slot {
         super();
     }
 
-    protected RawSlot(UUID uuid, byte[] key, CryptParameters keyParams) {
+    protected RawSlot(final UUID uuid, final byte[] key, final CryptParameters keyParams) {
         super(uuid, key, keyParams);
     }
 

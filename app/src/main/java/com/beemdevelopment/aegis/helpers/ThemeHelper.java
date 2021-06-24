@@ -13,7 +13,7 @@ public class ThemeHelper {
 
     }
 
-    public static int getThemeColor(int attributeId, Resources.Theme currentTheme) {
+    public static int getThemeColor(final int attributeId, final Resources.Theme currentTheme) {
         TypedValue typedValue = new TypedValue();
         currentTheme.resolveAttribute(attributeId, typedValue, true);
         @ColorInt int color = typedValue.data;

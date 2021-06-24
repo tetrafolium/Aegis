@@ -10,7 +10,7 @@ public class GoogleAuthInfo {
     private String _accountName;
     private String _issuer;
 
-    public GoogleAuthInfo(OtpInfo info, String accountName, String issuer) {
+    public GoogleAuthInfo(final OtpInfo info, final String accountName, final String issuer) {
         _info = info;
         _accountName = accountName;
         _issuer = issuer;
@@ -26,10 +26,10 @@ public class GoogleAuthInfo {
 
         if (_info instanceof TotpInfo) {
             builder.authority("totp");
-            builder.appendQueryParameter("period", Integer.toString(((TotpInfo)_info).getPeriod()));
+            builder.appendQueryParameter("period", Integer.toString(((TotpInfo) _info).getPeriod()));
         } else if (_info instanceof HotpInfo) {
             builder.authority("hotp");
-            builder.appendQueryParameter("counter", Long.toString(((HotpInfo)_info).getCounter()));
+            builder.appendQueryParameter("counter", Long.toString(((HotpInfo) _info).getCounter()));
         } else {
             throw new RuntimeException();
         }
@@ -48,7 +48,7 @@ public class GoogleAuthInfo {
         return builder.build();
     }
 
-    public static GoogleAuthInfo parseUri(String s) throws GoogleAuthInfoException {
+    public static GoogleAuthInfo parseUri(final String s) throws GoogleAuthInfoException {
         Uri uri = Uri.parse(s);
         if (uri == null) {
             throw new GoogleAuthInfoException("bad uri format");
@@ -56,7 +56,7 @@ public class GoogleAuthInfo {
         return GoogleAuthInfo.parseUri(uri);
     }
 
-    public static GoogleAuthInfo parseUri(Uri uri) throws GoogleAuthInfoException {
+    public static GoogleAuthInfo parseUri(final Uri uri) throws GoogleAuthInfoException {
         String scheme = uri.getScheme();
         if (scheme == null || !scheme.equals("otpauth")) {
             throw new GoogleAuthInfoException("unsupported protocol");

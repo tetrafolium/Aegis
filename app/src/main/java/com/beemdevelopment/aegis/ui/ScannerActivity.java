@@ -31,12 +31,12 @@ public class ScannerActivity extends AegisActivity implements ZXingScannerView.R
     private int _facing = CAMERA_FACING_BACK;
 
     @Override
-    protected void onCreate(Bundle state) {
+    protected void onCreate(final Bundle state) {
         super.onCreate(state);
 
         _scannerView = new ZXingScannerView(this) {
             @Override
-            protected IViewFinder createViewFinderView(Context context) {
+            protected IViewFinder createViewFinderView(final Context context) {
                 return new SquareFinderView(context);
             }
         };
@@ -58,12 +58,12 @@ public class ScannerActivity extends AegisActivity implements ZXingScannerView.R
     }
 
     @Override
-    protected void setPreferredTheme(Theme theme) {
+    protected void setPreferredTheme(final Theme theme) {
         setTheme(R.style.AppTheme_Fullscreen);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         _menu = menu;
         getMenuInflater().inflate(R.menu.menu_scanner, menu);
         updateCameraIcon();
@@ -71,7 +71,7 @@ public class ScannerActivity extends AegisActivity implements ZXingScannerView.R
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
         case R.id.action_camera:
             _scannerView.stopCamera();
@@ -105,7 +105,7 @@ public class ScannerActivity extends AegisActivity implements ZXingScannerView.R
     }
 
     @Override
-    public void handleResult(Result rawResult) {
+    public void handleResult(final Result rawResult) {
         try {
             // parse google auth uri
             GoogleAuthInfo info = GoogleAuthInfo.parseUri(rawResult.getText());
@@ -140,7 +140,7 @@ public class ScannerActivity extends AegisActivity implements ZXingScannerView.R
         }
     }
 
-    private static int getCameraId(int facing) {
+    private static int getCameraId(final int facing) {
         Camera.CameraInfo info = new Camera.CameraInfo();
         for (int i = 0; i < Camera.getNumberOfCameras(); ++i) {
             Camera.getCameraInfo(i, info);

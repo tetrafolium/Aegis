@@ -18,7 +18,7 @@ import java.io.IOException;
 
 public class AegisImporter extends DatabaseImporter {
 
-    public AegisImporter(Context context) {
+    public AegisImporter(final Context context) {
         super(context);
     }
 
@@ -33,7 +33,7 @@ public class AegisImporter extends DatabaseImporter {
     }
 
     @Override
-    public State read(FileReader reader) throws DatabaseImporterException {
+    public State read(final FileReader reader) throws DatabaseImporterException {
         try {
             byte[] bytes = reader.readAll();
             DatabaseFile file = DatabaseFile.fromBytes(bytes);
@@ -49,7 +49,7 @@ public class AegisImporter extends DatabaseImporter {
     public static class EncryptedState extends State {
         private DatabaseFile _file;
 
-        private EncryptedState(DatabaseFile file) {
+        private EncryptedState(final DatabaseFile file) {
             super(true);
             _file = file;
         }
@@ -58,13 +58,13 @@ public class AegisImporter extends DatabaseImporter {
             return _file.getHeader().getSlots();
         }
 
-        public State decrypt(DatabaseFileCredentials creds) throws DatabaseFileException {
+        public State decrypt(final DatabaseFileCredentials creds) throws DatabaseFileException {
             JSONObject obj = _file.getContent(creds);
             return new DecryptedState(obj);
         }
 
         @Override
-        public void decrypt(Context context, DecryptListener listener) {
+        public void decrypt(final Context context, final DecryptListener listener) {
 
         }
     }
@@ -72,7 +72,7 @@ public class AegisImporter extends DatabaseImporter {
     public static class DecryptedState extends State {
         private JSONObject _obj;
 
-        private DecryptedState(JSONObject obj) {
+        private DecryptedState(final JSONObject obj) {
             super(false);
             _obj = obj;
         }
@@ -99,7 +99,7 @@ public class AegisImporter extends DatabaseImporter {
             return result;
         }
 
-        private static DatabaseEntry convertEntry(JSONObject obj) throws DatabaseImporterEntryException {
+        private static DatabaseEntry convertEntry(final JSONObject obj) throws DatabaseImporterEntryException {
             try {
                 return DatabaseEntry.fromJson(obj);
             } catch (JSONException | OtpInfoException | Base64Exception e) {

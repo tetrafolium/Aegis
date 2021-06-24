@@ -9,7 +9,7 @@ public class PreferencesActivity extends AegisActivity {
     private PreferencesFragment _fragment;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         _fragment = new PreferencesFragment();
@@ -18,7 +18,7 @@ public class PreferencesActivity extends AegisActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(final int requestCode, final String[] permissions, final int[] grantResults) {
         // pass permission request results to the fragment
         _fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -41,7 +41,7 @@ public class PreferencesActivity extends AegisActivity {
     }
 
     @Override
-    protected void setPreferredTheme(Theme theme) {
+    protected void setPreferredTheme(final Theme theme) {
         switch (theme) {
         case LIGHT:
             setTheme(R.style.AppTheme);

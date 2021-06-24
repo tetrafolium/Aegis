@@ -11,7 +11,7 @@ public enum Theme {
         _values = values();
     }
 
-    public static Theme fromInteger(int x) {
+    public static Theme fromInteger(final int x) {
         return _values[x];
     }
 }

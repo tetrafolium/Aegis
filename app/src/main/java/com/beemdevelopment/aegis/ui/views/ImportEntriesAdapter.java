@@ -21,7 +21,7 @@ public class ImportEntriesAdapter extends RecyclerView.Adapter<ImportEntryHolder
         _entries = new ArrayList<>();
     }
 
-    public void addEntry(ImportEntry entry) {
+    public void addEntry(final ImportEntry entry) {
         _entries.add(entry);
 
         int position = getItemCount() - 1;
@@ -34,20 +34,20 @@ public class ImportEntriesAdapter extends RecyclerView.Adapter<ImportEntryHolder
 
     @NonNull
     @Override
-    public ImportEntryHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ImportEntryHolder onCreateViewHolder(final @NonNull ViewGroup parent, final int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_import_entry, parent, false);
         return new ImportEntryHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ImportEntryHolder holder, int position) {
+    public void onBindViewHolder(final @NonNull ImportEntryHolder holder, final int position) {
         ImportEntry entry = _entries.get(position);
         entry.setOnCheckedChangedListener(holder);
         holder.setData(entry);
     }
 
     @Override
-    public void onViewRecycled(@NonNull ImportEntryHolder holder) {
+    public void onViewRecycled(final @NonNull ImportEntryHolder holder) {
         holder.getEntry().setOnCheckedChangedListener(null);
     }
 
@@ -77,7 +77,7 @@ public class ImportEntriesAdapter extends RecyclerView.Adapter<ImportEntryHolder
         }
     }
 
-    private void setCheckboxStates(boolean checked) {
+    private void setCheckboxStates(final boolean checked) {
         for (ImportEntry entry: _entries) {
             if (entry.isChecked() != checked) {
                 entry.setIsChecked(checked);

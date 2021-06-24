@@ -87,7 +87,7 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
     private ActionMode.Callback _actionModeCallbacks = new ActionModeCallbacks();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         _app = (AegisApplication) getApplication();
@@ -133,7 +133,7 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
+    public boolean dispatchTouchEvent(final MotionEvent event) {
         // collapse the fab menu on touch
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             if (_fabMenu.isExpanded()) {
@@ -150,7 +150,7 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
+    protected void onNewIntent(final Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
 
@@ -158,7 +158,7 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (data == null) {
             return;
         }
@@ -198,7 +198,7 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(final int requestCode, final String[] permissions, final int[] grantResults) {
         if (!PermissionHelper.checkResults(grantResults)) {
             Toast.makeText(this, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
             return;
@@ -214,7 +214,7 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
         }
     }
 
-    private void onPreferencesResult(int resultCode, Intent data) {
+    private void onPreferencesResult(final int resultCode, final Intent data) {
         // refresh the entire entry list if needed
         if (data.getBooleanExtra("needsRecreate", false)) {
             recreate();
@@ -235,7 +235,7 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
         }
     }
 
-    private void startEditProfileActivity(int requestCode, DatabaseEntry entry, boolean isNew) {
+    private void startEditProfileActivity(final int requestCode, final DatabaseEntry entry, final boolean isNew) {
         Intent intent = new Intent(this, EditEntryActivity.class);
         intent.putExtra("entry", entry != null ? entry : DatabaseEntry.getDefault());
         intent.putExtra("isNew", isNew);
@@ -244,14 +244,14 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
         startActivityForResult(intent, requestCode);
     }
 
-    private void onScanResult(int resultCode, Intent data) {
+    private void onScanResult(final int resultCode, final Intent data) {
         if (resultCode == RESULT_OK) {
             DatabaseEntry entry = (DatabaseEntry) data.getSerializableExtra("entry");
             startEditProfileActivity(CODE_ADD_ENTRY, entry, true);
         }
     }
 
-    private void onAddEntryResult(int resultCode, Intent data) {
+    private void onAddEntryResult(final int resultCode, final Intent data) {
         if (resultCode == RESULT_OK) {
             DatabaseEntry entry = (DatabaseEntry) data.getSerializableExtra("entry");
             addEntry(entry);
@@ -259,7 +259,7 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
         }
     }
 
-    private void onEditEntryResult(int resultCode, Intent data) {
+    private void onEditEntryResult(final int resultCode, final Intent data) {
         if (resultCode == RESULT_OK) {
             DatabaseEntry entry = (DatabaseEntry) data.getSerializableExtra("entry");
             if (data.getBooleanExtra("delete", false)) {
@@ -274,7 +274,7 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
         }
     }
 
-    private void onEnterEntryResult(int resultCode, Intent data) {
+    private void onEnterEntryResult(final int resultCode, final Intent data) {
         if (resultCode == RESULT_OK) {
             DatabaseEntry entry = (DatabaseEntry) data.getSerializableExtra("entry");
             addEntry(entry);
@@ -282,7 +282,7 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
         }
     }
 
-    private void onScanImageResult(int resultCode, Intent intent) {
+    private void onScanImageResult(final int resultCode, final Intent intent) {
         if (resultCode == RESULT_OK) {
             Uri inputFile = (intent.getData());
             Bitmap bitmap;
@@ -350,18 +350,18 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
         _menu.findItem(category.getMenuItem()).setChecked(true);
     }
 
-    private void setGroupFilter(String group) {
+    private void setGroupFilter(final String group) {
         getSupportActionBar().setSubtitle(group);
         _selectedGroup = group;
         _entryListView.setGroupFilter(group, true);
     }
 
-    private void addEntry(DatabaseEntry entry) {
+    private void addEntry(final DatabaseEntry entry) {
         _db.addEntry(entry);
         _entryListView.addEntry(entry);
     }
 
-    private void onDoIntroResult(int resultCode, Intent data) {
+    private void onDoIntroResult(final int resultCode, final Intent data) {
         if (resultCode == IntroActivity.RESULT_EXCEPTION) {
             // TODO: user feedback
             Exception e = (Exception) data.getSerializableExtra("exception");
@@ -372,7 +372,7 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
         unlockDatabase(creds);
     }
 
-    private void onDecryptResult(int resultCode, Intent intent) {
+    private void onDecryptResult(final int resultCode, final Intent intent) {
         DatabaseFileCredentials creds = (DatabaseFileCredentials) intent.getSerializableExtra("creds");
         boolean unlocked = unlockDatabase(creds);
 
@@ -503,7 +503,7 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
         super.onBackPressed();
     }
 
-    private void deleteEntry(DatabaseEntry entry) {
+    private void deleteEntry(final DatabaseEntry entry) {
         DatabaseEntry oldEntry = _db.removeEntry(entry);
         saveDatabase();
 
@@ -511,7 +511,7 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         _menu = menu;
         getMenuInflater().inflate(R.menu.menu_main, menu);
         updateLockIcon();
@@ -527,7 +527,7 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
         _searchView.setQueryHint(getString(R.string.search));
         _searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String s) {
+            public boolean onQueryTextSubmit(final String s) {
                 setTitle(getString(R.string.search));
                 getSupportActionBar().setSubtitle(s);
                 _searchSubmitted = true;
@@ -536,7 +536,7 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
             }
 
             @Override
-            public boolean onQueryTextChange(String s) {
+            public boolean onQueryTextChange(final String s) {
                 if (!_searchSubmitted) {
                     _entryListView.setSearchFilter(s);
                 }
@@ -554,7 +554,7 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
         case R.id.action_settings: {
             Intent intent = new Intent(this, PreferencesActivity.class);
@@ -615,7 +615,7 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
         _searchView.setIconified(true);
     }
 
-    private boolean unlockDatabase(DatabaseFileCredentials creds) {
+    private boolean unlockDatabase(final DatabaseFileCredentials creds) {
         try {
             if (!_db.isLoaded()) {
                 _db.load();
@@ -671,7 +671,7 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
     }
 
     @Override
-    public void onEntryClick(DatabaseEntry entry) {
+    public void onEntryClick(final DatabaseEntry entry) {
         if (_selectedEntry != null) {
             if (_selectedEntry == entry) {
                 _actionMode.finish();
@@ -687,7 +687,7 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
     }
 
     @Override
-    public void onLongEntryClick(DatabaseEntry entry) {
+    public void onLongEntryClick(final DatabaseEntry entry) {
         if (_selectedEntry != null) {
             return;
         }
@@ -698,22 +698,22 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
     }
 
     @Override
-    public void onEntryMove(DatabaseEntry entry1, DatabaseEntry entry2) {
+    public void onEntryMove(final DatabaseEntry entry1, final DatabaseEntry entry2) {
         _db.swapEntries(entry1, entry2);
     }
 
     @Override
-    public void onEntryDrop(DatabaseEntry entry) {
+    public void onEntryDrop(final DatabaseEntry entry) {
         saveDatabase();
     }
 
     @Override
-    public void onEntryChange(DatabaseEntry entry) {
+    public void onEntryChange(final DatabaseEntry entry) {
         saveDatabase();
     }
 
     @Override
-    public void onScroll(int dx, int dy) {
+    public void onScroll(final int dx, final int dy) {
         _fabScrollHelper.onScroll(dx, dy);
     }
 
@@ -735,19 +735,19 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
 
     private class ActionModeCallbacks implements ActionMode.Callback {
         @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        public boolean onCreateActionMode(final ActionMode mode, final Menu menu) {
             MenuInflater inflater = mode.getMenuInflater();
             inflater.inflate(R.menu.menu_action_mode, menu);
             return true;
         }
 
         @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        public boolean onPrepareActionMode(final ActionMode mode, final Menu menu) {
             return false;
         }
 
         @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        public boolean onActionItemClicked(final ActionMode mode, final MenuItem item) {
             switch (item.getItemId()) {
             case R.id.action_edit:
                 startEditProfileActivity(CODE_EDIT_ENTRY, _selectedEntry, false);
@@ -772,7 +772,7 @@ public class MainActivity extends AegisActivity implements EntryListView.Listene
         }
 
         @Override
-        public void onDestroyActionMode(ActionMode mode) {
+        public void onDestroyActionMode(final ActionMode mode) {
             _entryListView.setActionModeState(false, null);
             _selectedEntry = null;
             _actionMode = null;

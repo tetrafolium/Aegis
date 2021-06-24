@@ -12,13 +12,13 @@ import javax.crypto.SecretKey;
 public class DerivationTask extends ProgressDialogTask<DerivationTask.Params, SecretKey> {
     private Callback _cb;
 
-    public DerivationTask(Context context, Callback cb) {
+    public DerivationTask(final Context context, final Callback cb) {
         super(context, context.getString(R.string.encrypting_vault));
         _cb = cb;
     }
 
     @Override
-    protected SecretKey doInBackground(DerivationTask.Params... args) {
+    protected SecretKey doInBackground(final DerivationTask.Params... args) {
         setPriority();
 
         Params params = args[0];
@@ -33,7 +33,7 @@ public class DerivationTask extends ProgressDialogTask<DerivationTask.Params, Se
     }
 
     @Override
-    protected void onPostExecute(SecretKey key) {
+    protected void onPostExecute(final SecretKey key) {
         super.onPostExecute(key);
         _cb.onTaskFinished(key);
     }
@@ -42,7 +42,7 @@ public class DerivationTask extends ProgressDialogTask<DerivationTask.Params, Se
         private PasswordSlot _slot;
         private char[] _password;
 
-        public Params(PasswordSlot slot, char[] password) {
+        public Params(final PasswordSlot slot, final char[] password) {
             _slot = slot;
             _password = password;
         }

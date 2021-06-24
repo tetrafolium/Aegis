@@ -15,12 +15,12 @@ public class SlotAdapter extends RecyclerView.Adapter<SlotHolder> {
     private Listener _listener;
     private ArrayList<Slot> _slots;
 
-    public SlotAdapter(Listener listener) {
+    public SlotAdapter(final Listener listener) {
         _listener = listener;
         _slots = new ArrayList<>();
     }
 
-    public void addSlot(Slot slot) {
+    public void addSlot(final Slot slot) {
         _slots.add(slot);
 
         int position = getItemCount() - 1;
@@ -31,24 +31,24 @@ public class SlotAdapter extends RecyclerView.Adapter<SlotHolder> {
         }
     }
 
-    public void updateSlot(Slot slot) {
+    public void updateSlot(final Slot slot) {
         notifyItemChanged(_slots.indexOf(slot));
     }
 
-    public void removeSlot(Slot slot) {
+    public void removeSlot(final Slot slot) {
         int position = _slots.indexOf(slot);
         _slots.remove(position);
         notifyItemRemoved(position);
     }
 
     @Override
-    public SlotHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SlotHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_slot, parent, false);
         return new SlotHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(SlotHolder holder, int position) {
+    public void onBindViewHolder(final SlotHolder holder, final int position) {
         holder.setData(_slots.get(position));
         holder.setOnEditClickListener(v -> {
             int position1 = holder.getAdapterPosition();

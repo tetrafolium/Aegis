@@ -21,7 +21,7 @@ public class GroupManagerActivity extends AegisActivity implements GroupAdapter.
     private TreeSet<String> _groups;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groups);
 
@@ -47,7 +47,7 @@ public class GroupManagerActivity extends AegisActivity implements GroupAdapter.
     }
 
     @Override
-    public void onRemoveGroup(String group) {
+    public void onRemoveGroup(final String group) {
         Dialogs.showSecureDialog(new AlertDialog.Builder(this)
                                  .setTitle(R.string.remove_group)
                                  .setMessage(R.string.remove_group_description)
@@ -60,7 +60,7 @@ public class GroupManagerActivity extends AegisActivity implements GroupAdapter.
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
         case android.R.id.home:
             onBackPressed();

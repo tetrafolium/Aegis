@@ -14,12 +14,12 @@ public class TotpInfo extends OtpInfo {
 
     private int _period;
 
-    public TotpInfo(byte[] secret) throws OtpInfoException {
+    public TotpInfo(final byte[] secret) throws OtpInfoException {
         super(secret);
         setPeriod(30);
     }
 
-    public TotpInfo(byte[] secret, String algorithm, int digits, int period) throws OtpInfoException {
+    public TotpInfo(final byte[] secret, final String algorithm, final int digits, final int period) throws OtpInfoException {
         super(secret, algorithm, digits);
         setPeriod(period);
     }
@@ -54,7 +54,7 @@ public class TotpInfo extends OtpInfo {
         return _period;
     }
 
-    public static boolean isPeriodValid(int period) {
+    public static boolean isPeriodValid(final int period) {
         if (period <= 0) {
             return false;
         }
@@ -63,7 +63,7 @@ public class TotpInfo extends OtpInfo {
         return period <= Integer.MAX_VALUE / 1000;
     }
 
-    public void setPeriod(int period) throws OtpInfoException {
+    public void setPeriod(final int period) throws OtpInfoException {
         if (!isPeriodValid(period)) {
             throw new OtpInfoException(String.format("bad period: %d", period));
         }
@@ -74,13 +74,13 @@ public class TotpInfo extends OtpInfo {
         return TotpInfo.getMillisTillNextRotation(_period);
     }
 
-    public static long getMillisTillNextRotation(int period) {
+    public static long getMillisTillNextRotation(final int period) {
         long p = period * 1000;
         return p - (System.currentTimeMillis() % p);
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (!(o instanceof TotpInfo)) {
             return false;
         }

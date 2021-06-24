@@ -1,11 +1,11 @@
 package com.beemdevelopment.aegis.otp;
 
 public class OtpInfoException extends Exception {
-    public OtpInfoException(Throwable cause) {
+    public OtpInfoException(final Throwable cause) {
         super(cause);
     }
 
-    public OtpInfoException(String message) {
+    public OtpInfoException(final String message) {
         super(message);
     }
 }

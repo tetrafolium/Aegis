@@ -14,16 +14,16 @@ public class HotpInfo extends OtpInfo {
 
     private long _counter;
 
-    public HotpInfo(byte[] secret, long counter) throws OtpInfoException {
+    public HotpInfo(final byte[] secret, final long counter) throws OtpInfoException {
         super(secret);
         setCounter(counter);
     }
 
-    public HotpInfo(byte[] secret) throws OtpInfoException {
+    public HotpInfo(final byte[] secret) throws OtpInfoException {
         this(secret, 0);
     }
 
-    public HotpInfo(byte[] secret, String algorithm, int digits, long counter) throws OtpInfoException {
+    public HotpInfo(final byte[] secret, final String algorithm, final int digits, final long counter) throws OtpInfoException {
         super(secret, algorithm, digits);
         setCounter(counter);
     }
@@ -58,11 +58,11 @@ public class HotpInfo extends OtpInfo {
         return _counter;
     }
 
-    public static boolean isCounterValid(long counter) {
+    public static boolean isCounterValid(final long counter) {
         return counter >= 0;
     }
 
-    public void setCounter(long counter) throws OtpInfoException {
+    public void setCounter(final long counter) throws OtpInfoException {
         if (!isCounterValid(counter)) {
             throw new OtpInfoException(String.format("bad counter: %d", counter));
         }
@@ -74,7 +74,7 @@ public class HotpInfo extends OtpInfo {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (!(o instanceof HotpInfo)) {
             return false;
         }

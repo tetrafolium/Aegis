@@ -11,7 +11,7 @@ import java.util.Locale;
 public class Preferences {
     private SharedPreferences _prefs;
 
-    public Preferences(Context context) {
+    public Preferences(final Context context) {
         _prefs = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
@@ -44,15 +44,15 @@ public class Preferences {
         return _prefs.getBoolean("pref_auto_lock", true);
     }
 
-    public void setIntroDone(boolean done) {
+    public void setIntroDone(final boolean done) {
         _prefs.edit().putBoolean("pref_intro", done).apply();
     }
 
-    public void setTapToRevealTime(int number) {
+    public void setTapToRevealTime(final int number) {
         _prefs.edit().putInt("pref_tap_to_reveal_time", number).apply();
     }
 
-    public void setCurrentSortCategory(SortCategory category) {
+    public void setCurrentSortCategory(final SortCategory category) {
         _prefs.edit().putInt("pref_current_sort_category", category.ordinal()).apply();
     }
 
@@ -68,7 +68,7 @@ public class Preferences {
         return Theme.fromInteger(_prefs.getInt("pref_current_theme", 0));
     }
 
-    public void setCurrentTheme(Theme theme) {
+    public void setCurrentTheme(final Theme theme) {
         _prefs.edit().putInt("pref_current_theme", theme.ordinal()).apply();
     }
 
@@ -76,7 +76,7 @@ public class Preferences {
         return ViewMode.fromInteger(_prefs.getInt("pref_current_view_mode", 0));
     }
 
-    public void setCurrentViewMode(ViewMode viewMode) {
+    public void setCurrentViewMode(final ViewMode viewMode) {
         _prefs.edit().putInt("pref_current_view_mode", viewMode.ordinal()).apply();
     }
 

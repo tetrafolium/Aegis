@@ -10,17 +10,17 @@ import java.util.UUID;
 public class UUIDKey implements Key {
     private UUID _uuid;
 
-    public UUIDKey(UUID uuid) {
+    public UUIDKey(final UUID uuid) {
         _uuid = uuid;
     }
 
     @Override
-    public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
+    public void updateDiskCacheKey(final @NonNull MessageDigest messageDigest) {
         messageDigest.update(_uuid.toString().getBytes(CHARSET));
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         return _uuid.equals(o);
     }
 

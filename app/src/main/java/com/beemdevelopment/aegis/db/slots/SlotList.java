@@ -19,7 +19,7 @@ public class SlotList extends UUIDMap<Slot> {
         return array;
     }
 
-    public static SlotList fromJson(JSONArray array) throws SlotListException {
+    public static SlotList fromJson(final JSONArray array) throws SlotListException {
         SlotList slots = new SlotList();
 
         try {
@@ -35,7 +35,7 @@ public class SlotList extends UUIDMap<Slot> {
         return slots;
     }
 
-    public <T extends Slot> T find(Class<T> type) {
+    public <T extends Slot> T find(final Class<T> type) {
         for (Slot slot : this) {
             if (slot.getClass() == type) {
                 return type.cast(slot);
@@ -44,7 +44,7 @@ public class SlotList extends UUIDMap<Slot> {
         return null;
     }
 
-    public <T extends Slot> List<T> findAll(Class<T> type) {
+    public <T extends Slot> List<T> findAll(final Class<T> type) {
         ArrayList<T> list = new ArrayList<>();
         for (Slot slot : this) {
             if (slot.getClass() == type) {
@@ -54,7 +54,7 @@ public class SlotList extends UUIDMap<Slot> {
         return list;
     }
 
-    public <T extends Slot> boolean has(Class<T> type) {
+    public <T extends Slot> boolean has(final Class<T> type) {
         return find(type) != null;
     }
 }

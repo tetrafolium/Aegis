@@ -13,7 +13,7 @@ public class FingerprintHelper {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public static FingerprintManager getManager(Context context) {
+    public static FingerprintManager getManager(final Context context) {
         if (PermissionHelper.granted(context, Manifest.permission.USE_FINGERPRINT)) {
             FingerprintManager manager = (FingerprintManager) context.getSystemService(Context.FINGERPRINT_SERVICE);
             if (manager != null && manager.isHardwareDetected() && manager.hasEnrolledFingerprints()) {
@@ -24,7 +24,7 @@ public class FingerprintHelper {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public static boolean isAvailable(Context context) {
+    public static boolean isAvailable(final Context context) {
         return getManager(context) != null;
     }
 

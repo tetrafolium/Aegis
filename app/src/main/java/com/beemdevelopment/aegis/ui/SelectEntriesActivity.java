@@ -31,7 +31,7 @@ public class SelectEntriesActivity extends AegisActivity {
     private FabScrollHelper _fabScrollHelper;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_entries);
 
@@ -43,7 +43,7 @@ public class SelectEntriesActivity extends AegisActivity {
         RecyclerView entriesView = findViewById(R.id.list_entries);
         entriesView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(final @NonNull RecyclerView recyclerView, final int dx, final int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 onScroll(dx, dy);
             }
@@ -71,7 +71,7 @@ public class SelectEntriesActivity extends AegisActivity {
         _fabScrollHelper = new FabScrollHelper(fabMenu);
     }
 
-    private void showErrorDialog(List<DatabaseImporterEntryException> errors) {
+    private void showErrorDialog(final List<DatabaseImporterEntryException> errors) {
         Dialogs.showSecureDialog(new AlertDialog.Builder(this)
                                  .setTitle(R.string.import_error_title)
                                  .setMessage(getString(R.string.import_error_dialog, errors.size()))
@@ -80,7 +80,7 @@ public class SelectEntriesActivity extends AegisActivity {
                                  .create());
     }
 
-    private void showDetailedErrorDialog(List<DatabaseImporterEntryException> errors) {
+    private void showDetailedErrorDialog(final List<DatabaseImporterEntryException> errors) {
         List<String> messages = new ArrayList<>();
         for (DatabaseImporterEntryException e : errors) {
             messages.add(e.getMessage());
@@ -108,18 +108,18 @@ public class SelectEntriesActivity extends AegisActivity {
         finish();
     }
 
-    public void onScroll(int dx, int dy) {
+    public void onScroll(final int dx, final int dy) {
         _fabScrollHelper.onScroll(dx, dy);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.menu_select_entries, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
         case android.R.id.home:
             onBackPressed();

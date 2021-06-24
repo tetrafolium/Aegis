@@ -8,7 +8,7 @@ public class SCryptParameters implements Serializable {
     private int _p;
     private byte[] _salt;
 
-    public SCryptParameters(int n, int r, int p, byte[] salt) {
+    public SCryptParameters(final int n, final int r, final int p, final byte[] salt) {
         _n = n;
         _r = r;
         _p = p;

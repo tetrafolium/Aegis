@@ -17,16 +17,16 @@ public class DatabaseFileCredentials implements Serializable {
         _slots = new SlotList();
     }
 
-    public DatabaseFileCredentials(MasterKey key, SlotList slots) {
+    public DatabaseFileCredentials(final MasterKey key, final SlotList slots) {
         _key = key;
         _slots = slots;
     }
 
-    public CryptResult encrypt(byte[] bytes) throws MasterKeyException {
+    public CryptResult encrypt(final byte[] bytes) throws MasterKeyException {
         return _key.encrypt(bytes);
     }
 
-    public CryptResult decrypt(byte[] bytes, CryptParameters params) throws MasterKeyException {
+    public CryptResult decrypt(final byte[] bytes, final CryptParameters params) throws MasterKeyException {
         return _key.decrypt(bytes, params);
     }
 

@@ -45,18 +45,18 @@ public class Dialogs {
 
     }
 
-    public static void secureDialog(Dialog dialog) {
+    public static void secureDialog(final Dialog dialog) {
         dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
     }
 
-    public static void showSecureDialog(Dialog dialog) {
+    public static void showSecureDialog(final Dialog dialog) {
         if (new Preferences(dialog.getContext()).isSecureScreenEnabled()) {
             secureDialog(dialog);
         }
         dialog.show();
     }
 
-    public static void showDeleteEntryDialog(Activity activity, DialogInterface.OnClickListener onDelete) {
+    public static void showDeleteEntryDialog(final Activity activity, final DialogInterface.OnClickListener onDelete) {
         showSecureDialog(new AlertDialog.Builder(activity)
                          .setTitle(activity.getString(R.string.delete_entry))
                          .setMessage(activity.getString(R.string.delete_entry_description))
@@ -65,7 +65,7 @@ public class Dialogs {
                          .create());
     }
 
-    public static void showDiscardDialog(Activity activity, DialogInterface.OnClickListener onSave, DialogInterface.OnClickListener onDiscard) {
+    public static void showDiscardDialog(final Activity activity, final DialogInterface.OnClickListener onSave, final DialogInterface.OnClickListener onDiscard) {
         showSecureDialog(new AlertDialog.Builder(activity)
                          .setTitle(activity.getString(R.string.discard_changes))
                          .setMessage(activity.getString(R.string.discard_changes_description))
@@ -74,7 +74,7 @@ public class Dialogs {
                          .create());
     }
 
-    public static void showSetPasswordDialog(Activity activity, Dialogs.SlotListener listener) {
+    public static void showSetPasswordDialog(final Activity activity, final Dialogs.SlotListener listener) {
         View view = activity.getLayoutInflater().inflate(R.layout.dialog_password, null);
         EditText textPassword = view.findViewById(R.id.text_password);
         EditText textPasswordConfirm = view.findViewById(R.id.text_password_confirm);
@@ -117,15 +117,15 @@ public class Dialogs {
         });
 
         TextWatcher watcher = new TextWatcher() {
-            public void onTextChanged(CharSequence c, int start, int before, int count) {
+            public void onTextChanged(final CharSequence c, final int start, final int before, final int count) {
                 boolean equal = EditTextHelper.areEditTextsEqual(textPassword, textPasswordConfirm);
                 buttonOK.get().setEnabled(equal);
             }
 
-            public void beforeTextChanged(CharSequence c, int start, int count, int after) {
+            public void beforeTextChanged(final CharSequence c, final int start, final int count, final int after) {
             }
 
-            public void afterTextChanged(Editable c) {
+            public void afterTextChanged(final Editable c) {
             }
         };
         textPassword.addTextChangedListener(watcher);
@@ -134,7 +134,7 @@ public class Dialogs {
         showSecureDialog(dialog);
     }
 
-    private static void showTextInputDialog(Context context, @StringRes int titleId, @StringRes int hintId, TextInputListener listener, boolean isSecret) {
+    private static void showTextInputDialog(final Context context, final @StringRes int titleId, final @StringRes int hintId, final TextInputListener listener, final boolean isSecret) {
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_text_input, null);
         EditText input = view.findViewById(R.id.text_input);
         if (isSecret) {
@@ -154,15 +154,15 @@ public class Dialogs {
         showSecureDialog(dialog);
     }
 
-    public static void showTextInputDialog(Context context, @StringRes int titleId, @StringRes int hintId, TextInputListener listener) {
+    public static void showTextInputDialog(final Context context, final @StringRes int titleId, final @StringRes int hintId, final TextInputListener listener) {
         showTextInputDialog(context, titleId, hintId, listener, false);
     }
 
-    public static void showPasswordInputDialog(Context context, TextInputListener listener) {
+    public static void showPasswordInputDialog(final Context context, final TextInputListener listener) {
         showTextInputDialog(context, R.string.set_password, R.string.password, listener, true);
     }
 
-    public static void showNumberPickerDialog(Activity activity, NumberInputListener listener) {
+    public static void showNumberPickerDialog(final Activity activity, final NumberInputListener listener) {
         View view = activity.getLayoutInflater().inflate(R.layout.dialog_number_picker, null);
         NumberPicker numberPicker = view.findViewById(R.id.numberPicker);
         numberPicker.setMinValue(3);
@@ -181,7 +181,7 @@ public class Dialogs {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public static void showFingerprintDialog(Activity activity, Dialogs.SlotListener listener) {
+    public static void showFingerprintDialog(final Activity activity, final Dialogs.SlotListener listener) {
         View view = activity.getLayoutInflater().inflate(R.layout.dialog_fingerprint, null);
         TextView textFingerprint = view.findViewById(R.id.text_fingerprint);
         SwirlView imgFingerprint = view.findViewById(R.id.img_fingerprint);

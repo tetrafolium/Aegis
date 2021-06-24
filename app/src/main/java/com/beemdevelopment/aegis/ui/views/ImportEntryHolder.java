@@ -27,7 +27,7 @@ public class ImportEntryHolder extends RecyclerView.ViewHolder implements Import
         view.setOnClickListener(v -> _entry.setIsChecked(!_entry.isChecked()));
     }
 
-    public void setData(ImportEntry entry) {
+    public void setData(final ImportEntry entry) {
         _entry = entry;
 
         Context context = itemView.getContext();
@@ -41,7 +41,7 @@ public class ImportEntryHolder extends RecyclerView.ViewHolder implements Import
     }
 
     @Override
-    public void onCheckedChanged(boolean value) {
+    public void onCheckedChanged(final boolean value) {
         _checkbox.setChecked(value);
     }
 }

@@ -15,7 +15,7 @@ public class FreeOtpPlusImporter extends DatabaseImporter {
     private static final String _subPath = "shared_prefs/tokens.xml";
     private static final String _pkgName = "org.liberty.android.freeotpplus";
 
-    public FreeOtpPlusImporter(Context context) {
+    public FreeOtpPlusImporter(final Context context) {
         super(context);
     }
 
@@ -30,7 +30,7 @@ public class FreeOtpPlusImporter extends DatabaseImporter {
     }
 
     @Override
-    public State read(FileReader reader) throws DatabaseImporterException {
+    public State read(final FileReader reader) throws DatabaseImporterException {
         State state;
 
         if (reader.isInternal()) {

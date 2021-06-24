@@ -32,7 +32,7 @@ public class DatabaseManager {
 
     private Context _context;
 
-    public DatabaseManager(Context context) {
+    public DatabaseManager(final Context context) {
         _context = context;
     }
 
@@ -67,7 +67,7 @@ public class DatabaseManager {
         _db = null;
     }
 
-    public void unlock(DatabaseFileCredentials creds) throws DatabaseManagerException {
+    public void unlock(final DatabaseFileCredentials creds) throws DatabaseManagerException {
         assertState(true, true);
 
         try {
@@ -80,7 +80,7 @@ public class DatabaseManager {
         }
     }
 
-    public static void save(Context context, DatabaseFile file) throws DatabaseManagerException {
+    public static void save(final Context context, final DatabaseFile file) throws DatabaseManagerException {
         byte[] bytes = file.toBytes();
         try (FileOutputStream stream = context.openFileOutput(FILENAME, Context.MODE_PRIVATE)) {
             stream.write(bytes);
@@ -105,7 +105,7 @@ public class DatabaseManager {
         }
     }
 
-    public String export(boolean encrypt) throws DatabaseManagerException {
+    public String export(final boolean encrypt) throws DatabaseManagerException {
         assertState(false, true);
 
         try {
@@ -134,27 +134,27 @@ public class DatabaseManager {
         }
     }
 
-    public void addEntry(DatabaseEntry entry) {
+    public void addEntry(final DatabaseEntry entry) {
         assertState(false, true);
         _db.getEntries().add(entry);
     }
 
-    public DatabaseEntry removeEntry(DatabaseEntry entry) {
+    public DatabaseEntry removeEntry(final DatabaseEntry entry) {
         assertState(false, true);
         return _db.getEntries().remove(entry);
     }
 
-    public DatabaseEntry replaceEntry(DatabaseEntry entry) {
+    public DatabaseEntry replaceEntry(final DatabaseEntry entry) {
         assertState(false, true);
         return _db.getEntries().replace(entry);
     }
 
-    public void swapEntries(DatabaseEntry entry1, DatabaseEntry entry2) {
+    public void swapEntries(final DatabaseEntry entry1, final DatabaseEntry entry2) {
         assertState(false, true);
         _db.getEntries().swap(entry1, entry2);
     }
 
-    public boolean isEntryDuplicate(DatabaseEntry entry) {
+    public boolean isEntryDuplicate(final DatabaseEntry entry) {
         assertState(false, true);
         return _db.getEntries().has(entry);
     }
@@ -182,7 +182,7 @@ public class DatabaseManager {
         return _creds;
     }
 
-    public void setCredentials(DatabaseFileCredentials creds) {
+    public void setCredentials(final DatabaseFileCredentials creds) {
         assertState(false, true);
         _creds = creds;
     }
@@ -197,7 +197,7 @@ public class DatabaseManager {
         return _encrypt;
     }
 
-    public void enableEncryption(DatabaseFileCredentials creds) throws DatabaseManagerException {
+    public void enableEncryption(final DatabaseFileCredentials creds) throws DatabaseManagerException {
         assertState(false, true);
         _creds = creds;
         _encrypt = true;
@@ -219,7 +219,7 @@ public class DatabaseManager {
         return _db == null;
     }
 
-    private void assertState(boolean locked, boolean loaded) {
+    private void assertState(final boolean locked, final boolean loaded) {
         assertLoaded(loaded);
 
         if (isLocked() && !locked) {
@@ -229,7 +229,7 @@ public class DatabaseManager {
         }
     }
 
-    private void assertLoaded(boolean loaded) {
+    private void assertLoaded(final boolean loaded) {
         if (isLoaded() && !loaded) {
             throw new AssertionError("database file has already been loaded");
         } else if (!isLoaded() && loaded) {

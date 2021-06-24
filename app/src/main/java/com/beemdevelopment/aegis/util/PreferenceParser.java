@@ -12,7 +12,7 @@ public class PreferenceParser {
 
     }
 
-    public static List<XmlEntry> parse(XmlPullParser parser) throws IOException, XmlPullParserException {
+    public static List<XmlEntry> parse(final XmlPullParser parser) throws IOException, XmlPullParserException {
         List<XmlEntry> entries = new ArrayList<>();
 
         parser.require(XmlPullParser.START_TAG, null, "map");
@@ -32,7 +32,7 @@ public class PreferenceParser {
         return entries;
     }
 
-    private static XmlEntry parseEntry(XmlPullParser parser) throws IOException, XmlPullParserException {
+    private static XmlEntry parseEntry(final XmlPullParser parser) throws IOException, XmlPullParserException {
         parser.require(XmlPullParser.START_TAG, null, "string");
         String name = parser.getAttributeValue(null, "name");
         String value = parseText(parser);
@@ -44,7 +44,7 @@ public class PreferenceParser {
         return entry;
     }
 
-    private static String parseText(XmlPullParser parser) throws IOException, XmlPullParserException {
+    private static String parseText(final XmlPullParser parser) throws IOException, XmlPullParserException {
         String text = "";
         if (parser.next() == XmlPullParser.TEXT) {
             text = parser.getText();
@@ -53,7 +53,7 @@ public class PreferenceParser {
         return text;
     }
 
-    private static void skip(XmlPullParser parser) throws IOException, XmlPullParserException {
+    private static void skip(final XmlPullParser parser) throws IOException, XmlPullParserException {
         // source: https://developer.android.com/training/basics/network-ops/xml.html
         if (parser.getEventType() != XmlPullParser.START_TAG) {
             throw new IllegalStateException();

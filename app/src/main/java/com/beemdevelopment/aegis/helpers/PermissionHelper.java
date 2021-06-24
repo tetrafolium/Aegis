@@ -15,11 +15,11 @@ public class PermissionHelper {
 
     }
 
-    public static boolean granted(Context context, String permission) {
+    public static boolean granted(final Context context, final String permission) {
         return ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED;
     }
 
-    public static boolean request(Activity activity, int requestCode, String... perms) {
+    public static boolean request(final Activity activity, final int requestCode, final String... perms) {
         List<String> deniedPerms = new ArrayList<>();
         for (String permission : perms) {
             if (!granted(activity, permission)) {
@@ -35,7 +35,7 @@ public class PermissionHelper {
         return size == 0;
     }
 
-    public static boolean checkResults(int[] grantResults) {
+    public static boolean checkResults(final int[] grantResults) {
         for (int result : grantResults) {
             if (result != PackageManager.PERMISSION_GRANTED) {
                 return false;

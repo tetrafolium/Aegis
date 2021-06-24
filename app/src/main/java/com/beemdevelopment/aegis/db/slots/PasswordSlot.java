@@ -22,7 +22,7 @@ public class PasswordSlot extends RawSlot {
         super();
     }
 
-    protected PasswordSlot(UUID uuid, byte[] key, CryptParameters keyParams, SCryptParameters scryptParams, boolean repaired) {
+    protected PasswordSlot(final UUID uuid, final byte[] key, final CryptParameters keyParams, final SCryptParameters scryptParams, final boolean repaired) {
         super(uuid, key, keyParams);
         _params = scryptParams;
         _repaired = repaired;
@@ -43,22 +43,22 @@ public class PasswordSlot extends RawSlot {
         }
     }
 
-    public SecretKey deriveKey(char[] password, SCryptParameters params) {
+    public SecretKey deriveKey(final char[] password, final SCryptParameters params) {
         SecretKey key = CryptoUtils.deriveKey(password, params);
         _params = params;
         return key;
     }
 
-    public SecretKey deriveKey(char[] password) {
+    public SecretKey deriveKey(final char[] password) {
         return CryptoUtils.deriveKey(password, _params);
     }
 
-    public SecretKey deriveKey(byte[] data) {
+    public SecretKey deriveKey(final byte[] data) {
         return CryptoUtils.deriveKey(data, _params);
     }
 
     @Override
-    public void setKey(MasterKey masterKey, Cipher cipher) throws SlotException {
+    public void setKey(final MasterKey masterKey, final Cipher cipher) throws SlotException {
         super.setKey(masterKey, cipher);
         _repaired = true;
     }

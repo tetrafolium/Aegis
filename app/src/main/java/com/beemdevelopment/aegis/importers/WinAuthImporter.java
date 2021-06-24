@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class WinAuthImporter extends DatabaseImporter {
-    public WinAuthImporter(Context context) {
+    public WinAuthImporter(final Context context) {
         super(context);
     }
 
@@ -26,7 +26,7 @@ public class WinAuthImporter extends DatabaseImporter {
     }
 
     @Override
-    public WinAuthImporter.State read(FileReader reader) throws DatabaseImporterException {
+    public WinAuthImporter.State read(final FileReader reader) throws DatabaseImporterException {
         ArrayList<String> lines = new ArrayList<>();
 
         try {
@@ -46,7 +46,7 @@ public class WinAuthImporter extends DatabaseImporter {
     public static class State extends DatabaseImporter.State {
         private ArrayList<String> _lines;
 
-        private State(ArrayList<String> lines) {
+        private State(final ArrayList<String> lines) {
             super(false);
             _lines = lines;
         }
@@ -67,7 +67,7 @@ public class WinAuthImporter extends DatabaseImporter {
             return result;
         }
 
-        private static DatabaseEntry convertEntry(String line) throws DatabaseImporterEntryException {
+        private static DatabaseEntry convertEntry(final String line) throws DatabaseImporterEntryException {
             try {
                 GoogleAuthInfo info = GoogleAuthInfo.parseUri(line);
                 DatabaseEntry databaseEntry = new DatabaseEntry(info);

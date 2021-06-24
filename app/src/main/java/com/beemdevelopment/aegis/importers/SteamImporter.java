@@ -21,7 +21,7 @@ public class SteamImporter extends DatabaseImporter {
     private static final String _subDir = "files";
     private static final String _pkgName = "com.valvesoftware.android.steam.community";
 
-    public SteamImporter(Context context) {
+    public SteamImporter(final Context context) {
         super(context);
     }
 
@@ -44,7 +44,7 @@ public class SteamImporter extends DatabaseImporter {
     }
 
     @Override
-    public State read(FileReader reader) throws DatabaseImporterException {
+    public State read(final FileReader reader) throws DatabaseImporterException {
         try (ByteInputStream stream = ByteInputStream.create(reader.getStream())) {
             JSONObject obj = new JSONObject(new String(stream.getBytes(), StandardCharsets.UTF_8));
             return new State(obj);
@@ -56,7 +56,7 @@ public class SteamImporter extends DatabaseImporter {
     public static class State extends DatabaseImporter.State {
         private JSONObject _obj;
 
-        private State(JSONObject obj) {
+        private State(final JSONObject obj) {
             super(false);
             _obj = obj;
         }
@@ -75,7 +75,7 @@ public class SteamImporter extends DatabaseImporter {
             return result;
         }
 
-        private static DatabaseEntry convertEntry(JSONObject obj) throws DatabaseImporterEntryException {
+        private static DatabaseEntry convertEntry(final JSONObject obj) throws DatabaseImporterEntryException {
             try {
                 byte[] secret = Base64.decode(obj.getString("shared_secret"));
                 SteamInfo info = new SteamInfo(secret);

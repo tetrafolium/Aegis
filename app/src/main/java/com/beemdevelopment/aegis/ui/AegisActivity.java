@@ -25,7 +25,7 @@ public abstract class AegisActivity extends AppCompatActivity implements AegisAp
     private Theme _currentTheme;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         _app = (AegisApplication) getApplication();
 
         // set the theme and locale before creating the activity
@@ -89,7 +89,7 @@ public abstract class AegisActivity extends AppCompatActivity implements AegisAp
         return _app.getPreferences();
     }
 
-    protected void setPreferredTheme(Theme theme) {
+    protected void setPreferredTheme(final Theme theme) {
         _currentTheme = theme;
 
         switch (theme) {
@@ -105,7 +105,7 @@ public abstract class AegisActivity extends AppCompatActivity implements AegisAp
         }
     }
 
-    protected void setLocale(Locale locale) {
+    protected void setLocale(final Locale locale) {
         Locale.setDefault(locale);
 
         Configuration config = new Configuration();

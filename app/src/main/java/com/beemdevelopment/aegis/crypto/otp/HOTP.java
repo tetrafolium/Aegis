@@ -12,7 +12,7 @@ public class HOTP {
     private HOTP() {
     }
 
-    public static OTP generateOTP(byte[] secret, String algo, int digits, long counter)
+    public static OTP generateOTP(final byte[] secret, final String algo, final int digits, final long counter)
     throws NoSuchAlgorithmException, InvalidKeyException {
         SecretKeySpec key = new SecretKeySpec(secret, "RAW");
 

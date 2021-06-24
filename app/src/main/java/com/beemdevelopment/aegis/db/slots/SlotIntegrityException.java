@@ -5,7 +5,7 @@ public class SlotIntegrityException extends Exception {
 
     }
 
-    public SlotIntegrityException(Throwable cause) {
+    public SlotIntegrityException(final Throwable cause) {
         super(cause);
     }
 }

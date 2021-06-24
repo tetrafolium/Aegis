@@ -1,15 +1,15 @@
 package com.beemdevelopment.aegis.otp;
 
 public class GoogleAuthInfoException extends Exception {
-    public GoogleAuthInfoException(Throwable cause) {
+    public GoogleAuthInfoException(final Throwable cause) {
         super(cause);
     }
 
-    public GoogleAuthInfoException(String message) {
+    public GoogleAuthInfoException(final String message) {
         super(message);
     }
 
-    public GoogleAuthInfoException(String message, Throwable cause) {
+    public GoogleAuthInfoException(final String message, final Throwable cause) {
         super(message, cause);
     }
 

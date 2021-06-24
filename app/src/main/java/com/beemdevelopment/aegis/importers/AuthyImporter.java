@@ -23,7 +23,7 @@ public class AuthyImporter extends DatabaseImporter {
     private static final String _subPath = "shared_prefs/com.authy.storage.tokens.authenticator.xml";
     private static final String _pkgName = "com.authy.authy";
 
-    public AuthyImporter(Context context) {
+    public AuthyImporter(final Context context) {
         super(context);
     }
 
@@ -38,7 +38,7 @@ public class AuthyImporter extends DatabaseImporter {
     }
 
     @Override
-    public State read(FileReader reader) throws DatabaseImporterException {
+    public State read(final FileReader reader) throws DatabaseImporterException {
         try {
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
@@ -61,7 +61,7 @@ public class AuthyImporter extends DatabaseImporter {
     public static class State extends DatabaseImporter.State {
         private JSONArray _obj;
 
-        private State(JSONArray obj) {
+        private State(final JSONArray obj) {
             super(false);
             _obj = obj;
         }
@@ -87,7 +87,7 @@ public class AuthyImporter extends DatabaseImporter {
             return result;
         }
 
-        private static DatabaseEntry convertEntry(JSONObject entry) throws DatabaseImporterEntryException {
+        private static DatabaseEntry convertEntry(final JSONObject entry) throws DatabaseImporterEntryException {
             try {
                 AuthyEntryInfo authyEntryInfo = new AuthyEntryInfo();
                 authyEntryInfo.OriginalName = entry.getString("originalName");
@@ -107,7 +107,7 @@ public class AuthyImporter extends DatabaseImporter {
             }
         }
 
-        private static void sanitizeEntryInfo(AuthyEntryInfo info) {
+        private static void sanitizeEntryInfo(final AuthyEntryInfo info) {
             String seperator = "";
 
             if (info.OriginalName.contains(":")) {

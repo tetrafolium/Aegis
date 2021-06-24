@@ -23,7 +23,7 @@ public class NotificationService extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent,int flags, int startId) {
+    public int onStartCommand(final Intent intent, final int flags, final int startId) {
         super.onStartCommand(intent, flags, startId);
 
         serviceMethod();
@@ -32,7 +32,7 @@ public class NotificationService extends Service {
 
     public void serviceMethod() {
         Intent intentAction = new Intent(CODE_LOCK_DATABASE_ACTION);
-        PendingIntent lockDatabaseIntent = PendingIntent.getBroadcast(this,1,intentAction, 0);
+        PendingIntent lockDatabaseIntent = PendingIntent.getBroadcast(this, 1, intentAction, 0);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this,  CODE_LOCK_STATUS_ID)
         .setSmallIcon(R.drawable.ic_fingerprint_black_24dp)
         .setContentTitle(getString(R.string.app_name_full))
@@ -55,7 +55,7 @@ public class NotificationService extends Service {
 
     @Nullable
     @Override
-    public IBinder onBind(Intent intent) {
+    public IBinder onBind(final Intent intent) {
         return null;
     }
 }

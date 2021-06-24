@@ -15,7 +15,7 @@ import java.nio.ByteBuffer;
 @GlideModule
 public class AegisGlideModule extends AppGlideModule {
     @Override
-    public void registerComponents(@NonNull Context context, @NonNull Glide glide, @NonNull Registry registry) {
+    public void registerComponents(final @NonNull Context context, final @NonNull Glide glide, final @NonNull Registry registry) {
         registry.prepend(DatabaseEntry.class, ByteBuffer.class, new IconLoader.Factory());
     }
 }

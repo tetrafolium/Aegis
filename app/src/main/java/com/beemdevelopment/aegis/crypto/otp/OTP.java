@@ -8,7 +8,7 @@ public class OTP {
     private int _code;
     private int _digits;
 
-    public OTP(int code, int digits) {
+    public OTP(final int code, final int digits) {
         _code = code;
         _digits = digits;
     }

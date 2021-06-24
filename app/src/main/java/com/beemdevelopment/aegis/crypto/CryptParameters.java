@@ -12,7 +12,7 @@ public class CryptParameters implements Serializable {
     private byte[] _nonce;
     private byte[] _tag;
 
-    public CryptParameters(byte[] nonce, byte[] tag) {
+    public CryptParameters(final byte[] nonce, final byte[] tag) {
         _nonce = nonce;
         _tag = tag;
     }
@@ -30,7 +30,7 @@ public class CryptParameters implements Serializable {
         return obj;
     }
 
-    public static CryptParameters fromJson(JSONObject obj) throws JSONException, HexException {
+    public static CryptParameters fromJson(final JSONObject obj) throws JSONException, HexException {
         byte[] nonce = Hex.decode(obj.getString("nonce"));
         byte[] tag = Hex.decode(obj.getString("tag"));
         return new CryptParameters(nonce, tag);

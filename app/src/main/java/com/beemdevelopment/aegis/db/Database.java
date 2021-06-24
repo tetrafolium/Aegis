@@ -28,7 +28,7 @@ public class Database {
         }
     }
 
-    public static Database fromJson(JSONObject obj) throws DatabaseException {
+    public static Database fromJson(final JSONObject obj) throws DatabaseException {
         Database db = new Database();
         UUIDMap<DatabaseEntry> entries = db.getEntries();
 

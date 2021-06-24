@@ -33,7 +33,7 @@ public class SlotManagerActivity extends AegisActivity implements SlotAdapter.Li
     private boolean _edited;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slots);
         _edited = false;
@@ -44,7 +44,7 @@ public class SlotManagerActivity extends AegisActivity implements SlotAdapter.Li
 
         findViewById(R.id.button_add_fingerprint).setOnClickListener(view -> {
             if (FingerprintHelper.isSupported() && FingerprintHelper.isAvailable(this)) {
-                Dialogs.showFingerprintDialog(this,this);
+                Dialogs.showFingerprintDialog(this, this);
             }
         });
 
@@ -99,7 +99,7 @@ public class SlotManagerActivity extends AegisActivity implements SlotAdapter.Li
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
         case android.R.id.home:
             onBackPressed();
@@ -115,7 +115,7 @@ public class SlotManagerActivity extends AegisActivity implements SlotAdapter.Li
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.menu_slots, menu);
         return true;
     }
@@ -134,7 +134,7 @@ public class SlotManagerActivity extends AegisActivity implements SlotAdapter.Li
     }
 
     @Override
-    public void onEditSlot(Slot slot) {
+    public void onEditSlot(final Slot slot) {
         /*EditText textName = new EditText(this);
         textName.setHint("Name");
 
@@ -150,7 +150,7 @@ public class SlotManagerActivity extends AegisActivity implements SlotAdapter.Li
     }
 
     @Override
-    public void onRemoveSlot(Slot slot) {
+    public void onRemoveSlot(final Slot slot) {
         SlotList slots = _creds.getSlots();
         if (slot instanceof PasswordSlot && slots.findAll(PasswordSlot.class).size() <= 1) {
             Toast.makeText(this, R.string.password_slot_error, Toast.LENGTH_SHORT).show();
@@ -171,7 +171,7 @@ public class SlotManagerActivity extends AegisActivity implements SlotAdapter.Li
     }
 
     @Override
-    public void onSlotResult(Slot slot, Cipher cipher) {
+    public void onSlotResult(final Slot slot, final Cipher cipher) {
         try {
             slot.setKey(_creds.getKey(), cipher);
         } catch (SlotException e) {
@@ -186,7 +186,7 @@ public class SlotManagerActivity extends AegisActivity implements SlotAdapter.Li
     }
 
     @Override
-    public void onException(Exception e) {
+    public void onException(final Exception e) {
         Toast.makeText(this, getString(R.string.adding_new_slot_error) + e.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }

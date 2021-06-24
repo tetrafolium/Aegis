@@ -47,7 +47,7 @@ public class IntroActivity extends AppIntro2 implements DerivationTask.Callback 
     private Preferences _prefs;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // set FLAG_SECURE on the window of every IntroActivity
@@ -93,7 +93,7 @@ public class IntroActivity extends AppIntro2 implements DerivationTask.Callback 
         _databaseFile = new DatabaseFile();
     }
 
-    private void setException(Exception e) {
+    private void setException(final Exception e) {
         Intent result = new Intent();
         result.putExtra("exception", e);
         setResult(RESULT_EXCEPTION, result);
@@ -101,7 +101,7 @@ public class IntroActivity extends AppIntro2 implements DerivationTask.Callback 
     }
 
     @Override
-    public void onSlideChanged(Fragment oldFragment, Fragment newFragment) {
+    public void onSlideChanged(final Fragment oldFragment, final Fragment newFragment) {
         Intent intent = getIntent();
         int cryptType = intent.getIntExtra("cryptType", CustomAuthenticationSlide.CRYPT_TYPE_INVALID);
 
@@ -119,13 +119,13 @@ public class IntroActivity extends AppIntro2 implements DerivationTask.Callback 
     }
 
     @Override
-    public void onDonePressed(Fragment currentFragment) {
+    public void onDonePressed(final Fragment currentFragment) {
         super.onDonePressed(currentFragment);
 
         int cryptType = _authenticatedSlide.getCryptType();
         // wait for the key derivation background task
-        if (cryptType != CustomAuthenticationSlide.CRYPT_TYPE_NONE &&
-                (_passwordSlot == null || _passwordCipher == null)) {
+        if (cryptType != CustomAuthenticationSlide.CRYPT_TYPE_NONE
+                && (_passwordSlot == null || _passwordCipher == null)) {
             return;
         }
 
@@ -189,7 +189,7 @@ public class IntroActivity extends AppIntro2 implements DerivationTask.Callback 
     }
 
     @Override
-    public void onTaskFinished(SecretKey key) {
+    public void onTaskFinished(final SecretKey key) {
         if (key != null) {
             try {
                 _passwordCipher = Slot.createEncryptCipher(key);

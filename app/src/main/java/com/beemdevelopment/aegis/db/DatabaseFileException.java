@@ -1,11 +1,11 @@
 package com.beemdevelopment.aegis.db;
 
 public class DatabaseFileException extends Exception {
-    public DatabaseFileException(Throwable cause) {
+    public DatabaseFileException(final Throwable cause) {
         super(cause);
     }
 
-    public DatabaseFileException(String message) {
+    public DatabaseFileException(final String message) {
         super(message);
     }
 }

@@ -37,7 +37,7 @@ public abstract class Slot extends UUIDMap.Value {
         super();
     }
 
-    protected Slot(UUID uuid, byte[] key, CryptParameters keyParams) {
+    protected Slot(final UUID uuid, final byte[] key, final CryptParameters keyParams) {
         super(uuid);
         _encryptedMasterKey = key;
         _encryptedMasterKeyParams = keyParams;
@@ -48,7 +48,7 @@ public abstract class Slot extends UUIDMap.Value {
      * @throws SlotException if a generic crypto operation error occurred.
      * @throws SlotIntegrityException if an error occurred while verifying the integrity of the slot.
      */
-    public MasterKey getKey(Cipher cipher) throws SlotException, SlotIntegrityException {
+    public MasterKey getKey(final Cipher cipher) throws SlotException, SlotIntegrityException {
         try {
             CryptResult res = CryptoUtils.decrypt(_encryptedMasterKey, cipher, _encryptedMasterKeyParams);
             SecretKey key = new SecretKeySpec(res.getData(), CryptoUtils.CRYPTO_AEAD);
@@ -64,7 +64,7 @@ public abstract class Slot extends UUIDMap.Value {
      * Encrypts the given master key using the given cipher and stores the result in this slot.
      * @throws SlotException if a generic crypto operation error occurred.
      */
-    public void setKey(MasterKey masterKey, Cipher cipher) throws SlotException {
+    public void setKey(final MasterKey masterKey, final Cipher cipher) throws SlotException {
         try {
             byte[] masterKeyBytes = masterKey.getBytes();
             CryptResult res = CryptoUtils.encrypt(masterKeyBytes, cipher);
@@ -75,7 +75,7 @@ public abstract class Slot extends UUIDMap.Value {
         }
     }
 
-    public static Cipher createEncryptCipher(SecretKey key) throws SlotException {
+    public static Cipher createEncryptCipher(final SecretKey key) throws SlotException {
         try {
             return CryptoUtils.createEncryptCipher(key);
         } catch (InvalidAlgorithmParameterException
@@ -86,7 +86,7 @@ public abstract class Slot extends UUIDMap.Value {
         }
     }
 
-    public Cipher createDecryptCipher(SecretKey key) throws SlotException {
+    public Cipher createDecryptCipher(final SecretKey key) throws SlotException {
         try {
             return CryptoUtils.createDecryptCipher(key, _encryptedMasterKeyParams.getNonce());
         } catch (InvalidAlgorithmParameterException
@@ -110,7 +110,7 @@ public abstract class Slot extends UUIDMap.Value {
         }
     }
 
-    public static Slot fromJson(JSONObject obj) throws SlotException {
+    public static Slot fromJson(final JSONObject obj) throws SlotException {
         Slot slot;
 
         try {

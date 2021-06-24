@@ -29,7 +29,7 @@ public class GoogleAuthImporter extends DatabaseImporter {
     private static final String _subPath = "databases/databases";
     private static final String _pkgName = "com.google.android.apps.authenticator2";
 
-    public GoogleAuthImporter(Context context) {
+    public GoogleAuthImporter(final Context context) {
         super(context);
     }
 
@@ -44,7 +44,7 @@ public class GoogleAuthImporter extends DatabaseImporter {
     }
 
     @Override
-    public State read(FileReader reader) throws DatabaseImporterException {
+    public State read(final FileReader reader) throws DatabaseImporterException {
         File file;
 
         try {
@@ -65,7 +65,7 @@ public class GoogleAuthImporter extends DatabaseImporter {
                     do {
                         Entry entry = new Entry(cursor);
                         entries.add(entry);
-                    } while(cursor.moveToNext());
+                    } while (cursor.moveToNext());
                 }
 
                 return new State(entries);
@@ -81,7 +81,7 @@ public class GoogleAuthImporter extends DatabaseImporter {
     public static class State extends DatabaseImporter.State {
         private List<Entry> _entries;
 
-        private State(List<Entry> entries) {
+        private State(final List<Entry> entries) {
             super(false);
             _entries = entries;
         }
@@ -102,7 +102,7 @@ public class GoogleAuthImporter extends DatabaseImporter {
             return result;
         }
 
-        private static DatabaseEntry convertEntry(Entry entry) throws DatabaseImporterEntryException {
+        private static DatabaseEntry convertEntry(final Entry entry) throws DatabaseImporterEntryException {
             try {
                 byte[] secret = Base32.decode(entry.getSecret().toCharArray());
 
@@ -131,11 +131,11 @@ public class GoogleAuthImporter extends DatabaseImporter {
         }
     }
 
-    private static String getString(Cursor cursor, String columnName) {
+    private static String getString(final Cursor cursor, final String columnName) {
         return getString(cursor, columnName, null);
     }
 
-    private static String getString(Cursor cursor, String columnName, String def) {
+    private static String getString(final Cursor cursor, final String columnName, final String def) {
         String res = cursor.getString(cursor.getColumnIndex(columnName));
         if (res == null) {
             return def;
@@ -143,11 +143,11 @@ public class GoogleAuthImporter extends DatabaseImporter {
         return res;
     }
 
-    private static int getInt(Cursor cursor, String columnName) {
+    private static int getInt(final Cursor cursor, final String columnName) {
         return cursor.getInt(cursor.getColumnIndex(columnName));
     }
 
-    private static long getLong(Cursor cursor, String columnName) {
+    private static long getLong(final Cursor cursor, final String columnName) {
         return cursor.getLong(cursor.getColumnIndex(columnName));
     }
 
@@ -158,7 +158,7 @@ public class GoogleAuthImporter extends DatabaseImporter {
         private String _issuer;
         private long _counter;
 
-        public Entry(Cursor cursor) {
+        public Entry(final Cursor cursor) {
             _type = getInt(cursor, "type");
             _secret = getString(cursor, "secret");
             _email = getString(cursor, "email", "");

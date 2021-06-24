@@ -9,18 +9,18 @@ public class EditTextHelper {
     private EditTextHelper() {
     }
 
-    public static void clearEditText(EditText text) {
+    public static void clearEditText(final EditText text) {
         text.getText().clear();
     }
 
-    public static char[] getEditTextChars(EditText text) {
+    public static char[] getEditTextChars(final EditText text) {
         return getEditTextChars(text, false);
     }
 
-    public static char[] getEditTextChars(EditText text, boolean removeSpaces) {
+    public static char[] getEditTextChars(final EditText text, final boolean removeSpaces) {
         String editTextString = text.getText().toString();
         if (removeSpaces) {
-            editTextString = editTextString.replaceAll("\\s","");
+            editTextString = editTextString.replaceAll("\\s", "");
         }
 
         char[] chars = new char[editTextString.length()];
@@ -28,7 +28,7 @@ public class EditTextHelper {
         return chars;
     }
 
-    public static boolean areEditTextsEqual(EditText text1, EditText text2) {
+    public static boolean areEditTextsEqual(final EditText text1, final EditText text2) {
         char[] password = getEditTextChars(text1);
         char[] passwordConfirm = getEditTextChars(text2);
         return password.length != 0 && Arrays.equals(password, passwordConfirm);

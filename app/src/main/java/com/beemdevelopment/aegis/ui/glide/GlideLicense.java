@@ -13,12 +13,12 @@ public class GlideLicense extends License {
     }
 
     @Override
-    public String readSummaryTextFromResources(Context context) {
+    public String readSummaryTextFromResources(final Context context) {
         return getContent(context, R.raw.glide_license);
     }
 
     @Override
-    public String readFullTextFromResources(Context context) {
+    public String readFullTextFromResources(final Context context) {
         return getContent(context, R.raw.glide_license);
     }
 

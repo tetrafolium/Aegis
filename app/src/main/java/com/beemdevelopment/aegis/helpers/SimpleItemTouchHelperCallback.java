@@ -16,7 +16,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     private boolean _positionChanged = false;
     private boolean _isLongPressDragEnabled = true;
 
-    public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
+    public SimpleItemTouchHelperCallback(final ItemTouchHelperAdapter adapter) {
         _adapter = adapter;
     }
 
@@ -25,11 +25,11 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         return _isLongPressDragEnabled;
     }
 
-    public void setIsLongPressDragEnabled(boolean enabled) {
+    public void setIsLongPressDragEnabled(final boolean enabled) {
         _isLongPressDragEnabled = enabled;
     }
 
-    public void setSelectedEntry(DatabaseEntry entry) {
+    public void setSelectedEntry(final DatabaseEntry entry) {
         _selectedEntry = entry;
     }
 
@@ -39,12 +39,12 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     }
 
     @Override
-    public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+    public int getMovementFlags(final RecyclerView recyclerView, final RecyclerView.ViewHolder viewHolder) {
         int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
         int swipeFlags = 0;
 
         int position = viewHolder.getAdapterPosition();
-        EntryAdapter adapter = (EntryAdapter)recyclerView.getAdapter();
+        EntryAdapter adapter = (EntryAdapter) recyclerView.getAdapter();
         if (adapter.getEntryAt(position) != _selectedEntry)
         {
             dragFlags = 0;
@@ -54,20 +54,20 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     }
 
     @Override
-    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
-                          RecyclerView.ViewHolder target) {
+    public boolean onMove(final RecyclerView recyclerView, final RecyclerView.ViewHolder viewHolder,
+                          final RecyclerView.ViewHolder target) {
         _adapter.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
         _positionChanged = true;
         return true;
     }
 
     @Override
-    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+    public void onSwiped(final RecyclerView.ViewHolder viewHolder, final int direction) {
         _adapter.onItemDismiss(viewHolder.getAdapterPosition());
     }
 
     @Override
-    public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+    public void clearView(final RecyclerView recyclerView, final RecyclerView.ViewHolder viewHolder) {
         super.clearView(recyclerView, viewHolder);
 
         if (_positionChanged) {

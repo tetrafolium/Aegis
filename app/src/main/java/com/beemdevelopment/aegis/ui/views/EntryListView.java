@@ -52,7 +52,7 @@ public class EntryListView extends Fragment implements EntryAdapter.Listener {
     private UiRefresher _refresher;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         _adapter = new EntryAdapter(this);
         _showProgress = false;
@@ -65,7 +65,7 @@ public class EntryListView extends Fragment implements EntryAdapter.Listener {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_entry_list_view, container, false);
         _progressBar = view.findViewById(R.id.progressBar);
 
@@ -73,7 +73,7 @@ public class EntryListView extends Fragment implements EntryAdapter.Listener {
         _recyclerView = view.findViewById(R.id.rvKeyProfiles);
         _recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(final RecyclerView recyclerView, final int dx, final int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 _listener.onScroll(dx, dy);
             }
@@ -113,7 +113,7 @@ public class EntryListView extends Fragment implements EntryAdapter.Listener {
         return view;
     }
 
-    public void setPreloadView(View view) {
+    public void setPreloadView(final View view) {
         _preloadSizeProvider.setView(view);
     }
 
@@ -123,7 +123,7 @@ public class EntryListView extends Fragment implements EntryAdapter.Listener {
         super.onDestroyView();
     }
 
-    public void setGroupFilter(String group, boolean apply) {
+    public void setGroupFilter(final String group, final boolean apply) {
         _touchCallback.setIsLongPressDragEnabled(group == null);
         _adapter.setGroupFilter(group, apply);
 
@@ -132,13 +132,13 @@ public class EntryListView extends Fragment implements EntryAdapter.Listener {
         }
     }
 
-    public void setActionModeState(boolean enabled, DatabaseEntry entry) {
+    public void setActionModeState(final boolean enabled, final DatabaseEntry entry) {
         _touchCallback.setSelectedEntry(entry);
         _touchCallback.setIsLongPressDragEnabled(enabled && _adapter.isDragAndDropAllowed());
         _adapter.setSelectedEntry(entry);
     }
 
-    public void setSortCategory(SortCategory sortCategory, boolean apply) {
+    public void setSortCategory(final SortCategory sortCategory, final boolean apply) {
         _touchCallback.setIsLongPressDragEnabled(sortCategory == SortCategory.CUSTOM);
         _adapter.setSortCategory(sortCategory, apply);
 
@@ -147,55 +147,55 @@ public class EntryListView extends Fragment implements EntryAdapter.Listener {
         }
     }
 
-    public void setSearchFilter(String search) {
+    public void setSearchFilter(final String search) {
         _touchCallback.setIsLongPressDragEnabled(search == null);
         _adapter.setSearchFilter(search);
     }
 
-    public void setViewMode(ViewMode mode) {
+    public void setViewMode(final ViewMode mode) {
         _viewMode = mode;
         updateDividerDecoration();
         _adapter.setViewMode(_viewMode);
     }
 
-    public void refresh(boolean hard) {
+    public void refresh(final boolean hard) {
         if (_showProgress) {
             _progressBar.refresh();
         }
         _adapter.refresh(hard);
     }
 
-    public void setListener(Listener listener) {
+    public void setListener(final Listener listener) {
         _listener = listener;
     }
 
     @Override
-    public void onEntryClick(DatabaseEntry entry) {
+    public void onEntryClick(final DatabaseEntry entry) {
         _listener.onEntryClick(entry);
     }
 
-    public boolean onLongEntryClick(DatabaseEntry entry) {
+    public boolean onLongEntryClick(final DatabaseEntry entry) {
         _listener.onLongEntryClick(entry);
         return true;
     }
 
     @Override
-    public void onEntryMove(DatabaseEntry entry1, DatabaseEntry entry2) {
+    public void onEntryMove(final DatabaseEntry entry1, final DatabaseEntry entry2) {
         _listener.onEntryMove(entry1, entry2);
     }
 
     @Override
-    public void onEntryDrop(DatabaseEntry entry) {
+    public void onEntryDrop(final DatabaseEntry entry) {
         _listener.onEntryDrop(entry);
     }
 
     @Override
-    public void onEntryChange(DatabaseEntry entry) {
+    public void onEntryChange(final DatabaseEntry entry) {
         _listener.onEntryChange(entry);
     }
 
     @Override
-    public void onPeriodUniformityChanged(boolean isUniform) {
+    public void onPeriodUniformityChanged(final boolean isUniform) {
         setShowProgress(isUniform);
         if (_showProgress) {
             _progressBar.setVisibility(View.VISIBLE);
@@ -207,37 +207,37 @@ public class EntryListView extends Fragment implements EntryAdapter.Listener {
         }
     }
 
-    public void setShowAccountName(boolean showAccountName) {
+    public void setShowAccountName(final boolean showAccountName) {
         _adapter.setShowAccountName(showAccountName);
     }
 
-    public void setSearchAccountName(boolean searchAccountName) {
+    public void setSearchAccountName(final boolean searchAccountName) {
         _adapter.setSearchAccountName(searchAccountName);
     }
 
-    public void setHighlightEntry(boolean highlightEntry) {
+    public void setHighlightEntry(final boolean highlightEntry) {
         _adapter.setHighlightEntry(highlightEntry);
     }
 
-    public void setTapToReveal(boolean tapToReveal) {
+    public void setTapToReveal(final boolean tapToReveal) {
         _adapter.setTapToReveal(tapToReveal);
     }
 
-    public void setTapToRevealTime(int number) {
+    public void setTapToRevealTime(final int number) {
         _adapter.setTapToRevealTime(number);
     }
 
-    public void addEntry(DatabaseEntry entry) {
+    public void addEntry(final DatabaseEntry entry) {
         _adapter.addEntry(entry);
         updateEmptyState();
     }
 
-    public void addEntries(List<DatabaseEntry> entries) {
+    public void addEntries(final List<DatabaseEntry> entries) {
         _adapter.addEntries(entries);
         updateEmptyState();
     }
 
-    public void removeEntry(DatabaseEntry entry) {
+    public void removeEntry(final DatabaseEntry entry) {
         _adapter.removeEntry(entry);
         updateEmptyState();
     }
@@ -246,7 +246,7 @@ public class EntryListView extends Fragment implements EntryAdapter.Listener {
         _adapter.clearEntries();
     }
 
-    public void replaceEntry(DatabaseEntry oldEntry, DatabaseEntry newEntry) {
+    public void replaceEntry(final DatabaseEntry oldEntry, final DatabaseEntry newEntry) {
         _adapter.replaceEntry(oldEntry, newEntry);
     }
 
@@ -259,7 +259,7 @@ public class EntryListView extends Fragment implements EntryAdapter.Listener {
         _recyclerView.scheduleLayoutAnimation();
     }
 
-    private void setShowProgress(boolean showProgress) {
+    private void setShowProgress(final boolean showProgress) {
         _showProgress = showProgress;
         updateDividerDecoration();
     }
@@ -303,13 +303,13 @@ public class EntryListView extends Fragment implements EntryAdapter.Listener {
     private class VerticalSpaceItemDecoration extends RecyclerView.ItemDecoration {
         private int _height;
 
-        private VerticalSpaceItemDecoration(float dp) {
+        private VerticalSpaceItemDecoration(final float dp) {
             // convert dp to pixels
             _height = (int) (dp * (getContext().getResources().getDisplayMetrics().densityDpi / 160f));
         }
 
         @Override
-        public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+        public void getItemOffsets(final @NonNull Rect outRect, final @NonNull View view, final @NonNull RecyclerView parent, final @NonNull RecyclerView.State state) {
             if (parent.getChildAdapterPosition(view) == 0) {
                 // the first item should also have a top margin
                 outRect.top = _height;
@@ -321,7 +321,7 @@ public class EntryListView extends Fragment implements EntryAdapter.Listener {
     private class IconPreloadProvider implements ListPreloader.PreloadModelProvider<DatabaseEntry> {
         @NonNull
         @Override
-        public List<DatabaseEntry> getPreloadItems(int position) {
+        public List<DatabaseEntry> getPreloadItems(final int position) {
             DatabaseEntry entry = _adapter.getEntryAt(position);
             if (!entry.hasIcon()) {
                 return Collections.emptyList();
@@ -331,7 +331,7 @@ public class EntryListView extends Fragment implements EntryAdapter.Listener {
 
         @Nullable
         @Override
-        public RequestBuilder getPreloadRequestBuilder(@NonNull DatabaseEntry entry) {
+        public RequestBuilder getPreloadRequestBuilder(final @NonNull DatabaseEntry entry) {
             return Glide.with(EntryListView.this)
                    .asDrawable()
                    .load(entry)

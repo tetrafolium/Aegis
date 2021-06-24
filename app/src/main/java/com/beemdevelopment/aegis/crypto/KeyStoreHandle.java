@@ -36,7 +36,7 @@ public class KeyStoreHandle {
         }
     }
 
-    public boolean containsKey(String id) throws KeyStoreHandleException {
+    public boolean containsKey(final String id) throws KeyStoreHandleException {
         try {
             return _keyStore.containsAlias(id);
         } catch (KeyStoreException e) {
@@ -44,7 +44,7 @@ public class KeyStoreHandle {
         }
     }
 
-    public SecretKey generateKey(String id) throws KeyStoreHandleException {
+    public SecretKey generateKey(final String id) throws KeyStoreHandleException {
         if (!isSupported()) {
             throw new KeyStoreHandleException("Symmetric KeyStore keys are not supported in this version of Android");
         }
@@ -66,7 +66,7 @@ public class KeyStoreHandle {
         }
     }
 
-    public SecretKey getKey(String id) throws KeyStoreHandleException {
+    public SecretKey getKey(final String id) throws KeyStoreHandleException {
         SecretKey key;
 
         try {
@@ -87,7 +87,7 @@ public class KeyStoreHandle {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private static boolean isKeyPermanentlyInvalidated(SecretKey key) {
+    private static boolean isKeyPermanentlyInvalidated(final SecretKey key) {
         // try to initialize a dummy cipher
         // and see if KeyPermanentlyInvalidatedException is thrown
         try {
@@ -106,7 +106,7 @@ public class KeyStoreHandle {
         return false;
     }
 
-    public void deleteKey(String id) throws KeyStoreHandleException {
+    public void deleteKey(final String id) throws KeyStoreHandleException {
         try {
             _keyStore.deleteEntry(id);
         } catch (KeyStoreException e) {

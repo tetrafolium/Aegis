@@ -46,7 +46,7 @@ public class CustomAuthenticatedSlide extends Fragment implements FingerprintUiH
     private boolean _fingerAuthenticated;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_authenticated_slide, container, false);
         _textPassword = view.findViewById(R.id.text_password);
         _textPasswordConfirm = view.findViewById(R.id.text_password_confirm);
@@ -80,7 +80,7 @@ public class CustomAuthenticatedSlide extends Fragment implements FingerprintUiH
         return _fingerSlot;
     }
 
-    public void setBgColor(int color) {
+    public void setBgColor(final int color) {
         _bgColor = color;
     }
 
@@ -90,7 +90,7 @@ public class CustomAuthenticatedSlide extends Fragment implements FingerprintUiH
         Intent intent = getActivity().getIntent();
         _cryptType = intent.getIntExtra("cryptType", CustomAuthenticationSlide.CRYPT_TYPE_INVALID);
 
-        switch(_cryptType) {
+        switch (_cryptType) {
         case CustomAuthenticationSlide.CRYPT_TYPE_NONE:
         case CustomAuthenticationSlide.CRYPT_TYPE_PASS:
             break;
@@ -138,7 +138,7 @@ public class CustomAuthenticatedSlide extends Fragment implements FingerprintUiH
 
     @Override
     public boolean isPolicyRespected() {
-        switch(_cryptType) {
+        switch (_cryptType) {
         case CustomAuthenticationSlide.CRYPT_TYPE_NONE:
             return true;
         case CustomAuthenticationSlide.CRYPT_TYPE_FINGER:

@@ -48,7 +48,7 @@ public abstract class DatabaseImporter {
         _appImporters.put("Steam", SteamImporter.class);
     }
 
-    public DatabaseImporter(Context context) {
+    public DatabaseImporter(final Context context) {
         _context = context;
     }
 
@@ -60,7 +60,7 @@ public abstract class DatabaseImporter {
         return getAppPath(getAppPkgName(), getAppSubPath());
     }
 
-    protected SuFile getAppPath(String pkgName, String subPath) throws PackageManager.NameNotFoundException {
+    protected SuFile getAppPath(final String pkgName, final String subPath) throws PackageManager.NameNotFoundException {
         PackageManager man = getContext().getPackageManager();
         return new SuFile(man.getApplicationInfo(pkgName, 0).dataDir, subPath);
     }
@@ -71,7 +71,7 @@ public abstract class DatabaseImporter {
 
     public abstract State read(FileReader reader) throws DatabaseImporterException;
 
-    public static DatabaseImporter create(Context context, Class<? extends DatabaseImporter> type) {
+    public static DatabaseImporter create(final Context context, final Class<? extends DatabaseImporter> type) {
         try {
             return type.getConstructor(Context.class).newInstance(context);
         } catch (IllegalAccessException | InstantiationException
@@ -91,7 +91,7 @@ public abstract class DatabaseImporter {
     public static abstract class State {
         private boolean _encrypted;
 
-        public State(boolean encrypted) {
+        public State(final boolean encrypted) {
             _encrypted = encrypted;
         }
 
@@ -99,7 +99,7 @@ public abstract class DatabaseImporter {
             return _encrypted;
         }
 
-        public void decrypt(Context context, DecryptListener listener) throws DatabaseImporterException {
+        public void decrypt(final Context context, final DecryptListener listener) throws DatabaseImporterException {
             if (!_encrypted) {
                 throw new RuntimeException("Attempted to decrypt a plain text database");
             }
@@ -120,11 +120,11 @@ public abstract class DatabaseImporter {
         private UUIDMap<DatabaseEntry> _entries = new UUIDMap<>();
         private List<DatabaseImporterEntryException> _errors = new ArrayList<>();
 
-        public void addEntry(DatabaseEntry entry) {
+        public void addEntry(final DatabaseEntry entry) {
             _entries.add(entry);
         }
 
-        public void addError(DatabaseImporterEntryException error) {
+        public void addError(final DatabaseImporterEntryException error) {
             _errors.add(error);
         }
 
@@ -141,11 +141,11 @@ public abstract class DatabaseImporter {
         private InputStream _stream;
         private boolean _internal;
 
-        public FileReader(InputStream stream) {
+        public FileReader(final InputStream stream) {
             this(stream, false);
         }
 
-        public FileReader(InputStream stream, boolean internal) {
+        public FileReader(final InputStream stream, final boolean internal) {
             _stream = stream;
             _internal = internal;
         }

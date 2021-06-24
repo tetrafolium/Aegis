@@ -70,11 +70,11 @@ public class AegisApplication extends Application {
         return _prefs.isAutoLockEnabled() && _manager.isLoaded() && _manager.isEncryptionEnabled() && !_manager.isLocked();
     }
 
-    public void registerLockListener(LockListener listener) {
+    public void registerLockListener(final LockListener listener) {
         _lockListeners.add(listener);
     }
 
-    public void unregisterLockListener(LockListener listener) {
+    public void unregisterLockListener(final LockListener listener) {
         _lockListeners.remove(listener);
     }
 
@@ -124,7 +124,7 @@ public class AegisApplication extends Application {
 
     public class ScreenOffReceiver extends BroadcastReceiver {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             if (isAutoLockEnabled()) {
                 lock();
             }

@@ -20,7 +20,7 @@ public enum SortCategory {
         _values = values();
     }
 
-    public static SortCategory fromInteger(int x) {
+    public static SortCategory fromInteger(final int x) {
         return _values[x];
     }
 

@@ -43,7 +43,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryHolder> implements I
     // keeps track of the viewholders that are currently bound
     private List<EntryHolder> _holders;
 
-    public EntryAdapter(EntryListView view) {
+    public EntryAdapter(final EntryListView view) {
         _entries = new ArrayList<>();
         _shownEntries = new ArrayList<>();
         _holders = new ArrayList<>();
@@ -58,31 +58,31 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryHolder> implements I
         _view = null;
     }
 
-    public void setShowAccountName(boolean showAccountName) {
+    public void setShowAccountName(final boolean showAccountName) {
         _showAccountName = showAccountName;
     }
 
-    public void setTapToReveal(boolean tapToReveal) {
+    public void setTapToReveal(final boolean tapToReveal) {
         _tapToReveal = tapToReveal;
     }
 
-    public void setTapToRevealTime(int number) {
+    public void setTapToRevealTime(final int number) {
         _tapToRevealTime = number;
     }
 
-    public void setSearchAccountName(boolean searchAccountName) {
+    public void setSearchAccountName(final boolean searchAccountName) {
         _searchAccountName = searchAccountName;
     }
 
-    public void setHighlightEntry(boolean highlightEntry) {
+    public void setHighlightEntry(final boolean highlightEntry) {
         _highlightEntry = highlightEntry;
     }
 
-    public DatabaseEntry getEntryAt(int position) {
+    public DatabaseEntry getEntryAt(final int position) {
         return _shownEntries.get(position);
     }
 
-    public void addEntry(DatabaseEntry entry) {
+    public void addEntry(final DatabaseEntry entry) {
         _entries.add(entry);
         if (isEntryFiltered(entry)) {
             return;
@@ -117,13 +117,13 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryHolder> implements I
         checkPeriodUniformity();
     }
 
-    public void addEntries(List<DatabaseEntry> entries) {
+    public void addEntries(final List<DatabaseEntry> entries) {
         _entries.addAll(entries);
         updateShownEntries();
         checkPeriodUniformity(true);
     }
 
-    public void removeEntry(DatabaseEntry entry) {
+    public void removeEntry(final DatabaseEntry entry) {
         _entries.remove(entry);
 
         if (_shownEntries.contains(entry)) {
@@ -142,7 +142,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryHolder> implements I
         checkPeriodUniformity();
     }
 
-    public void replaceEntry(DatabaseEntry oldEntry, DatabaseEntry newEntry) {
+    public void replaceEntry(final DatabaseEntry oldEntry, final DatabaseEntry newEntry) {
         _entries.set(_entries.indexOf(oldEntry), newEntry);
 
         if (_shownEntries.contains(oldEntry)) {
@@ -165,7 +165,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryHolder> implements I
         checkPeriodUniformity();
     }
 
-    private boolean isEntryFiltered(DatabaseEntry entry) {
+    private boolean isEntryFiltered(final DatabaseEntry entry) {
         String group = entry.getGroup();
         String issuer = entry.getIssuer().toLowerCase();
         String name = entry.getName().toLowerCase();
@@ -187,7 +187,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryHolder> implements I
         return !issuer.contains(_searchFilter) && !(_searchAccountName && name.contains(_searchFilter));
     }
 
-    public void refresh(boolean hard) {
+    public void refresh(final boolean hard) {
         if (hard) {
             notifyDataSetChanged();
         } else {
@@ -197,7 +197,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryHolder> implements I
         }
     }
 
-    public void setGroupFilter(String group, boolean apply) {
+    public void setGroupFilter(final String group, final boolean apply) {
         if (_groupFilter != null && _groupFilter.equals(group)) {
             return;
         }
@@ -208,7 +208,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryHolder> implements I
         }
     }
 
-    public void setSortCategory(SortCategory category, boolean apply) {
+    public void setSortCategory(final SortCategory category, final boolean apply) {
         if (_sortCategory == category) {
             return;
         }
@@ -219,7 +219,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryHolder> implements I
         }
     }
 
-    public void setSearchFilter(String search) {
+    public void setSearchFilter(final String search) {
         _searchFilter = search != null ? search.toLowerCase() : null;
         updateShownEntries();
     }
@@ -244,17 +244,17 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryHolder> implements I
         notifyDataSetChanged();
     }
 
-    public void setViewMode(ViewMode viewMode) {
+    public void setViewMode(final ViewMode viewMode) {
         _viewMode = viewMode;
     }
 
     @Override
-    public void onItemDismiss(int position) {
+    public void onItemDismiss(final int position) {
 
     }
 
     @Override
-    public void onItemDrop(int position) {
+    public void onItemDrop(final int position) {
         // moving entries is not allowed when a filter is applied
         if (_groupFilter != null) {
             return;
@@ -264,7 +264,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryHolder> implements I
     }
 
     @Override
-    public void onItemMove(int firstPosition, int secondPosition) {
+    public void onItemMove(final int firstPosition, final int secondPosition) {
         // moving entries is not allowed when a filter is applied
         if (_groupFilter != null) {
             return;
@@ -280,12 +280,12 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryHolder> implements I
     }
 
     @Override
-    public int getItemViewType(int position) {
+    public int getItemViewType(final int position) {
         return _viewMode.getLayoutId();
     }
 
     @Override
-    public EntryHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public EntryHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(_viewMode.getLayoutId(), parent, false);
         EntryHolder holder = new EntryHolder(view);
@@ -294,13 +294,13 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryHolder> implements I
     }
 
     @Override
-    public void onViewRecycled(EntryHolder holder) {
+    public void onViewRecycled(final EntryHolder holder) {
         holder.stopRefreshLoop();
         _holders.remove(holder);
     }
 
     @Override
-    public void onBindViewHolder(final EntryHolder holder, int position) {
+    public void onBindViewHolder(final EntryHolder holder, final int position) {
         DatabaseEntry entry = _shownEntries.get(position);
         holder.setFocused(entry == _selectedEntry);
 
@@ -312,7 +312,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryHolder> implements I
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 boolean handled = false;
 
                 if (_selectedEntry == null) {
@@ -337,7 +337,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryHolder> implements I
         });
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View v) {
+            public boolean onLongClick(final View v) {
                 int position = holder.getAdapterPosition();
                 if (_selectedEntry == null) {
                     setSelectedEntry(_shownEntries.get(position));
@@ -349,7 +349,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryHolder> implements I
         });
         holder.setOnRefreshClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 // this will only be called if the entry is of type HotpInfo
                 try {
                     ((HotpInfo) entry.getInfo()).incrementCounter();
@@ -373,7 +373,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryHolder> implements I
         checkPeriodUniformity(false);
     }
 
-    private void checkPeriodUniformity(boolean force) {
+    private void checkPeriodUniformity(final boolean force) {
         boolean uniform = isPeriodUniform();
         if (!force && uniform == _isPeriodUniform) {
             return;
@@ -410,7 +410,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryHolder> implements I
         return period;
     }
 
-    private void highlightEntry(DatabaseEntry entry) {
+    private void highlightEntry(final DatabaseEntry entry) {
         _highlightedEntry = entry;
         _dimHandler.removeCallbacksAndMessages(null);
 
@@ -433,7 +433,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryHolder> implements I
         }
     }
 
-    public void setSelectedEntry(DatabaseEntry entry) {
+    public void setSelectedEntry(final DatabaseEntry entry) {
         if (entry == null) {
             notifyItemChanged(_shownEntries.indexOf(_selectedEntry));
         } else if (_highlightEntry) {

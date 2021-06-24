@@ -16,7 +16,7 @@ public class Cloner {
      * Returns an exact clone of the given Serializable object.
      */
     @SuppressWarnings("unchecked cast")
-    public static <T extends Serializable> T clone(T obj) {
+    public static <T extends Serializable> T clone(final T obj) {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(baos);

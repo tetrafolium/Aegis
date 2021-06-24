@@ -24,7 +24,7 @@ public class DatabaseFile {
 
     }
 
-    private DatabaseFile(Object content, Header header) {
+    private DatabaseFile(final Object content, final Header header) {
         _content = content;
         _header = header;
     }
@@ -60,7 +60,7 @@ public class DatabaseFile {
         }
     }
 
-    public static DatabaseFile fromJson(JSONObject obj) throws DatabaseFileException {
+    public static DatabaseFile fromJson(final JSONObject obj) throws DatabaseFileException {
         try {
             if (obj.getInt("version") > VERSION) {
                 throw new DatabaseFileException("unsupported version");
@@ -77,7 +77,7 @@ public class DatabaseFile {
         }
     }
 
-    public static DatabaseFile fromBytes(byte[] data) throws DatabaseFileException {
+    public static DatabaseFile fromBytes(final byte[] data) throws DatabaseFileException {
         try {
             JSONObject obj = new JSONObject(new String(data, StandardCharsets.UTF_8));
             return DatabaseFile.fromJson(obj);
@@ -90,7 +90,7 @@ public class DatabaseFile {
         return (JSONObject) _content;
     }
 
-    public JSONObject getContent(DatabaseFileCredentials creds) throws DatabaseFileException {
+    public JSONObject getContent(final DatabaseFileCredentials creds) throws DatabaseFileException {
         try {
             byte[] bytes = Base64.decode((String) _content);
             CryptResult result = creds.decrypt(bytes, _header.getParams());
@@ -100,12 +100,12 @@ public class DatabaseFile {
         }
     }
 
-    public void setContent(JSONObject obj) {
+    public void setContent(final JSONObject obj) {
         _content = obj;
         _header = new Header(null, null);
     }
 
-    public void setContent(JSONObject obj, DatabaseFileCredentials creds) throws DatabaseFileException {
+    public void setContent(final JSONObject obj, final DatabaseFileCredentials creds) throws DatabaseFileException {
         try {
             String string = obj.toString(4);
             byte[] dbBytes = string.getBytes(StandardCharsets.UTF_8);
@@ -122,12 +122,12 @@ public class DatabaseFile {
         private SlotList _slots;
         private CryptParameters _params;
 
-        public Header(SlotList slots, CryptParameters params) {
+        public Header(final SlotList slots, final CryptParameters params) {
             _slots = slots;
             _params = params;
         }
 
-        public static Header fromJson(JSONObject obj) throws DatabaseFileException {
+        public static Header fromJson(final JSONObject obj) throws DatabaseFileException {
             if (obj.isNull("slots") && obj.isNull("params")) {
                 return new Header(null, null);
             }

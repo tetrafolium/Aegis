@@ -89,7 +89,7 @@ public class EditEntryActivity extends AegisActivity {
     private RelativeLayout _advancedSettings;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_entry);
 
@@ -183,7 +183,7 @@ public class EditEntryActivity extends AegisActivity {
         // show/hide period and counter fields on type change
         _spinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
                 String type = _spinnerType.getSelectedItem().toString();
 
                 switch (type.toLowerCase()) {
@@ -202,7 +202,7 @@ public class EditEntryActivity extends AegisActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onNothingSelected(final AdapterView<?> parent) {
 
             }
         });
@@ -212,7 +212,7 @@ public class EditEntryActivity extends AegisActivity {
             private int prevPosition;
 
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
                 if (position == _spinnerGroupList.size() - 1) {
                     Dialogs.showTextInputDialog(activity, R.string.set_group, R.string.group_name_hint, text -> {
                         String str = new String(text);
@@ -232,7 +232,7 @@ public class EditEntryActivity extends AegisActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onNothingSelected(final AdapterView<?> parent) {
 
             }
         });
@@ -255,7 +255,7 @@ public class EditEntryActivity extends AegisActivity {
         }
     }
 
-    private void setGroup(String groupName) {
+    private void setGroup(final String groupName) {
         if (groupName == null) {
             return;
         }
@@ -275,35 +275,35 @@ public class EditEntryActivity extends AegisActivity {
 
         fadeOut.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) {
+            public void onAnimationStart(final Animation animation) {
 
             }
 
             @Override
-            public void onAnimationEnd(Animation animation) {
+            public void onAnimationEnd(final Animation animation) {
                 _advancedSettingsHeader.setVisibility(View.GONE);
                 _advancedSettings.startAnimation(fadeIn);
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) {
+            public void onAnimationRepeat(final Animation animation) {
 
             }
         });
 
         fadeIn.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) {
+            public void onAnimationStart(final Animation animation) {
 
             }
 
             @Override
-            public void onAnimationEnd(Animation animation) {
+            public void onAnimationEnd(final Animation animation) {
                 _advancedSettings.setVisibility(View.VISIBLE);
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) {
+            public void onAnimationRepeat(final Animation animation) {
 
             }
         });
@@ -350,7 +350,7 @@ public class EditEntryActivity extends AegisActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
         case android.R.id.home:
             onBackPressed();
@@ -376,7 +376,7 @@ public class EditEntryActivity extends AegisActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.menu_edit, menu);
         if (_isNew) {
             menu.findItem(R.id.action_delete).setVisible(false);
@@ -388,7 +388,7 @@ public class EditEntryActivity extends AegisActivity {
         return true;
     }
 
-    private void finish(DatabaseEntry entry, boolean delete) {
+    private void finish(final DatabaseEntry entry, final boolean delete) {
         Intent intent = new Intent();
         intent.putExtra("entry", entry);
         intent.putExtra("delete", delete);
@@ -397,7 +397,7 @@ public class EditEntryActivity extends AegisActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, final int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Glide.with(this)
             .asBitmap()
@@ -406,12 +406,12 @@ public class EditEntryActivity extends AegisActivity {
             .skipMemoryCache(false)
             .into(new CustomTarget<Bitmap>() {
                 @Override
-                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                public void onResourceReady(final @NonNull Bitmap resource, final @Nullable Transition<? super Bitmap> transition) {
                     _kropView.setBitmap(resource);
                 }
 
                 @Override
-                public void onLoadCleared(@Nullable Drawable placeholder) {
+                public void onLoadCleared(final @Nullable Drawable placeholder) {
 
                 }
             });
@@ -420,7 +420,7 @@ public class EditEntryActivity extends AegisActivity {
 
             _saveImageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                     _iconView.setImageBitmap(_kropView.getCroppedBitmap());
                     _iconView.setVisibility(View.VISIBLE);
                     _kropView.setVisibility(View.GONE);
@@ -519,7 +519,7 @@ public class EditEntryActivity extends AegisActivity {
         return entry;
     }
 
-    private void onSaveError(String msg) {
+    private void onSaveError(final String msg) {
         Dialogs.showSecureDialog(new AlertDialog.Builder(this)
                                  .setTitle(getString(R.string.saving_profile_error))
                                  .setMessage(msg)
@@ -542,15 +542,15 @@ public class EditEntryActivity extends AegisActivity {
 
     private TextWatcher _iconChangeListener = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
         }
 
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
         }
 
         @Override
-        public void afterTextChanged(Editable s) {
+        public void afterTextChanged(final Editable s) {
             if (!_hasCustomIcon) {
                 TextDrawable drawable = TextDrawableHelper.generate(_textIssuer.getText().toString(), _textName.getText().toString(), _iconView);
                 _iconView.setImageDrawable(drawable);
@@ -558,7 +558,7 @@ public class EditEntryActivity extends AegisActivity {
         }
     };
 
-    private int getStringResourceIndex(@ArrayRes int id, String string) {
+    private int getStringResourceIndex(final @ArrayRes int id, final String string) {
         String[] res = getResources().getStringArray(id);
         for (int i = 0; i < res.length; i++) {
             if (res[i].equalsIgnoreCase(string)) {
@@ -569,7 +569,7 @@ public class EditEntryActivity extends AegisActivity {
     }
 
     private static class ParseException extends Exception {
-        public ParseException(String message) {
+        public ParseException(final String message) {
             super(message);
         }
     }

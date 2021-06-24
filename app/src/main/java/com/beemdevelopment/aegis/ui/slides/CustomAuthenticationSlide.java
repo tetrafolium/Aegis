@@ -28,7 +28,7 @@ public class CustomAuthenticationSlide extends Fragment implements ISlidePolicy,
     private int _bgColor;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_authentication_slide, container, false);
         _buttonGroup = view.findViewById(R.id.rg_authenticationMethod);
         _buttonGroup.setOnCheckedChangeListener(this);
@@ -46,7 +46,7 @@ public class CustomAuthenticationSlide extends Fragment implements ISlidePolicy,
         return view;
     }
 
-    public void setBgColor(int color) {
+    public void setBgColor(final int color) {
         _bgColor = color;
     }
 
@@ -62,7 +62,7 @@ public class CustomAuthenticationSlide extends Fragment implements ISlidePolicy,
     }
 
     @Override
-    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+    public void onCheckedChanged(final RadioGroup radioGroup, final int i) {
         if (i == -1) {
             return;
         }

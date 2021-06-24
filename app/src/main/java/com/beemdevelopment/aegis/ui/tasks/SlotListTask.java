@@ -20,14 +20,14 @@ public class SlotListTask<T extends Slot> extends ProgressDialogTask<SlotListTas
     private Callback _cb;
     private Class<T> _type;
 
-    public SlotListTask(Class<T> type, Context context, Callback cb) {
+    public SlotListTask(final Class<T> type, final Context context, final Callback cb) {
         super(context, context.getString(R.string.unlocking_vault));
         _cb = cb;
         _type = type;
     }
 
     @Override
-    protected Result doInBackground(SlotListTask.Params... args) {
+    protected Result doInBackground(final SlotListTask.Params... args) {
         setPriority();
 
         Params params = args[0];
@@ -51,13 +51,13 @@ public class SlotListTask<T extends Slot> extends ProgressDialogTask<SlotListTas
         return null;
     }
 
-    private Result decryptFingerprintSlot(FingerprintSlot slot, Cipher cipher)
+    private Result decryptFingerprintSlot(final FingerprintSlot slot, final Cipher cipher)
     throws SlotException, SlotIntegrityException {
         MasterKey key = slot.getKey(cipher);
         return new Result(key, slot);
     }
 
-    private Result decryptPasswordSlot(PasswordSlot slot, char[] password)
+    private Result decryptPasswordSlot(final PasswordSlot slot, final char[] password)
     throws SlotIntegrityException, SlotException {
         MasterKey masterKey;
         SecretKey key = slot.deriveKey(password);
@@ -92,14 +92,14 @@ public class SlotListTask<T extends Slot> extends ProgressDialogTask<SlotListTas
         return new Result(masterKey, slot, repaired);
     }
 
-    private MasterKey decryptPasswordSlot(PasswordSlot slot, SecretKey key)
+    private MasterKey decryptPasswordSlot(final PasswordSlot slot, final SecretKey key)
     throws SlotException, SlotIntegrityException {
         Cipher cipher = slot.createDecryptCipher(key);
         return slot.getKey(cipher);
     }
 
     @Override
-    protected void onPostExecute(Result result) {
+    protected void onPostExecute(final Result result) {
         super.onPostExecute(result);
         _cb.onTaskFinished(result);
     }
@@ -108,7 +108,7 @@ public class SlotListTask<T extends Slot> extends ProgressDialogTask<SlotListTas
         private SlotList _slots;
         private Object _obj;
 
-        public Params(SlotList slots, Object obj) {
+        public Params(final SlotList slots, final Object obj) {
             _slots = slots;
             _obj = obj;
         }
@@ -127,13 +127,13 @@ public class SlotListTask<T extends Slot> extends ProgressDialogTask<SlotListTas
         private Slot _slot;
         private boolean _repaired;
 
-        public Result(MasterKey key, Slot slot, boolean repaired) {
+        public Result(final MasterKey key, final Slot slot, final boolean repaired) {
             _key = key;
             _slot = slot;
             _repaired = repaired;
         }
 
-        public Result(MasterKey key, Slot slot) {
+        public Result(final MasterKey key, final Slot slot) {
             this(key, slot, false);
         }
 

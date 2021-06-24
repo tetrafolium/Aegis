@@ -34,7 +34,7 @@ public class AboutActivity extends AegisActivity {
     private static String PLAYSTORE_BEEMDEVELOPMENT = "https://play.google.com/store/apps/details?id=com.beemdevelopment.aegis";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         LayoutInflaterCompat.setFactory2(getLayoutInflater(), new IconicsLayoutInflater2(getDelegate()));
 
         super.onCreate(savedInstanceState);
@@ -67,7 +67,7 @@ public class AboutActivity extends AegisActivity {
         btnWebsite.setOnClickListener(v -> openUrl(WEBSITE_BEEMDEVELOPMENT));
 
         View btnRate = findViewById(R.id.btn_rate);
-        btnRate.setOnClickListener(v -> openUrl(PLAYSTORE_BEEMDEVELOPMENT ));
+        btnRate.setOnClickListener(v -> openUrl(PLAYSTORE_BEEMDEVELOPMENT));
 
         View btnChangelog = findViewById(R.id.btn_changelog);
         btnChangelog.setOnClickListener(v -> {
@@ -83,7 +83,7 @@ public class AboutActivity extends AegisActivity {
         return BuildConfig.VERSION_NAME;
     }
 
-    private void openUrl(String url) {
+    private void openUrl(final String url) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW);
         browserIntent.setData(Uri.parse(url));
         browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -91,14 +91,14 @@ public class AboutActivity extends AegisActivity {
         startActivity(browserIntent);
     }
 
-    private void copyToClipboard(String text, @StringRes int messageId) {
+    private void copyToClipboard(final String text, final @StringRes int messageId) {
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData data = ClipData.newPlainText("text/plain", text);
         clipboard.setPrimaryClip(data);
         Toast.makeText(this, messageId, Toast.LENGTH_SHORT).show();
     }
 
-    private void openMail(String mailaddress) {
+    private void openMail(final String mailaddress) {
         Intent mailIntent = new Intent(Intent.ACTION_SENDTO);
         mailIntent.setData(Uri.parse("mailto:" + mailaddress));
         mailIntent.putExtra(Intent.EXTRA_EMAIL, mailaddress);

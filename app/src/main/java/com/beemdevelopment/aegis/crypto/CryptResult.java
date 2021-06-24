@@ -4,7 +4,7 @@ public class CryptResult {
     private byte[] _data;
     private CryptParameters _params;
 
-    public CryptResult(byte[] data, CryptParameters params) {
+    public CryptResult(final byte[] data, final CryptParameters params) {
         _data = data;
         _params = params;
     }

@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ByteInputStream extends ByteArrayInputStream {
-    private ByteInputStream(byte[] buf) {
+    private ByteInputStream(final byte[] buf) {
         super(buf);
     }
 
-    public static ByteInputStream create(InputStream fileStream) throws IOException {
+    public static ByteInputStream create(final InputStream fileStream) throws IOException {
         int read;
         byte[] buf = new byte[4096];
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();

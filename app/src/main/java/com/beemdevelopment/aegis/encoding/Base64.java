@@ -9,7 +9,7 @@ public class Base64 {
 
     }
 
-    public static byte[] decode(String s) throws Base64Exception {
+    public static byte[] decode(final String s) throws Base64Exception {
         try {
             return android.util.Base64.decode(s, _flags);
         } catch (IllegalArgumentException e) {
@@ -17,7 +17,7 @@ public class Base64 {
         }
     }
 
-    public static String encode(byte[] data) {
+    public static String encode(final byte[] data) {
         byte[] encoded = android.util.Base64.encode(data, _flags);
         return new String(encoded, StandardCharsets.UTF_8);
     }

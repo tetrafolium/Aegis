@@ -18,11 +18,11 @@ public class GroupHolder extends RecyclerView.ViewHolder {
         _buttonDelete = view.findViewById(R.id.button_delete);
     }
 
-    public void setData(String groupName) {
+    public void setData(final String groupName) {
         _slotName.setText(groupName);
     }
 
-    public void setOnDeleteClickListener(View.OnClickListener listener) {
+    public void setOnDeleteClickListener(final View.OnClickListener listener) {
         _buttonDelete.setOnClickListener(listener);
     }
 }

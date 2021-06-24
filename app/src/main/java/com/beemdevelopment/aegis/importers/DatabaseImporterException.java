@@ -1,11 +1,11 @@
 package com.beemdevelopment.aegis.importers;
 
 public class DatabaseImporterException extends Exception {
-    public DatabaseImporterException(Throwable cause) {
+    public DatabaseImporterException(final Throwable cause) {
         super(cause);
     }
 
-    public DatabaseImporterException(String message) {
+    public DatabaseImporterException(final String message) {
         super(message);
     }
 }

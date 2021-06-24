@@ -49,8 +49,8 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
     /**
      * Constructor for {@link FingerprintUiHelper}.
      */
-    public FingerprintUiHelper(FingerprintManager fingerprintManager,
-                               SwirlView icon, TextView errorTextView, Callback callback) {
+    public FingerprintUiHelper(final FingerprintManager fingerprintManager,
+                               final SwirlView icon, final TextView errorTextView, final Callback callback) {
         mFingerprintManager = fingerprintManager;
         mIcon = icon;
         mErrorTextView = errorTextView;
@@ -64,7 +64,7 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
                && mFingerprintManager.hasEnrolledFingerprints();
     }
 
-    public void startListening(FingerprintManager.CryptoObject cryptoObject) {
+    public void startListening(final FingerprintManager.CryptoObject cryptoObject) {
         if (!isFingerprintAuthAvailable()) {
             return;
         }
@@ -86,7 +86,7 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
     }
 
     @Override
-    public void onAuthenticationError(int errMsgId, CharSequence errString) {
+    public void onAuthenticationError(final int errMsgId, final CharSequence errString) {
         if (!mSelfCancelled) {
             showError(errString);
             mIcon.postDelayed(new Runnable() {
@@ -99,7 +99,7 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
     }
 
     @Override
-    public void onAuthenticationHelp(int helpMsgId, CharSequence helpString) {
+    public void onAuthenticationHelp(final int helpMsgId, final CharSequence helpString) {
         showError(helpString);
     }
 
@@ -110,7 +110,7 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
     }
 
     @Override
-    public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
+    public void onAuthenticationSucceeded(final FingerprintManager.AuthenticationResult result) {
         mErrorTextView.removeCallbacks(mResetErrorTextRunnable);
         mIcon.setState(SwirlView.State.OFF);
         mErrorTextView.setText(
@@ -131,7 +131,7 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
         }, 500);
     }
 
-    private void showError(CharSequence error) {
+    private void showError(final CharSequence error) {
         mIcon.setState(SwirlView.State.ERROR);
         mErrorTextView.setText(error);
         mErrorTextView.removeCallbacks(mResetErrorTextRunnable);

@@ -13,7 +13,7 @@ public enum ViewMode {
         _values = values();
     }
 
-    public static ViewMode fromInteger(int x) {
+    public static ViewMode fromInteger(final int x) {
         return _values[x];
     }
 

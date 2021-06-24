@@ -14,11 +14,11 @@ public abstract class OtpInfo implements Serializable {
     private String _algorithm;
     private int _digits;
 
-    public OtpInfo(byte[] secret) throws OtpInfoException {
+    public OtpInfo(final byte[] secret) throws OtpInfoException {
         this(secret, "SHA1", 6);
     }
 
-    public OtpInfo(byte[] secret, String algorithm, int digits) throws OtpInfoException {
+    public OtpInfo(final byte[] secret, final String algorithm, final int digits) throws OtpInfoException {
         setSecret(secret);
         setAlgorithm(algorithm);
         setDigits(digits);
@@ -46,7 +46,7 @@ public abstract class OtpInfo implements Serializable {
         return _secret;
     }
 
-    public String getAlgorithm(boolean java) {
+    public String getAlgorithm(final boolean java) {
         if (java) {
             return "Hmac" + _algorithm;
         }
@@ -57,15 +57,15 @@ public abstract class OtpInfo implements Serializable {
         return _digits;
     }
 
-    public void setSecret(byte[] secret) {
+    public void setSecret(final byte[] secret) {
         _secret = secret;
     }
 
-    public static boolean isAlgorithmValid(String algorithm) {
+    public static boolean isAlgorithmValid(final String algorithm) {
         return algorithm.equals("SHA1") || algorithm.equals("SHA256") || algorithm.equals("SHA512");
     }
 
-    public void setAlgorithm(String algorithm) throws OtpInfoException {
+    public void setAlgorithm(final String algorithm) throws OtpInfoException {
         if (algorithm.startsWith("Hmac")) {
             algorithm = algorithm.substring(4);
         }
@@ -77,19 +77,19 @@ public abstract class OtpInfo implements Serializable {
         _algorithm = algorithm;
     }
 
-    public static boolean isDigitsValid(int digits) {
+    public static boolean isDigitsValid(final int digits) {
         // allow a max of 10 digits, as truncation will only extract 31 bits
         return digits > 0 && digits <= 10;
     }
 
-    public void setDigits(int digits) throws OtpInfoException {
+    public void setDigits(final int digits) throws OtpInfoException {
         if (!isDigitsValid(digits)) {
             throw new OtpInfoException(String.format("unsupported amount of digits: %d", digits));
         }
         _digits = digits;
     }
 
-    public static OtpInfo fromJson(String type, JSONObject obj) throws OtpInfoException {
+    public static OtpInfo fromJson(final String type, final JSONObject obj) throws OtpInfoException {
         OtpInfo info;
 
         try {
@@ -118,7 +118,7 @@ public abstract class OtpInfo implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }

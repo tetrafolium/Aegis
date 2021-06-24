@@ -17,7 +17,7 @@ public class TOTPTest {
         public String OTP;
         public String Algo;
 
-        public Vector(long time, String otp, String algo) {
+        public Vector(final long time, final String otp, final String algo) {
             Time = time;
             OTP = otp;
             Algo = algo;

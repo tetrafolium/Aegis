@@ -15,7 +15,7 @@ import javax.crypto.SecretKey;
 public class MasterKey implements Serializable {
     private SecretKey _key;
 
-    public MasterKey(SecretKey key)  {
+    public MasterKey(final SecretKey key)  {
         if (key == null) {
             throw new NullPointerException();
         }
@@ -26,7 +26,7 @@ public class MasterKey implements Serializable {
         return new MasterKey(CryptoUtils.generateKey());
     }
 
-    public CryptResult encrypt(byte[] bytes) throws MasterKeyException {
+    public CryptResult encrypt(final byte[] bytes) throws MasterKeyException {
         try {
             Cipher cipher = CryptoUtils.createEncryptCipher(_key);
             return CryptoUtils.encrypt(bytes, cipher);
@@ -40,7 +40,7 @@ public class MasterKey implements Serializable {
         }
     }
 
-    public CryptResult decrypt(byte[] bytes, CryptParameters params) throws MasterKeyException {
+    public CryptResult decrypt(final byte[] bytes, final CryptParameters params) throws MasterKeyException {
         try {
             Cipher cipher = CryptoUtils.createDecryptCipher(_key, params.getNonce());
             return CryptoUtils.decrypt(bytes, cipher, params);

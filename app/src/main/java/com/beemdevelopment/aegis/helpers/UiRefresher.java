@@ -7,7 +7,7 @@ public class UiRefresher {
     private Listener _listener;
     private Handler _handler;
 
-    public UiRefresher(Listener listener) {
+    public UiRefresher(final Listener listener) {
         _listener = listener;
         _handler = new Handler();
     }

@@ -25,7 +25,7 @@ public class FreeOtpImporter extends DatabaseImporter {
     private static final String _subPath = "shared_prefs/tokens.xml";
     private static final String _pkgName = "org.fedorahosted.freeotp";
 
-    public FreeOtpImporter(Context context) {
+    public FreeOtpImporter(final Context context) {
         super(context);
     }
 
@@ -40,7 +40,7 @@ public class FreeOtpImporter extends DatabaseImporter {
     }
 
     @Override
-    public State read(FileReader reader) throws DatabaseImporterException {
+    public State read(final FileReader reader) throws DatabaseImporterException {
         try {
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
@@ -62,7 +62,7 @@ public class FreeOtpImporter extends DatabaseImporter {
     public static class State extends DatabaseImporter.State {
         private List<JSONObject> _entries;
 
-        public State(List<JSONObject> entries) {
+        public State(final List<JSONObject> entries) {
             super(false);
             _entries = entries;
         }
@@ -83,7 +83,7 @@ public class FreeOtpImporter extends DatabaseImporter {
             return result;
         }
 
-        private static DatabaseEntry convertEntry(JSONObject obj) throws DatabaseImporterEntryException {
+        private static DatabaseEntry convertEntry(final JSONObject obj) throws DatabaseImporterEntryException {
             try {
                 String type = obj.getString("type").toLowerCase();
                 String algo = obj.getString("algo");
@@ -117,7 +117,7 @@ public class FreeOtpImporter extends DatabaseImporter {
         }
     }
 
-    private static List<JSONObject> parseXml(XmlPullParser parser)
+    private static List<JSONObject> parseXml(final XmlPullParser parser)
     throws IOException, XmlPullParserException, JSONException {
         List<JSONObject> entries = new ArrayList<>();
 
@@ -141,15 +141,15 @@ public class FreeOtpImporter extends DatabaseImporter {
         return entries;
     }
 
-    private static byte[] toBytes(JSONArray array) throws JSONException {
+    private static byte[] toBytes(final JSONArray array) throws JSONException {
         byte[] bytes = new byte[array.length()];
         for (int i = 0; i < array.length(); i++) {
-            bytes[i] = (byte)array.getInt(i);
+            bytes[i] = (byte) array.getInt(i);
         }
         return bytes;
     }
 
-    private static JSONObject parseXmlEntry(XmlPullParser parser)
+    private static JSONObject parseXmlEntry(final XmlPullParser parser)
     throws IOException, XmlPullParserException, JSONException {
         parser.require(XmlPullParser.START_TAG, null, "string");
         String name = parser.getAttributeValue(null, "name");
@@ -163,7 +163,7 @@ public class FreeOtpImporter extends DatabaseImporter {
         return new JSONObject(value);
     }
 
-    private static String parseXmlText(XmlPullParser parser) throws IOException, XmlPullParserException {
+    private static String parseXmlText(final XmlPullParser parser) throws IOException, XmlPullParserException {
         String text = "";
         if (parser.next() == XmlPullParser.TEXT) {
             text = parser.getText();
@@ -172,7 +172,7 @@ public class FreeOtpImporter extends DatabaseImporter {
         return text;
     }
 
-    private static void skip(XmlPullParser parser) throws IOException, XmlPullParserException {
+    private static void skip(final XmlPullParser parser) throws IOException, XmlPullParserException {
         // source: https://developer.android.com/training/basics/network-ops/xml.html
         if (parser.getEventType() != XmlPullParser.START_TAG) {
             throw new IllegalStateException();

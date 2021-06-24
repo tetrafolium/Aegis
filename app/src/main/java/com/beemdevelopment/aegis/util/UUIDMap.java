@@ -18,14 +18,14 @@ import java.util.UUID;
  * the order).
  * @param <T> The type of values in this map
  */
-public class UUIDMap <T extends UUIDMap.Value> implements Iterable<T>, Serializable {
+public class UUIDMap<T extends UUIDMap.Value> implements Iterable<T>, Serializable {
     private LinkedHashMap<UUID, T> _map = new LinkedHashMap<>();
 
     /**
      * Adds a value to the internal map.
      * @throws AssertionError if a map value with the UUID of the given value already exists.
      */
-    public void add(T value) {
+    public void add(final T value) {
         UUID uuid = value.getUUID();
         if (_map.containsKey(uuid)) {
             throw new AssertionError(String.format("Existing value found with UUID: %s", uuid));
@@ -38,7 +38,7 @@ public class UUIDMap <T extends UUIDMap.Value> implements Iterable<T>, Serializa
      * @throws AssertionError if no map value exists with the UUID of the given value.
      * @return The old value that is now no longer present in the internal map.
      */
-    public T remove(T value) {
+    public T remove(final T value) {
         T oldValue = getByUUID(value.getUUID());
         _map.remove(oldValue.getUUID());
         return oldValue;
@@ -50,7 +50,7 @@ public class UUIDMap <T extends UUIDMap.Value> implements Iterable<T>, Serializa
      * @throws AssertionError if no map value exists with the UUID of the given value.
      * @return The old value that is now no longer present in the internal map.
      */
-    public T replace(T newValue) {
+    public T replace(final T newValue) {
         T oldValue = getByUUID(newValue.getUUID());
         _map.put(oldValue.getUUID(), newValue);
         return oldValue;
@@ -61,7 +61,7 @@ public class UUIDMap <T extends UUIDMap.Value> implements Iterable<T>, Serializa
      * quite expensive because it has to reallocate the entire underlying LinkedHashMap.
      * @throws AssertionError if no map value exists with the UUID of the given entries.
      */
-    public void swap(T value1, T value2) {
+    public void swap(final T value1, final T value2) {
         boolean found1 = false;
         boolean found2 = false;
         List<T> values = new ArrayList<>();
@@ -94,7 +94,7 @@ public class UUIDMap <T extends UUIDMap.Value> implements Iterable<T>, Serializa
     /**
      * Reports whether the internal map contains a value with the UUID of the given value.
      */
-    public boolean has(T value) {
+    public boolean has(final T value) {
         return _map.containsKey(value.getUUID());
     }
 
@@ -109,7 +109,7 @@ public class UUIDMap <T extends UUIDMap.Value> implements Iterable<T>, Serializa
      * Retrieves an entry from the internal map that has the given UUID.
      * @throws AssertionError if no map value exists with the given UUID.
      */
-    public T getByUUID(UUID uuid) {
+    public T getByUUID(final UUID uuid) {
         T value = _map.get(uuid);
         if (value == null) {
             throw new AssertionError(String.format("No value found with UUID: %s", uuid));
@@ -126,7 +126,7 @@ public class UUIDMap <T extends UUIDMap.Value> implements Iterable<T>, Serializa
     public static abstract class Value implements Serializable {
         private UUID _uuid;
 
-        protected Value(UUID uuid) {
+        protected Value(final UUID uuid) {
             _uuid = uuid;
         }
 
@@ -147,7 +147,7 @@ public class UUIDMap <T extends UUIDMap.Value> implements Iterable<T>, Serializa
         }
 
         @Override
-        public boolean equals(Object o) {
+        public boolean equals(final Object o) {
             if (this == o) {
                 return true;
             }

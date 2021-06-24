@@ -12,7 +12,7 @@ import androidx.annotation.CallSuper;
 public abstract class ProgressDialogTask<Params, Result> extends AsyncTask<Params, Void, Result> {
     private ProgressDialog _dialog;
 
-    public ProgressDialogTask(Context context, String message) {
+    public ProgressDialogTask(final Context context, final String message) {
         _dialog = new ProgressDialog(context);
         _dialog.setCancelable(false);
         _dialog.setMessage(message);
@@ -27,7 +27,7 @@ public abstract class ProgressDialogTask<Params, Result> extends AsyncTask<Param
 
     @CallSuper
     @Override
-    protected void onPostExecute(Result result) {
+    protected void onPostExecute(final Result result) {
         if (_dialog.isShowing()) {
             _dialog.dismiss();
         }

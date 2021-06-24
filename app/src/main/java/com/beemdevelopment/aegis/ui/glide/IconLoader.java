@@ -15,24 +15,24 @@ import java.nio.ByteBuffer;
 
 public class IconLoader implements ModelLoader<DatabaseEntry, ByteBuffer> {
     @Override
-    public LoadData<ByteBuffer> buildLoadData(@NonNull DatabaseEntry model, int width, int height, @NonNull Options options) {
+    public LoadData<ByteBuffer> buildLoadData(final @NonNull DatabaseEntry model, final int width, final int height, final @NonNull Options options) {
         return new LoadData<>(new UUIDKey(model.getUUID()), new Fetcher(model));
     }
 
     @Override
-    public boolean handles(@NonNull DatabaseEntry model) {
+    public boolean handles(final @NonNull DatabaseEntry model) {
         return true;
     }
 
     public static class Fetcher implements DataFetcher<ByteBuffer> {
         private DatabaseEntry _model;
 
-        private Fetcher(DatabaseEntry model) {
+        private Fetcher(final DatabaseEntry model) {
             _model = model;
         }
 
         @Override
-        public void loadData(@NonNull Priority priority, @NonNull DataCallback<? super ByteBuffer> callback) {
+        public void loadData(final @NonNull Priority priority, final @NonNull DataCallback<? super ByteBuffer> callback) {
             byte[] bytes = _model.getIcon();
             ByteBuffer buf = ByteBuffer.wrap(bytes);
             callback.onDataReady(buf);
@@ -64,7 +64,7 @@ public class IconLoader implements ModelLoader<DatabaseEntry, ByteBuffer> {
     public static class Factory implements ModelLoaderFactory<DatabaseEntry, ByteBuffer> {
         @NonNull
         @Override
-        public ModelLoader<DatabaseEntry, ByteBuffer> build(@NonNull MultiModelLoaderFactory unused) {
+        public ModelLoader<DatabaseEntry, ByteBuffer> build(final @NonNull MultiModelLoaderFactory unused) {
             return new IconLoader();
         }
 

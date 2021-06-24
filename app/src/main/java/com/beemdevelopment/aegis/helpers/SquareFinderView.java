@@ -8,12 +8,12 @@ import me.dm7.barcodescanner.core.ViewFinderView;
 
 public class SquareFinderView extends ViewFinderView {
 
-    public SquareFinderView(Context context) {
+    public SquareFinderView(final Context context) {
         super(context);
         init();
     }
 
-    public SquareFinderView(Context context, AttributeSet attrs) {
+    public SquareFinderView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         init();
     }
@@ -23,7 +23,7 @@ public class SquareFinderView extends ViewFinderView {
     }
 
     @Override
-    public void onDraw(Canvas canvas) {
+    public void onDraw(final Canvas canvas) {
         super.onDraw(canvas);
     }
 }

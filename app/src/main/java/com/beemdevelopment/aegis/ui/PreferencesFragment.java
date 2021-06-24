@@ -88,7 +88,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
     private Preference _groupsPreference;
 
     @Override
-    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+    public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
         addPreferencesFromResource(R.xml.preferences);
 
         AegisApplication app = (AegisApplication) getActivity().getApplication();
@@ -102,7 +102,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         darkModePreference.setSummary(String.format("%s: %s", getString(R.string.selected), getResources().getStringArray(R.array.theme_titles)[currentTheme]));
         darkModePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceClick(Preference preference) {
+            public boolean onPreferenceClick(final Preference preference) {
                 int currentTheme = app.getPreferences().getCurrentTheme().ordinal();
 
                 Dialogs.showSecureDialog(new AlertDialog.Builder(getActivity())
@@ -135,7 +135,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         viewModePreference.setSummary(String.format("%s: %s", getString(R.string.selected), getResources().getStringArray(R.array.view_mode_titles)[currentViewMode]));
         viewModePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceClick(Preference preference) {
+            public boolean onPreferenceClick(final Preference preference) {
                 int currentViewMode = app.getPreferences().getCurrentViewMode().ordinal();
 
                 Dialogs.showSecureDialog(new AlertDialog.Builder(getActivity())
@@ -157,7 +157,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         Preference importPreference = findPreference("pref_import");
         importPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceClick(Preference preference) {
+            public boolean onPreferenceClick(final Preference preference) {
                 onImport();
                 return true;
             }
@@ -166,7 +166,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         Preference importAppPreference = findPreference("pref_import_app");
         importAppPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceClick(Preference preference) {
+            public boolean onPreferenceClick(final Preference preference) {
                 onImportApp();
                 return true;
             }
@@ -176,7 +176,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         Preference exportPreference = findPreference("pref_export");
         exportPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceClick(Preference preference) {
+            public boolean onPreferenceClick(final Preference preference) {
                 onExport();
                 return true;
             }
@@ -195,7 +195,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         Preference issuerPreference = findPreference("pref_account_name");
         issuerPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
+            public boolean onPreferenceChange(final Preference preference, final Object newValue) {
                 _result.putExtra("needsRefresh", true);
                 return true;
             }
@@ -222,10 +222,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         Preference screenPreference = findPreference("pref_secure_screen");
         screenPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
+            public boolean onPreferenceChange(final Preference preference, final Object newValue) {
                 _result.putExtra("needsRecreate", true);
                 Window window = getActivity().getWindow();
-                if ((boolean)newValue) {
+                if ((boolean) newValue) {
                     window.addFlags(WindowManager.LayoutParams.FLAG_SECURE);
                 } else {
                     window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
@@ -238,10 +238,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         tapToRevealTimePreference.setSummary(app.getPreferences().getTapToRevealTime() + " seconds");
         tapToRevealTimePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceClick(Preference preference) {
+            public boolean onPreferenceClick(final Preference preference) {
                 Dialogs.showNumberPickerDialog(getActivity(), new Dialogs.NumberInputListener() {
                     @Override
-                    public void onNumberInputResult(int number) {
+                    public void onNumberInputResult(final int number) {
                         app.getPreferences().setTapToRevealTime(number);
                         tapToRevealTimePreference.setSummary(number + " seconds");
                         _result.putExtra("needsRefresh", true);
@@ -254,7 +254,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         _encryptionPreference = (SwitchPreference) findPreference("pref_encryption");
         _encryptionPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
+            public boolean onPreferenceChange(final Preference preference, final Object newValue) {
                 if (!_db.isEncryptionEnabled()) {
                     Dialogs.showSetPasswordDialog(getActivity(), new EnableEncryptionListener());
                 } else {
@@ -262,7 +262,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
                                              .setTitle(R.string.disable_encryption)
                                              .setMessage(getString(R.string.disable_encryption_description))
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(final DialogInterface dialog, final int which) {
                             try {
                                 _db.disableEncryption();
                             } catch (DatabaseManagerException e) {
@@ -292,7 +292,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         _fingerprintPreference = (SwitchPreference) findPreference("pref_fingerprint");
         _fingerprintPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
+            public boolean onPreferenceChange(final Preference preference, final Object newValue) {
                 DatabaseFileCredentials creds = _db.getCredentials();
                 SlotList slots = creds.getSlots();
 
@@ -331,7 +331,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         _slotsPreference = findPreference("pref_slots");
         _slotsPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceClick(Preference preference) {
+            public boolean onPreferenceClick(final Preference preference) {
                 Intent intent = new Intent(getActivity(), SlotManagerActivity.class);
                 intent.putExtra("creds", _db.getCredentials());
                 startActivityForResult(intent, CODE_SLOTS);
@@ -342,7 +342,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         _groupsPreference = findPreference("pref_groups");
         _groupsPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceClick(Preference preference) {
+            public boolean onPreferenceClick(final Preference preference) {
                 Intent intent = new Intent(getActivity(), GroupManagerActivity.class);
                 intent.putExtra("groups", new ArrayList<>(_db.getGroups()));
                 startActivityForResult(intent, CODE_GROUPS);
@@ -354,13 +354,13 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         updateEncryptionPreferences();
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(final int requestCode, final String[] permissions, final int[] grantResults) {
         if (!PermissionHelper.checkResults(grantResults)) {
             Toast.makeText(getActivity(), R.string.permission_denied, Toast.LENGTH_SHORT).show();
             return;
@@ -377,7 +377,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (data == null) {
             return;
         }
@@ -405,7 +405,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         return _result;
     }
 
-    public void setResult(Intent result) {
+    public void setResult(final Intent result) {
         _result = result;
         getActivity().setResult(Activity.RESULT_OK, _result);
     }
@@ -422,7 +422,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
                                  .setTitle(R.string.choose_application)
                                  .setSingleChoiceItems(names, 0, null)
         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(final DialogInterface dialog, final int which) {
                 int i = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
                 _importerType = importers.get(names[i]);
 
@@ -450,7 +450,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         .create());
     }
 
-    private void importApp(DatabaseImporter importer) {
+    private void importApp(final DatabaseImporter importer) {
         // obtain the global root shell and close it immediately after we're done
         // TODO: find a way to use SuFileInputStream with Shell.newInstance()
         try (Shell shell = Shell.getShell()) {
@@ -473,7 +473,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         }
     }
 
-    private void importDatabase(DatabaseImporter importer, DatabaseImporter.FileReader reader) {
+    private void importDatabase(final DatabaseImporter importer, final DatabaseImporter.FileReader reader) {
         try {
             DatabaseImporter.State state = importer.read(reader);
             if (state.isEncrypted()) {
@@ -488,12 +488,12 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
                 } else {
                     state.decrypt(getActivity(), new DatabaseImporter.DecryptListener() {
                         @Override
-                        public void onStateDecrypted(DatabaseImporter.State state) {
+                        public void onStateDecrypted(final DatabaseImporter.State state) {
                             importDatabase(state);
                         }
 
                         @Override
-                        public void onError(Exception e) {
+                        public void onError(final Exception e) {
                             Toast.makeText(getActivity(), R.string.decryption_error, Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -508,7 +508,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         }
     }
 
-    private void onImportDecryptResult(int resultCode, Intent data) {
+    private void onImportDecryptResult(final int resultCode, final Intent data) {
         if (resultCode != Activity.RESULT_OK) {
             _importerState = null;
             return;
@@ -528,7 +528,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         _importerState = null;
     }
 
-    private void onImportResult(int resultCode, Intent data) {
+    private void onImportResult(final int resultCode, final Intent data) {
         Uri uri = data.getData();
         if (resultCode != Activity.RESULT_OK || uri == null) {
             return;
@@ -546,7 +546,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         }
     }
 
-    private void importDatabase(DatabaseImporter.State state) {
+    private void importDatabase(final DatabaseImporter.State state) {
         DatabaseImporter.Result result;
         try {
             result = state.convert();
@@ -598,7 +598,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
             final boolean[] checkedItems = {true};
             builder.setMultiChoiceItems(items, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int index, boolean isChecked) {
+                public void onClick(final DialogInterface dialog, final int index, final boolean isChecked) {
                     checked.set(isChecked);
                 }
             });
@@ -608,7 +608,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         Dialogs.showSecureDialog(builder.create());
     }
 
-    private void onSlotManagerResult(int resultCode, Intent data) {
+    private void onSlotManagerResult(final int resultCode, final Intent data) {
         if (resultCode != Activity.RESULT_OK) {
             return;
         }
@@ -619,7 +619,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         updateEncryptionPreferences();
     }
 
-    private void onGroupManagerResult(int resultCode, Intent data) {
+    private void onGroupManagerResult(final int resultCode, final Intent data) {
         if (resultCode != Activity.RESULT_OK) {
             return;
         }
@@ -633,7 +633,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         }
     }
 
-    private void onSelectEntriesResult(int resultCode, Intent data) {
+    private void onSelectEntriesResult(final int resultCode, final Intent data) {
         if (resultCode != Activity.RESULT_OK) {
             return;
         }
@@ -700,7 +700,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
 
     private class SetPasswordListener implements Dialogs.SlotListener {
         @Override
-        public void onSlotResult(Slot slot, Cipher cipher) {
+        public void onSlotResult(final Slot slot, final Cipher cipher) {
             DatabaseFileCredentials creds = _db.getCredentials();
             SlotList slots = creds.getSlots();
 
@@ -724,7 +724,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         }
 
         @Override
-        public void onException(Exception e) {
+        public void onException(final Exception e) {
             updateEncryptionPreferences();
             Toast.makeText(getActivity(), getString(R.string.encryption_set_password_error) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -732,7 +732,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
 
     private class RegisterFingerprintListener implements Dialogs.SlotListener {
         @Override
-        public void onSlotResult(Slot slot, Cipher cipher) {
+        public void onSlotResult(final Slot slot, final Cipher cipher) {
             DatabaseFileCredentials creds = _db.getCredentials();
             SlotList slots = creds.getSlots();
 
@@ -751,14 +751,14 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         }
 
         @Override
-        public void onException(Exception e) {
+        public void onException(final Exception e) {
             Toast.makeText(getActivity(), getString(R.string.encryption_enable_fingerprint_error) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
     private class EnableEncryptionListener implements Dialogs.SlotListener {
         @Override
-        public void onSlotResult(Slot slot, Cipher cipher) {
+        public void onSlotResult(final Slot slot, final Cipher cipher) {
             DatabaseFileCredentials creds = new DatabaseFileCredentials();
 
             try {
@@ -775,7 +775,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         }
 
         @Override
-        public void onException(Exception e) {
+        public void onException(final Exception e) {
             Toast.makeText(getActivity(), getString(R.string.encryption_set_password_error) + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }

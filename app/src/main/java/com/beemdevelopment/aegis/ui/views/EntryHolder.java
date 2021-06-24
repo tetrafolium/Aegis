@@ -70,14 +70,14 @@ public class EntryHolder extends RecyclerView.ViewHolder {
 
             @Override
             public long getMillisTillNextRefresh() {
-                return ((TotpInfo)_entry.getInfo()).getMillisTillNextRotation();
+                return ((TotpInfo) _entry.getInfo()).getMillisTillNextRotation();
             }
         });
 
         _hiddenHandler = new Handler();
     }
 
-    public void setData(DatabaseEntry entry, boolean showAccountName, boolean showProgress, boolean hidden, boolean dimmed) {
+    public void setData(final DatabaseEntry entry, final boolean showAccountName, final boolean showProgress, final boolean hidden, final boolean dimmed) {
         _entry = entry;
         _hidden = hidden;
 
@@ -109,7 +109,7 @@ public class EntryHolder extends RecyclerView.ViewHolder {
         return _entry;
     }
 
-    public void loadIcon(Fragment fragment) {
+    public void loadIcon(final Fragment fragment) {
         if (_entry.hasIcon()) {
             Glide.with(fragment)
             .asDrawable()
@@ -127,15 +127,15 @@ public class EntryHolder extends RecyclerView.ViewHolder {
         return _profileDrawable;
     }
 
-    public void setTapToRevealTime(int number) {
+    public void setTapToRevealTime(final int number) {
         _tapToRevealTime = number;
     }
 
-    public void setOnRefreshClickListener(View.OnClickListener listener) {
+    public void setOnRefreshClickListener(final View.OnClickListener listener) {
         _buttonRefresh.setOnClickListener(listener);
     }
 
-    public void setShowProgress(boolean showProgress) {
+    public void setShowProgress(final boolean showProgress) {
         if (_entry.getInfo() instanceof HotpInfo) {
             showProgress = false;
         }
@@ -149,7 +149,7 @@ public class EntryHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    public void setFocused(boolean focused) {
+    public void setFocused(final boolean focused) {
         if (focused) {
             _view.setBackgroundColor(ThemeHelper.getThemeColor(R.attr.cardBackgroundFocused, _view.getContext().getTheme()));
         } else {
@@ -208,7 +208,7 @@ public class EntryHolder extends RecyclerView.ViewHolder {
         animateAlphaTo(DEFAULT_ALPHA);
     }
 
-    private void animateAlphaTo(float alpha) {
+    private void animateAlphaTo(final float alpha) {
         itemView.animate().alpha(alpha).setDuration(200).start();
     }
 

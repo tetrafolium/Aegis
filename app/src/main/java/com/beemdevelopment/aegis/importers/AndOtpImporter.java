@@ -51,7 +51,7 @@ public class AndOtpImporter extends DatabaseImporter {
 
     private static final int MAX_ITERATIONS = 10000;
 
-    public AndOtpImporter(Context context) {
+    public AndOtpImporter(final Context context) {
         super(context);
     }
 
@@ -66,7 +66,7 @@ public class AndOtpImporter extends DatabaseImporter {
     }
 
     @Override
-    public State read(FileReader reader) throws DatabaseImporterException {
+    public State read(final FileReader reader) throws DatabaseImporterException {
         byte[] bytes;
         try {
             bytes = reader.readAll();
@@ -83,7 +83,7 @@ public class AndOtpImporter extends DatabaseImporter {
         }
     }
 
-    private static DecryptedState read(byte[] bytes) throws JSONException {
+    private static DecryptedState read(final byte[] bytes) throws JSONException {
         JSONArray array = new JSONArray(new String(bytes, StandardCharsets.UTF_8));
         return new DecryptedState(array);
     }
@@ -91,12 +91,12 @@ public class AndOtpImporter extends DatabaseImporter {
     public static class EncryptedState extends DatabaseImporter.State {
         private byte[] _data;
 
-        public EncryptedState(byte[] data) {
+        public EncryptedState(final byte[] data) {
             super(true);
             _data = data;
         }
 
-        private DecryptedState decrypt(char[] password, boolean oldFormat) throws DatabaseImporterException {
+        private DecryptedState decrypt(final char[] password, final boolean oldFormat) throws DatabaseImporterException {
             try {
                 SecretKey key;
                 int offset = 0;
@@ -145,7 +145,7 @@ public class AndOtpImporter extends DatabaseImporter {
         }
 
         @Override
-        public void decrypt(Context context, DecryptListener listener) {
+        public void decrypt(final Context context, final DecryptListener listener) {
             String[] choices = new String[] {
                 context.getResources().getString(R.string.andotp_new_format),
                 context.getResources().getString(R.string.andotp_old_format)
@@ -172,7 +172,7 @@ public class AndOtpImporter extends DatabaseImporter {
     public static class DecryptedState extends DatabaseImporter.State {
         private JSONArray _obj;
 
-        private DecryptedState(JSONArray obj) {
+        private DecryptedState(final JSONArray obj) {
             super(false);
             _obj = obj;
         }
@@ -196,7 +196,7 @@ public class AndOtpImporter extends DatabaseImporter {
             return result;
         }
 
-        private static DatabaseEntry convertEntry(JSONObject obj) throws DatabaseImporterEntryException {
+        private static DatabaseEntry convertEntry(final JSONObject obj) throws DatabaseImporterEntryException {
             try {
                 String type = obj.getString("type").toLowerCase();
                 String algo = obj.getString("algorithm");

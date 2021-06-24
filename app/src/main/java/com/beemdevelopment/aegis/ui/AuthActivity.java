@@ -48,7 +48,7 @@ public class AuthActivity extends AegisActivity implements FingerprintUiHelper.C
 
     @Override
     @SuppressLint("NewApi")
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
         _textPassword = findViewById(R.id.text_password);
@@ -112,8 +112,8 @@ public class AuthActivity extends AegisActivity implements FingerprintUiHelper.C
 
         decryptButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            public void onClick(final View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 
                 char[] password = EditTextHelper.getEditTextChars(_textPassword);
@@ -136,7 +136,7 @@ public class AuthActivity extends AegisActivity implements FingerprintUiHelper.C
                                  .create());
     }
 
-    private <T extends Slot> void trySlots(Class<T> type, Object obj) {
+    private <T extends Slot> void trySlots(final Class<T> type, final Object obj) {
         SlotListTask.Params params = new SlotListTask.Params(_slots, obj);
         new SlotListTask<>(type, this, this).execute(params);
     }
@@ -193,7 +193,7 @@ public class AuthActivity extends AegisActivity implements FingerprintUiHelper.C
     }
 
     @Override
-    public void onTaskFinished(SlotListTask.Result result) {
+    public void onTaskFinished(final SlotListTask.Result result) {
         if (result != null) {
             // replace the old slot with the repaired one
             if (result.isSlotRepaired()) {

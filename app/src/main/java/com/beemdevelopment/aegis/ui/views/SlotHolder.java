@@ -32,7 +32,7 @@ public class SlotHolder extends RecyclerView.ViewHolder {
         _buttonDelete = view.findViewById(R.id.button_delete);
     }
 
-    public void setData(Slot slot) {
+    public void setData(final Slot slot) {
         if (slot instanceof PasswordSlot) {
             _slotName.setText(R.string.password);
             _slotImg.setImageResource(R.drawable.ic_create_black_24dp);
@@ -55,11 +55,11 @@ public class SlotHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    public void setOnEditClickListener(View.OnClickListener listener) {
+    public void setOnEditClickListener(final View.OnClickListener listener) {
         _buttonEdit.setOnClickListener(listener);
     }
 
-    public void setOnDeleteClickListener(View.OnClickListener listener) {
+    public void setOnDeleteClickListener(final View.OnClickListener listener) {
         _buttonDelete.setOnClickListener(listener);
     }
 }

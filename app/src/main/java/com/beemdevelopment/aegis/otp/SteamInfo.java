@@ -9,11 +9,11 @@ import java.security.NoSuchAlgorithmException;
 public class SteamInfo extends TotpInfo {
     public static final String ID = "steam";
 
-    public SteamInfo(byte[] secret) throws OtpInfoException {
+    public SteamInfo(final byte[] secret) throws OtpInfoException {
         super(secret, "SHA1", 5, 30);
     }
 
-    public SteamInfo(byte[] secret, String algorithm, int digits, int period) throws OtpInfoException {
+    public SteamInfo(final byte[] secret, final String algorithm, final int digits, final int period) throws OtpInfoException {
         super(secret, algorithm, digits, period);
     }
 

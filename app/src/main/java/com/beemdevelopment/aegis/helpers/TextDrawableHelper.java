@@ -35,7 +35,7 @@ public class TextDrawableHelper {
 
     }
 
-    public static TextDrawable generate(String text, String fallback, View view) {
+    public static TextDrawable generate(final String text, final String fallback, final View view) {
         if (text == null || text.isEmpty()) {
             if (fallback == null || fallback.isEmpty()) {
                 return null;

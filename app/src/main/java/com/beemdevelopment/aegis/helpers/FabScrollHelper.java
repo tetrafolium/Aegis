@@ -12,11 +12,11 @@ public class FabScrollHelper {
     private View _fabMenu;
     private boolean _isAnimating;
 
-    public FabScrollHelper(View floatingActionsMenu) {
+    public FabScrollHelper(final View floatingActionsMenu) {
         _fabMenu = floatingActionsMenu;
     }
 
-    public void onScroll(int dx, int dy) {
+    public void onScroll(final int dx, final int dy) {
         if (dy > 0 && _fabMenu.getVisibility() == View.VISIBLE && !_isAnimating) {
             _isAnimating = true;
             CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) _fabMenu.getLayoutParams();
@@ -26,7 +26,7 @@ public class FabScrollHelper {
             .setInterpolator(new AccelerateInterpolator(2))
             .setListener(new AnimatorListenerAdapter() {
                 @Override
-                public void onAnimationEnd(Animator animation) {
+                public void onAnimationEnd(final Animator animation) {
                     _isAnimating = false;
                     _fabMenu.setVisibility(View.INVISIBLE);
                     super.onAnimationEnd(animation);
@@ -39,7 +39,7 @@ public class FabScrollHelper {
             .setInterpolator(new DecelerateInterpolator(2))
             .setListener(new AnimatorListenerAdapter() {
                 @Override
-                public void onAnimationEnd(Animator animation) {
+                public void onAnimationEnd(final Animator animation) {
                     _isAnimating = false;
                     super.onAnimationEnd(animation);
                 }

@@ -22,23 +22,23 @@ public class DatabaseEntry extends UUIDMap.Value {
     private OtpInfo _info;
     private byte[] _icon;
 
-    private DatabaseEntry(UUID uuid, OtpInfo info) {
+    private DatabaseEntry(final UUID uuid, final OtpInfo info) {
         super(uuid);
         _info = info;
     }
 
-    public DatabaseEntry(OtpInfo info) {
+    public DatabaseEntry(final OtpInfo info) {
         super();
         _info = info;
     }
 
-    public DatabaseEntry(OtpInfo info, String name, String issuer) {
+    public DatabaseEntry(final OtpInfo info, final String name, final String issuer) {
         this(info);
         setName(name);
         setIssuer(issuer);
     }
 
-    public DatabaseEntry(GoogleAuthInfo info) {
+    public DatabaseEntry(final GoogleAuthInfo info) {
         this(info.getOtpInfo(), info.getAccountName(), info.getIssuer());
     }
 
@@ -60,7 +60,7 @@ public class DatabaseEntry extends UUIDMap.Value {
         return obj;
     }
 
-    public static DatabaseEntry fromJson(JSONObject obj) throws JSONException, OtpInfoException, Base64Exception {
+    public static DatabaseEntry fromJson(final JSONObject obj) throws JSONException, OtpInfoException, Base64Exception {
         // if there is no uuid, generate a new one
         UUID uuid;
         if (!obj.has("uuid")) {
@@ -103,23 +103,23 @@ public class DatabaseEntry extends UUIDMap.Value {
         return _info;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         _name = name;
     }
 
-    public void setIssuer(String issuer) {
+    public void setIssuer(final String issuer) {
         _issuer = issuer;
     }
 
-    public void setGroup(String group) {
+    public void setGroup(final String group) {
         _group = group;
     }
 
-    public void setInfo(OtpInfo info) {
+    public void setInfo(final OtpInfo info) {
         _info = info;
     }
 
-    public void setIcon(byte[] icon) {
+    public void setIcon(final byte[] icon) {
         _icon = icon;
     }
 
@@ -128,7 +128,7 @@ public class DatabaseEntry extends UUIDMap.Value {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (!(o instanceof DatabaseEntry)) {
             return false;
         }
@@ -142,7 +142,7 @@ public class DatabaseEntry extends UUIDMap.Value {
      * entries are ignored during the comparison, so they are not necessarily the same
      * instance.
      */
-    public boolean equivalates(DatabaseEntry entry) {
+    public boolean equivalates(final DatabaseEntry entry) {
         return getName().equals(entry.getName())
                && getIssuer().equals(entry.getIssuer())
                && Objects.equals(getGroup(), entry.getGroup())

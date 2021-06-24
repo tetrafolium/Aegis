@@ -36,7 +36,7 @@ public class ChangelogDialog extends DialogFragment {
     @SuppressLint("InflateParams")
     @NonNull
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(final Bundle savedInstanceState) {
         final View customView;
         try {
             customView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_web_view, null);
@@ -73,7 +73,7 @@ public class ChangelogDialog extends DialogFragment {
         return dialog;
     }
 
-    private String replaceStylesheet(String changelog) {
+    private String replaceStylesheet(final String changelog) {
         int backgroundColorResource = _themeStyle == Theme.AMOLED ? R.attr.cardBackgroundFocused : R.attr.cardBackground;
         String backgroundColor = String.format("%06X", (0xFFFFFF & ThemeHelper.getThemeColor(backgroundColorResource, getContext().getTheme())));
         String textColor = String.format("%06X", (0xFFFFFF & ThemeHelper.getThemeColor(R.attr.primaryText, getContext().getTheme())));
@@ -81,7 +81,7 @@ public class ChangelogDialog extends DialogFragment {
         return String.format(changelog, backgroundColor, textColor);
     }
 
-    public ChangelogDialog setTheme(Theme theme) {
+    public ChangelogDialog setTheme(final Theme theme) {
         _themeStyle = theme;
 
         return this;

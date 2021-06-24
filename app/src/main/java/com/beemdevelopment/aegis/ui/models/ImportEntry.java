@@ -13,7 +13,7 @@ public class ImportEntry implements Serializable {
     private transient Listener _listener;
     private boolean _isChecked = true;
 
-    public ImportEntry(DatabaseEntry entry) {
+    public ImportEntry(final DatabaseEntry entry) {
         _uuid = entry.getUUID();
         _name = entry.getName();
         _issuer = entry.getIssuer();
@@ -31,7 +31,7 @@ public class ImportEntry implements Serializable {
         return _issuer;
     }
 
-    public void setOnCheckedChangedListener(Listener listener) {
+    public void setOnCheckedChangedListener(final Listener listener) {
         _listener = listener;
     }
 
@@ -39,7 +39,7 @@ public class ImportEntry implements Serializable {
         return _isChecked;
     }
 
-    public void setIsChecked(boolean isChecked) {
+    public void setIsChecked(final boolean isChecked) {
         _isChecked = isChecked;
 
         if (_listener != null) {
